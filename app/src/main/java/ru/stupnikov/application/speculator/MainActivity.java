@@ -2,6 +2,7 @@ package ru.stupnikov.application.speculator;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.provider.DocumentsContract;
@@ -33,6 +34,7 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView mValutasView;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -48,10 +50,10 @@ public class MainActivity extends AppCompatActivity {
             public void onClick(View v) {
 
                 if(isNetworkConnected()) {
-                    mValutasView.append("Интернет включен");
+                    mValutasView.append("\nИнтернет включен");
                     
                 } else {
-                    mValutasView.append("Нет доступа к интернету!");
+                    mValutasView.append("\nНет доступа к интернету!");
                 }
 
                 ArrayList<Pouch> listPouches = new ArrayList<Pouch>();
@@ -60,7 +62,11 @@ public class MainActivity extends AppCompatActivity {
                 listPouches.add(new Pouch("test4", 50, 3));
 
                 Serialzer serialzer = new Serialzer();
-                serialzer.write(listPouches);
+                if(serialzer.write(listPouches)) {
+                    mValutasView.append("\nУспешно записано!");
+                } else  mValutasView.append("\nпроизошла ошибка во время записи");
+
+
 
 
             }
@@ -103,12 +109,12 @@ public class MainActivity extends AppCompatActivity {
         mValutasView.append("Connection...\n");
 
 
-        if(isNetworkConnected()) {
+        if (isNetworkConnected()) {
             mValutasView.append("CONNECT?  YEP!");
 
 
-           // AsyncSerialize AS = new AsyncSerialize();
-           // AS.execute();
+           AsyncSerialize AS = new AsyncSerialize();
+            AS.execute();
             AsyncParse AD = new AsyncParse();
             AD.execute();
 
@@ -118,9 +124,9 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-/*    class AsyncSerialize extends  AsyncTask<Void, Void, Void> {
+    class AsyncSerialize extends  AsyncTask<Void, Void, Void> {
 
-        ArrayList<Pouch> listPouches;
+        public ArrayList<Pouch> listPouches;
         @Override
         protected Void doInBackground(Void... params) {
             Serialzer serialzer = new Serialzer();
@@ -132,11 +138,18 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            for(Pouch pouch : listPouches) {
-                mValutasView.append(pouch.name, pouch.value, pouch.position);
-            }
+            if(listPouches != null){
+
+            } else mValutasView.append("\n Произошла ошибка во время чтения");
+
+           // mValutasView.append("" + pouch.name + pouch.value + pouch.position );
+         /*  for (int i=0; i<2; i++)
+            if(!listPouches.isEmpty()){
+                Pouch pouch = (Pouch)listPouches.get(0);
+                mValutasView.append("" + pouch.name + pouch.value + pouch.position );
+            }*/
         }
-    }*/
+    }
 
     class AsyncParse extends AsyncTask<Void, Void, Void>  {
 

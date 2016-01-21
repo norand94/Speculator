@@ -1,6 +1,7 @@
 package ru.stupnikov.application.data;
 
 import android.content.Context;
+import android.content.SharedPreferences;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -11,29 +12,41 @@ import java.util.ArrayList;
 
 public class Serialzer {
 
-    public Serialzer() {}
+    public Serialzer() {
+
+    }
 
     public static final String FILE_DATA = "file_data";
+    public static final String LIST = "LIST";
 
 
-    public void  write(ArrayList<Pouch> listPouchs) {
+    public boolean  write(ArrayList<Pouch> listPouchs) {
         try {
             FileOutputStream fos = new FileOutputStream(FILE_DATA);
             ObjectOutputStream oos = new ObjectOutputStream(fos);
 
-            for (Pouch pouch: listPouchs) {
+          //  OutputStreamWriter sw = new OutputStreamWriter(fos);
+
+           for (Pouch pouch: listPouchs) {
                 oos.writeBoolean(true);
                 oos.writeChars(pouch.name);
                 oos.writeInt(pouch.value);
                 oos.writeInt(pouch.position);
             }
             oos.writeBoolean(false);
+            oos.writeObject(listPouchs);
             oos.close();
             fos.close();
+            return true;
 
         }catch (IOException e) {
             e.printStackTrace();
+            return false;
         }
+    }
+
+    public void writeList(ArrayList<Pouch>listPouchs){
+
     }
 
     public ArrayList<Pouch> read() {
@@ -43,6 +56,7 @@ public class Serialzer {
             ObjectInputStream ois = new ObjectInputStream(fis);
             ArrayList<Pouch> listPouchs = new ArrayList<Pouch>();
 
+            listPouchs = (ArrayList<Pouch>)ois.readObject();
             while (ois.readBoolean())
             {
                 Pouch p = new Pouch(String.valueOf(ois.readObject()));
@@ -50,7 +64,8 @@ public class Serialzer {
                 p.position = ois.readInt();
                 listPouchs.add(p);
             }
-
+            ois.close();;
+            fis.close();
             return listPouchs;
 
         }
