@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string-array name="array_valuta">
+        <item>EUR</item>
+        <item>USD</item>
+        <item>RUB</item>
+        <item>UAH</item>
+    </string-array>
+
+</resources>

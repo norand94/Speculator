@@ -39,7 +39,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mValutasView = (TextView)findViewById(R.id.valutas);
+        mValutasView = (TextView)findViewById(R.id.valuta);
 
 
         final Button mOffButton = (Button)findViewById(R.id.startOffileButton);

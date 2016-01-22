@@ -47,7 +47,7 @@
             android:textStyle="bold"
             android:text=""
             android:textSize="20dp"
-            android:id="@+id/valutas"/>
+            android:id="@+id/valuta"/>
     </ScrollView>
 
     <TextView
