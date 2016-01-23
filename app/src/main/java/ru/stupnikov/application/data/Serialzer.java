@@ -10,75 +10,42 @@ import java.util.ArrayList;
  * Created by rodion on 21.01.16.
  */
 
-public class Serialzer {
+public class Serialzer  {
 
-    public Serialzer() {
+    private Context context;
+    public final static String FILE_POUCHS = "file_pouchs.jdat";
 
+    public Serialzer(Context context) {
+        this.context = context;
     }
 
-    public static final String FILE_DATA = "file_data";
-    public static final String LIST = "LIST";
-
-
-    public boolean  write(ArrayList<Pouch> listPouchs) {
+    public boolean writePouchs(ArrayList<Pouch> pouchs){
         try {
-            FileOutputStream fos = new FileOutputStream(FILE_DATA);
-            ObjectOutputStream oos = new ObjectOutputStream(fos);
-
-          //  OutputStreamWriter sw = new OutputStreamWriter(fos);
-
-           for (Pouch pouch: listPouchs) {
-                oos.writeBoolean(true);
-                oos.writeChars(pouch.name);
-                oos.writeInt(pouch.value);
-                oos.writeInt(pouch.position);
-            }
-            oos.writeBoolean(false);
-            oos.writeObject(listPouchs);
-            oos.close();
-            fos.close();
+            FileOutputStream fOS = context.openFileOutput(FILE_POUCHS, Context.MODE_PRIVATE);
+            ObjectOutputStream oOS = new ObjectOutputStream(fOS);
+            oOS.writeObject(pouchs);
+            oOS.close();
             return true;
-
-        }catch (IOException e) {
+        } catch (IOException e){
             e.printStackTrace();
             return false;
         }
     }
 
-    public void writeList(ArrayList<Pouch>listPouchs){
-
-    }
-
-    public ArrayList<Pouch> read() {
-        try
-        {
-            FileInputStream fis = new FileInputStream(FILE_DATA);
-            ObjectInputStream ois = new ObjectInputStream(fis);
-            ArrayList<Pouch> listPouchs = new ArrayList<Pouch>();
-
-            listPouchs = (ArrayList<Pouch>)ois.readObject();
-            while (ois.readBoolean())
-            {
-                Pouch p = new Pouch(String.valueOf(ois.readObject()));
-                p.value = ois.readInt();
-                p.position = ois.readInt();
-                listPouchs.add(p);
-            }
-            ois.close();;
-            fis.close();
-            return listPouchs;
-
-        }
-        catch (IOException e)
-        {
+    public ArrayList<Pouch> readPouchs (){
+        try {
+            FileInputStream fIS = context.openFileInput(FILE_POUCHS);
+            ObjectInputStream oIS = new ObjectInputStream(fIS);
+            ArrayList<Pouch> pouchs = (ArrayList<Pouch>)oIS.readObject();
+            oIS.close();
+            return  pouchs;
+        }catch (IOException e){
             e.printStackTrace();
             return null;
+        } catch (ClassNotFoundException e2){
+            e2.printStackTrace();
+            return  null;
         }
-        catch (ClassNotFoundException e)
-        {
-            e.printStackTrace();
-            return null;
-        }
-
     }
+
 }

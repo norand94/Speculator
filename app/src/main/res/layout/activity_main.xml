@@ -61,11 +61,19 @@
     <Button
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Start Offline"
-        android:id="@+id/startOffileButton"
+        android:text="Записать"
+        android:id="@+id/saveButton"
         android:layout_below="@+id/scrollView"
         android:layout_toRightOf="@+id/newTextView"
         android:layout_toEndOf="@+id/newTextView" />
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/saveButton"
+        android:text="Загрузить"
+        android:id="@+id/loadButton"
+        android:onClick="loadButton_Click"
+        />
 
 
 </RelativeLayout>

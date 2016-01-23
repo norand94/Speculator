@@ -45,32 +45,35 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mValutaView = (TextView)findViewById(R.id.valuta);
+        if (isNetworkConnected()) {
+            mValutaView.append("\nИнтернет включен");
+
+        } else {
+            mValutaView.append("\nНет доступа к интернету!");
+        }
+
+        final Button mSaveButton = (Button)findViewById(R.id.saveButton);
 
 
-        final Button mOffButton = (Button)findViewById(R.id.startOffileButton);
-
-
-        mOffButton.setOnClickListener(new View.OnClickListener() {
+        mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                if (isNetworkConnected()) {
-                    mValutaView.append("\nИнтернет включен");
-
-                } else {
-                    mValutaView.append("\nНет доступа к интернету!");
-                }
 
                 ArrayList<Pouch> listPouches = new ArrayList<Pouch>();
-                listPouches.add(new Pouch("test1", 1, 1));
-                listPouches.add(new Pouch("test2", 2, 2));
-                listPouches.add(new Pouch("test4", 50, 3));
+                listPouches.add(new Pouch("EUR", 76, 1));
+                listPouches.add(new Pouch("USD", 43, 2));
+                listPouches.add(new Pouch("RUB", 50, 3));
 
-                Serialzer serialzer = new Serialzer();
-                if (serialzer.write(listPouches)) {
+                Serialzer serialzer = new Serialzer(getApplicationContext());
+                if (serialzer.writePouchs(listPouches)) {
                     mValutaView.append("\nУспешно записано!");
                 } else mValutaView.append("\nпроизошла ошибка во время записи");
 
+               /* if (serialzer.write(listPouches)) {
+                    mValutaView.append("\nУспешно записано!");
+                } else mValutaView.append("\nпроизошла ошибка во время записи");
+*/
 
             }
         });
@@ -137,11 +140,9 @@ public class MainActivity extends AppCompatActivity {
         if (isNetworkConnected()) {
             mValutaView.append("CONNECT?  YEP!");
 
-
-           AsyncSerialize AS = new AsyncSerialize();
-            AS.execute();
             AsyncParse AD = new AsyncParse();
             AD.execute();
+
 
         } else {
             mValutaView.append("  CONNECT?  NOPE!");
@@ -149,13 +150,20 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+
+
+    public void loadButton_Click(View view) {
+        AsyncSerialize AS = new AsyncSerialize();
+        AS.execute();
+    }
+
     class AsyncSerialize extends  AsyncTask<Void, Void, Void> {
 
-        public ArrayList<Pouch> listPouches;
+        public ArrayList<Pouch> listPouches = null;
         @Override
         protected Void doInBackground(Void... params) {
-            Serialzer serialzer = new Serialzer();
-             listPouches = serialzer.read();
+            Serialzer serialzer = new Serialzer(getApplicationContext());
+             listPouches = serialzer.readPouchs();
 
             return null;
         }
@@ -164,15 +172,12 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             if(listPouches != null){
-
+                mValutaView.append("\nЧтение прошло успешно!");
+                for (Pouch p : listPouches){
+                    mValutaView.append("\n" + p.position + "-" + p.name + "  " + p.value);
+                }
             } else mValutaView.append("\n Произошла ошибка во время чтения");
 
-           // mValutasView.append("" + pouch.name + pouch.value + pouch.position );
-         /*  for (int i=0; i<2; i++)
-            if(!listPouches.isEmpty()){
-                Pouch pouch = (Pouch)listPouches.get(0);
-                mValutasView.append("" + pouch.name + pouch.value + pouch.position );
-            }*/
         }
     }
 
