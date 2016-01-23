@@ -1,7 +1,10 @@
 <resources>
     <string name="app_name">Speculator</string>
     <string name="name_pouch">Название кошелька</string>
-    
+    <string name="general_settings">Общие настройки</string>
+    <string name="pouch_settings">Настройки кошельков</string>
+
+
     <string-array name="valuta">
         <item>EUR</item>
         <item>USD</item>

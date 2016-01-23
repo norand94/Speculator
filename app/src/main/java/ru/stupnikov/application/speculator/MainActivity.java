@@ -2,12 +2,16 @@ package ru.stupnikov.application.speculator;
 
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.os.AsyncTask;
 import android.provider.DocumentsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -26,20 +30,21 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import ru.stupnikov.application.controller.Edit_pouch_activity;
 import ru.stupnikov.application.data.Pouch;
 import ru.stupnikov.application.data.Serialzer;
 
 
 public class MainActivity extends AppCompatActivity {
 
-    private TextView mValutasView;
-
+    private TextView mValutaView;
+    private MotionEvent motionEvent;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mValutasView = (TextView)findViewById(R.id.valuta);
+        mValutaView = (TextView)findViewById(R.id.valuta);
 
 
         final Button mOffButton = (Button)findViewById(R.id.startOffileButton);
@@ -49,11 +54,11 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(isNetworkConnected()) {
-                    mValutasView.append("\nИнтернет включен");
-                    
+                if (isNetworkConnected()) {
+                    mValutaView.append("\nИнтернет включен");
+
                 } else {
-                    mValutasView.append("\nНет доступа к интернету!");
+                    mValutaView.append("\nНет доступа к интернету!");
                 }
 
                 ArrayList<Pouch> listPouches = new ArrayList<Pouch>();
@@ -62,11 +67,9 @@ public class MainActivity extends AppCompatActivity {
                 listPouches.add(new Pouch("test4", 50, 3));
 
                 Serialzer serialzer = new Serialzer();
-                if(serialzer.write(listPouches)) {
-                    mValutasView.append("\nУспешно записано!");
-                } else  mValutasView.append("\nпроизошла ошибка во время записи");
-
-
+                if (serialzer.write(listPouches)) {
+                    mValutaView.append("\nУспешно записано!");
+                } else mValutaView.append("\nпроизошла ошибка во время записи");
 
 
             }
@@ -75,7 +78,29 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
 
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+       int id = item.getItemId();
+
+        switch (id){
+            case R.id.general_settings:
+                mValutaView.append("\n Выбран пункт \"Общие настройки\"");
+                return true;
+            case R.id.pouchs_settings:
+                mValutaView.append("\n Выбран пункт \"Настройки кошельков\"");
+                Intent intent = new Intent(MainActivity.this , Edit_pouch_activity.class);
+                startActivity(intent);
+                return  true;
+            default: return super.onOptionsItemSelected(item);
+        }
+
+    }
 
     public boolean isInternetAvailable() {
         try {
@@ -106,11 +131,11 @@ public class MainActivity extends AppCompatActivity {
 
     public void dateTextView_Click(View view) {
 
-        mValutasView.append("Connection...\n");
+        mValutaView.append("Connection...\n");
 
 
         if (isNetworkConnected()) {
-            mValutasView.append("CONNECT?  YEP!");
+            mValutaView.append("CONNECT?  YEP!");
 
 
            AsyncSerialize AS = new AsyncSerialize();
@@ -119,7 +144,7 @@ public class MainActivity extends AppCompatActivity {
             AD.execute();
 
         } else {
-            mValutasView.append("  CONNECT?  NOPE!");
+            mValutaView.append("  CONNECT?  NOPE!");
         }
 
     }
@@ -140,7 +165,7 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(aVoid);
             if(listPouches != null){
 
-            } else mValutasView.append("\n Произошла ошибка во время чтения");
+            } else mValutaView.append("\n Произошла ошибка во время чтения");
 
            // mValutasView.append("" + pouch.name + pouch.value + pouch.position );
          /*  for (int i=0; i<2; i++)
@@ -216,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
 
-            mValutasView.setText( SB);
+            mValutaView.setText( SB);
         }
     }
 }
