@@ -27,12 +27,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/spinnerValuta"
+
         android:entries="@array/array_valuta"
         android:layout_below="@+id/editNamePouch"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
         android:layout_toRightOf="@+id/editValuta"
-        android:layout_toEndOf="@+id/editValuta" />
+        android:layout_toEndOf="@+id/editValuta"
+        />
 
     <Button
         android:layout_width="wrap_content"
@@ -116,7 +118,6 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-
             android:id="@+id/textConvertableValuta"/>
     </ScrollView>
 
