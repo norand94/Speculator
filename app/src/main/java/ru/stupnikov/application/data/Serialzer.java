@@ -19,9 +19,28 @@ public class Serialzer  {
         this.context = context;
     }
 
+    public boolean createFile(){
+        try {
+
+
+            FileOutputStream fOS = context.openFileOutput(FILE_POUCHS, context.MODE_WORLD_READABLE);
+            ObjectOutputStream oOS = new ObjectOutputStream(fOS);
+            oOS.writeObject(new ArrayList<Pouch>());
+            oOS.flush();
+            oOS.close();
+
+            return true;
+        }catch (IOException e){
+            e.printStackTrace();
+            return false;
+        }
+
+    }
+
     public boolean writePouchs(ArrayList<Pouch> pouchs){
         try {
-            FileOutputStream fOS = context.openFileOutput(FILE_POUCHS, Context.MODE_PRIVATE);
+            FileOutputStream fOS = context.openFileOutput(FILE_POUCHS, context.MODE_PRIVATE);
+
             ObjectOutputStream oOS = new ObjectOutputStream(fOS);
             oOS.writeObject(pouchs);
             oOS.close();

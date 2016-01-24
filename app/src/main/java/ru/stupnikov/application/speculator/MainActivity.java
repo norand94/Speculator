@@ -5,6 +5,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
+import android.net.Uri;
 import android.os.AsyncTask;
 import android.provider.DocumentsContract;
 import android.support.v7.app.AppCompatActivity;
@@ -17,13 +18,19 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.gms.appindexing.Action;
+import com.google.android.gms.appindexing.AppIndex;
+import com.google.android.gms.common.api.GoogleApiClient;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 
-
+import java.io.FileOutputStream;
 import java.io.IOException;
+import java.io.ObjectOutputStream;
+import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.List;
@@ -39,12 +46,17 @@ public class MainActivity extends AppCompatActivity {
 
     private TextView mValutaView;
     private MotionEvent motionEvent;
+    /**
+     * ATTENTION: This was auto-generated to implement the App Indexing API.
+     * See https://g.co/AppIndexing/AndroidStudio for more information.
+     */
+    private GoogleApiClient client;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mValutaView = (TextView)findViewById(R.id.valuta);
+        mValutaView = (TextView) findViewById(R.id.valuta);
         if (isNetworkConnected()) {
             mValutaView.append("\nИнтернет включен");
 
@@ -52,7 +64,7 @@ public class MainActivity extends AppCompatActivity {
             mValutaView.append("\nНет доступа к интернету!");
         }
 
-        final Button mSaveButton = (Button)findViewById(R.id.saveButton);
+        final Button mSaveButton = (Button) findViewById(R.id.saveButton);
 
 
         mSaveButton.setOnClickListener(new View.OnClickListener() {
@@ -81,6 +93,9 @@ public class MainActivity extends AppCompatActivity {
         });
 
 
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
     }
 
     @Override
@@ -91,23 +106,51 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-       int id = item.getItemId();
+        int id = item.getItemId();
 
-        switch (id){
+        switch (id) {
             case R.id.general_settings:
                 mValutaView.append("\n Выбран пункт \"Общие настройки\"");
                 return true;
             case R.id.pouchs_settings:
-               // mValutaView.append("\n Выбран пункт \"Настройки кошельков\"");
-                Intent intent = new Intent(MainActivity.this , Edit_pouch_activity.class);
+                // mValutaView.append("\n Выбран пункт \"Настройки кошельков\"");
+                Intent intent = new Intent(MainActivity.this, Edit_pouch_activity.class);
                 startActivity(intent);
-                return  true;
-            default: return super.onOptionsItemSelected(item);
+                return true;
+
+            case R.id.repair_saving:
+                Serialzer serialzer = new Serialzer(getApplicationContext());
+                if (serialzer.createFile()) {
+                    shortMessage("Новый фаил создан");
+                } else shortMessage("Создание нового файла не удалось");
+                return true;
+
+
+            default:
+                return super.onOptionsItemSelected(item);
         }
 
     }
 
-    private void shortMessage(String text){
+/*    public boolean createFile() {
+        try {
+
+
+            FileOutputStream fOS = new FileOutputStream(Serialzer.FILE_POUCHS, MODE_WORLD_READABLE);
+            OutputStreamWriter oSW = new OutputStreamWriter(fOS);
+            oSW.write("test");
+            oSW.flush();
+            oSW.close();
+
+            return true;
+        } catch (IOException e) {
+            e.printStackTrace();
+            return false;
+        }
+
+    }*/
+
+    private void shortMessage(String text) {
         Toast.makeText(getApplicationContext(),
                 text,
                 Toast.LENGTH_SHORT).show();
@@ -139,7 +182,6 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     public void dateTextView_Click(View view) {
 
         mValutaView.append("Connection...\n");
@@ -159,19 +201,59 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-
     public void loadButton_Click(View view) {
         AsyncSerialize AS = new AsyncSerialize();
         AS.execute();
     }
 
-    class AsyncSerialize extends  AsyncTask<Void, Void, Void> {
+    @Override
+    public void onStart() {
+        super.onStart();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        client.connect();
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Main Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://ru.stupnikov.application.speculator/http/host/path")
+        );
+        AppIndex.AppIndexApi.start(client, viewAction);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+
+        // ATTENTION: This was auto-generated to implement the App Indexing API.
+        // See https://g.co/AppIndexing/AndroidStudio for more information.
+        Action viewAction = Action.newAction(
+                Action.TYPE_VIEW, // TODO: choose an action type.
+                "Main Page", // TODO: Define a title for the content shown.
+                // TODO: If you have web page content that matches this app activity's content,
+                // make sure this auto-generated web page URL is correct.
+                // Otherwise, set the URL to null.
+                Uri.parse("http://host/path"),
+                // TODO: Make sure this auto-generated app deep link URI is correct.
+                Uri.parse("android-app://ru.stupnikov.application.speculator/http/host/path")
+        );
+        AppIndex.AppIndexApi.end(client, viewAction);
+        client.disconnect();
+    }
+
+    class AsyncSerialize extends AsyncTask<Void, Void, Void> {
 
         public ArrayList<Pouch> listPouches = null;
+
         @Override
         protected Void doInBackground(Void... params) {
             Serialzer serialzer = new Serialzer(getApplicationContext());
-             listPouches = serialzer.readPouchs();
+            listPouches = serialzer.readPouchs();
 
             return null;
         }
@@ -179,12 +261,12 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            if(listPouches != null){
+            if (listPouches != null) {
                 mValutaView.append("\nЧтение прошло успешно!");
-                for (Pouch p : listPouches){
-                    mValutaView.append("\n" + p.position + "-" + p.name + "   " + p.value+ " " + p.valuta + "\n");
-                    for (String str : p.listConvertibleValuta){
-                        mValutaView.append(  str + ", ");
+                for (Pouch p : listPouches) {
+                    mValutaView.append("\n" + p.position + "-" + p.name + "   " + p.value + " " + p.valuta + "\n");
+                    for (String str : p.listConvertibleValuta) {
+                        mValutaView.append(str + ", ");
                     }
                     mValutaView.append("\n");
                 }
@@ -193,7 +275,7 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    class AsyncParse extends AsyncTask<Void, Void, Void>  {
+    class AsyncParse extends AsyncTask<Void, Void, Void> {
 
 
         StringBuilder SB = new StringBuilder();
@@ -221,9 +303,8 @@ public class MainActivity extends AppCompatActivity {
                 searchValuta(doc.body(), Pattern.compile("</i>(.......)"), 1, 6, "ЕВРО завтра: ");
 
 
-            }
-            else
-                SB.append( "Ошибка");
+            } else
+                SB.append("Ошибка");
 
             return null;
 
@@ -232,20 +313,19 @@ public class MainActivity extends AppCompatActivity {
         private void searchValuta(Element element, Pattern pattern, int group, String text) {
             //pattern = Pattern.compile("(?is)&nbsp;(.......)");
             Matcher matcher = pattern.matcher(element.html());
-            while (matcher.find()){
+            while (matcher.find()) {
                 //  SB.append(matcher.group());
                 SB.append(text);
                 SB.append(matcher.group(group) + " .руб \n");
             }
         }
 
-        private  void searchValuta (Element element, Pattern pattern, int group, int num, String text){
+        private void searchValuta(Element element, Pattern pattern, int group, int num, String text) {
             Matcher matcher = pattern.matcher(element.html());
             int i = 0;
-            while (matcher.find()){
+            while (matcher.find()) {
                 //  SB.append(matcher.group());
-                if (i ==num)
-                {
+                if (i == num) {
                     SB.append(text);
                     SB.append(matcher.group(group) + " .руб \n");
                     break;
@@ -258,7 +338,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
 
-            mValutaView.setText( SB);
+            mValutaView.setText(SB);
         }
     }
 }
