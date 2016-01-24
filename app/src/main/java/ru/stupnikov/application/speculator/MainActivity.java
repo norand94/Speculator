@@ -59,7 +59,7 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                ArrayList<String> test = new ArrayList<String>();
+            /*    ArrayList<String> test = new ArrayList<String>();
                 test.add( "EUR"); test.add("RUB");
                 ArrayList<Pouch> listPouches = new ArrayList<Pouch>();
                 listPouches.add(new Pouch("EUR", "EUR",  76, 1, test));
@@ -69,12 +69,13 @@ public class MainActivity extends AppCompatActivity {
                 Serialzer serialzer = new Serialzer(getApplicationContext());
                 if (serialzer.writePouchs(listPouches)) {
                     mValutaView.append("\nУспешно записано!");
-                } else mValutaView.append("\nпроизошла ошибка во время записи");
+                } else mValutaView.append("\nпроизошла ошибка во время записи");*/
 
                /* if (serialzer.write(listPouches)) {
                     mValutaView.append("\nУспешно записано!");
                 } else mValutaView.append("\nпроизошла ошибка во время записи");
 */
+                shortMessage("Создание новых кошельков теперь проводится в другом месте");
 
             }
         });
@@ -97,13 +98,19 @@ public class MainActivity extends AppCompatActivity {
                 mValutaView.append("\n Выбран пункт \"Общие настройки\"");
                 return true;
             case R.id.pouchs_settings:
-                mValutaView.append("\n Выбран пункт \"Настройки кошельков\"");
+               // mValutaView.append("\n Выбран пункт \"Настройки кошельков\"");
                 Intent intent = new Intent(MainActivity.this , Edit_pouch_activity.class);
                 startActivity(intent);
                 return  true;
             default: return super.onOptionsItemSelected(item);
         }
 
+    }
+
+    private void shortMessage(String text){
+        Toast.makeText(getApplicationContext(),
+                text,
+                Toast.LENGTH_SHORT).show();
     }
 
     public boolean isInternetAvailable() {
