@@ -45,7 +45,9 @@ import ru.stupnikov.application.data.Serialzer;
 public class MainActivity extends AppCompatActivity {
 
     private TextView mValutaView;
-    private MotionEvent motionEvent;
+   // private MotionEvent motionEvent;
+    private TextView mPouchsView;
+
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
@@ -56,13 +58,11 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mValutaView = (TextView) findViewById(R.id.valuta);
-        if (isNetworkConnected()) {
-            mValutaView.append("\nИнтернет включен");
+        mValutaView = (TextView) findViewById(R.id.textValuta);
+        mPouchsView = (TextView)findViewById(R.id.textPouchs);
 
-        } else {
-            mValutaView.append("\nНет доступа к интернету!");
-        }
+        downloadValuta();
+        loadPouchs();
 
         final Button mSaveButton = (Button) findViewById(R.id.saveButton);
 
@@ -70,23 +70,6 @@ public class MainActivity extends AppCompatActivity {
         mSaveButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-            /*    ArrayList<String> test = new ArrayList<String>();
-                test.add( "EUR"); test.add("RUB");
-                ArrayList<Pouch> listPouches = new ArrayList<Pouch>();
-                listPouches.add(new Pouch("EUR", "EUR",  76, 1, test));
-                listPouches.add(new Pouch("USD", "USD", 43, 2 ,test));
-                listPouches.add(new Pouch("RUB", "RUB", 50, 3, test));
-
-                Serialzer serialzer = new Serialzer(getApplicationContext());
-                if (serialzer.writePouchs(listPouches)) {
-                    mValutaView.append("\nУспешно записано!");
-                } else mValutaView.append("\nпроизошла ошибка во время записи");*/
-
-               /* if (serialzer.write(listPouches)) {
-                    mValutaView.append("\nУспешно записано!");
-                } else mValutaView.append("\nпроизошла ошибка во время записи");
-*/
                 shortMessage("Создание новых кошельков теперь проводится в другом месте");
 
             }
@@ -132,23 +115,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-/*    public boolean createFile() {
-        try {
-
-
-            FileOutputStream fOS = new FileOutputStream(Serialzer.FILE_POUCHS, MODE_WORLD_READABLE);
-            OutputStreamWriter oSW = new OutputStreamWriter(fOS);
-            oSW.write("test");
-            oSW.flush();
-            oSW.close();
-
-            return true;
-        } catch (IOException e) {
-            e.printStackTrace();
-            return false;
-        }
-
-    }*/
 
     private void shortMessage(String text) {
         Toast.makeText(getApplicationContext(),
@@ -183,29 +149,42 @@ public class MainActivity extends AppCompatActivity {
 
 
     public void dateTextView_Click(View view) {
+        downloadValuta();
 
-        mValutaView.append("Connection...\n");
+    }
+
+    private void downloadValuta(){
+        mValutaView.append("\nConnection...\n");
 
 
         if (isNetworkConnected()) {
-            mValutaView.append("CONNECT?  YEP!");
+            mValutaView.append("\nПодключено\nЗагружаем...");
 
             AsyncParse AD = new AsyncParse();
             AD.execute();
 
 
         } else {
-            mValutaView.append("  CONNECT?  NOPE!");
+            mValutaView.append("\nНет соединения");
         }
-
     }
 
 
     public void loadButton_Click(View view) {
+        loadPouchs();
+    }
+
+    private void loadPouchs(){
         AsyncSerialize AS = new AsyncSerialize();
         AS.execute();
     }
 
+
+
+
+
+
+    //Google API (???)
     @Override
     public void onStart() {
         super.onStart();
@@ -262,15 +241,15 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             if (listPouches != null) {
-                mValutaView.append("\nЧтение прошло успешно!");
+               // mValutaView.append("\nЧтение прошло успешно!");
                 for (Pouch p : listPouches) {
-                    mValutaView.append("\n" + p.position + "-" + p.name + "   " + p.value + " " + p.valuta + "\n");
+                    mPouchsView.append("\n"  + p.name + "   " + p.value + " " + p.valuta + "\n");
                     for (String str : p.listConvertibleValuta) {
-                        mValutaView.append(str + ", ");
+                        mPouchsView.append(str + ", ");
                     }
-                    mValutaView.append("\n");
+                    mPouchsView.append("\n");
                 }
-            } else mValutaView.append("\n Произошла ошибка во время чтения");
+            } else mPouchsView.append("\n Произошла ошибка во время чтения");
 
         }
     }

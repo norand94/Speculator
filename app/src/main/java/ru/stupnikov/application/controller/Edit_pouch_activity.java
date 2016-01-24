@@ -112,10 +112,11 @@ public class Edit_pouch_activity extends AppCompatActivity {
        // if(FieldsNotEmpty()) {
             listPouchs.add(new Pouch(mEditName.getText().toString(),
                     mSpinnerValuta.getSelectedItem().toString(),
-                    Integer.valueOf(mEditSum.getText().toString()),
+                    Double.valueOf(mEditSum.getText().toString()),
                     0,
                     listConvertableValuta
             ));
+
             if (savePouchs()) {
                 updateListPouchs();
 

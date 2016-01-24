@@ -44,10 +44,7 @@
         <TextView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:textStyle="bold"
-            android:text=""
-            android:textSize="20dp"
-            android:id="@+id/valuta"/>
+            android:id="@+id/textPouchs"/>
     </ScrollView>
 
     <TextView
@@ -79,6 +76,21 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
         />
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/loadButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true">
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/textValuta"
+            />
+    </ScrollView>
 
 </RelativeLayout>

@@ -22,7 +22,7 @@
         android:layout_centerHorizontal="true"
         android:layout_alignParentLeft="true"
         android:layout_alignParentRight="true"
-        />
+        android:singleLine="true" />
 
     <Spinner
         style="@style/textStyleSpinner"
