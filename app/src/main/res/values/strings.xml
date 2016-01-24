@@ -3,13 +3,13 @@
     <string name="name_pouch">Название кошелька</string>
     <string name="general_settings">Общие настройки</string>
     <string name="pouch_settings">Настройки кошельков</string>
+    <string name="sum">Сумма</string>
+    <string name="addDelete">Добавить/Удалить</string>
+    <string name="addPouch">Добавить кошелек</string>
+    <string name="amendPouch">Изменить кошелек</string>
+    <string name="deletePouch">Удалить кошелек</string>
+    <string name="pouch">Кошелек</string>
 
-
-    <string-array name="valuta">
-        <item>EUR</item>
-        <item>USD</item>
-        <item>RUB</item>
-        <item>UAH</item>
-    </string-array>
+   
 
 </resources>

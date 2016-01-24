@@ -3,10 +3,16 @@ package ru.stupnikov.application.controller;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
 import android.widget.Spinner;
+import android.widget.TextView;
 import android.widget.Toast;
 
+import java.util.ArrayList;
+
+import ru.stupnikov.application.data.Pouch;
+import ru.stupnikov.application.data.Serialzer;
 import ru.stupnikov.application.speculator.R;
 
 /**
@@ -14,12 +20,31 @@ import ru.stupnikov.application.speculator.R;
  */
 public class Edit_pouch_activity extends AppCompatActivity {
 
-    Spinner mSpinner;
+   private   EditText mEditName;
+   private EditText mEditSum;
+   private Spinner mSpinnerValuta;
+   private Spinner mSpinnerConvertableValuta;
+    private TextView mListConvertableValuta;
+    private TextView mListPouchs;
+
+    private Button mAddPouchButton;
+
+    ArrayList<Pouch> listPouchs;
+    ArrayList<String>listConvertableValuta = new ArrayList<String>();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.edit_pouch_activity);
-        mSpinner = (Spinner)findViewById(R.id.spinner);
+        mEditName = (EditText)findViewById(R.id.editNamePouch);
+        mEditSum = (EditText)findViewById(R.id.editValuta);
+        mSpinnerValuta = (Spinner)findViewById(R.id.spinnerValuta);
+        mSpinnerConvertableValuta = (Spinner)findViewById(R.id.spinnerConvertableValuta);
+        mListConvertableValuta = (TextView)findViewById(R.id.textConvertableValuta);
+        mListPouchs = (TextView)findViewById(R.id.textPouchs);
+        listPouchs = new ArrayList<Pouch>();
+
+        if(loadPouchs()) updateListPouchs();
 
 
      /*
@@ -30,12 +55,83 @@ public class Edit_pouch_activity extends AppCompatActivity {
     }
 
 
-    public void add_rm_button_Click(View view) {
-       ;
+
+    public void addDeleteButton_Click(View view) {
+    String conValuta = mSpinnerConvertableValuta.getSelectedItem().toString();
+    if(listConvertableValuta.indexOf(conValuta) != -1){
+        listConvertableValuta.remove(conValuta);
+        updateListConvertableValuta();
+    } else {
+        listConvertableValuta.add(conValuta);
+        updateListConvertableValuta();
+    }
+
+    }
+
+    private void updateListConvertableValuta(){
+        mListConvertableValuta.setText("");
+        for (String str : listConvertableValuta){
+            mListConvertableValuta.append(str + ",  ");
+        }
+    }
+    private void  updateListPouchs(){
+        mListPouchs.setText("");
+        for (Pouch p: listPouchs){
+            mListPouchs.append(""+p.name + " -  " + p.value + " " + p.valuta +"\n");
+            for (String str : p.listConvertibleValuta){
+                mListPouchs.append(str + ", ");
+            }
+            mListPouchs.append("\n");
+        }
+    }
+    public void addPouchButton_Click(View view) {
+
+
+
+        listPouchs.add(new Pouch(mEditName.getText().toString(),
+                mSpinnerValuta.getSelectedItem().toString(),
+                Integer.valueOf(mEditSum.getText().toString()),
+                0,
+                listConvertableValuta
+        ));
+        if(savePouchs()) {
+            updateListPouchs();
+
+        }
+
+    }
+
+    private void shortMessage(String text){
         Toast.makeText(getApplicationContext(),
-                mSpinner.getSelectedItem().toString(),
+                text,
                 Toast.LENGTH_SHORT).show();
+    }
+    private void clearAll(){
+         mEditName.setText("");
+        mEditSum.setText("0");
+        mListConvertableValuta.setText("");
+    }
 
+    private boolean loadPouchs(){
+        Serialzer serialzer = new Serialzer(getApplicationContext());
+        listPouchs = serialzer.readPouchs();
+        if(listPouchs ==null){
+            shortMessage("При чтении произошла ошибка");
+            return false;
+        } else {
+            shortMessage("Успешно считано");
+            return true;
+        }
+    }
 
+    private boolean savePouchs(){
+        Serialzer serialzer = new Serialzer(getApplicationContext());
+        if(serialzer.writePouchs(listPouchs)){
+            shortMessage("Успешно записно");
+            return true;
+        } else {
+            shortMessage("При записи произошла ошибка");
+            return false;
+        }
     }
 }

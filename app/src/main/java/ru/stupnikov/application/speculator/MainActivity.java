@@ -59,11 +59,12 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-
+                ArrayList<String> test = new ArrayList<String>();
+                test.add( "EUR"); test.add("RUB");
                 ArrayList<Pouch> listPouches = new ArrayList<Pouch>();
-                listPouches.add(new Pouch("EUR", 76, 1));
-                listPouches.add(new Pouch("USD", 43, 2));
-                listPouches.add(new Pouch("RUB", 50, 3));
+                listPouches.add(new Pouch("EUR", "EUR",  76, 1, test));
+                listPouches.add(new Pouch("USD", "USD", 43, 2 ,test));
+                listPouches.add(new Pouch("RUB", "RUB", 50, 3, test));
 
                 Serialzer serialzer = new Serialzer(getApplicationContext());
                 if (serialzer.writePouchs(listPouches)) {
@@ -174,7 +175,11 @@ public class MainActivity extends AppCompatActivity {
             if(listPouches != null){
                 mValutaView.append("\nЧтение прошло успешно!");
                 for (Pouch p : listPouches){
-                    mValutaView.append("\n" + p.position + "-" + p.name + "  " + p.value);
+                    mValutaView.append("\n" + p.position + "-" + p.name + "   " + p.value+ " " + p.valuta + "\n");
+                    for (String str : p.listConvertibleValuta){
+                        mValutaView.append(  str + ", ");
+                    }
+                    mValutaView.append("\n");
                 }
             } else mValutaView.append("\n Произошла ошибка во время чтения");
 

@@ -1,76 +1,140 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@drawable/wood">
 
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceMedium"
-        android:text="Medium Text"
-        android:id="@+id/textView"
+        android:text="@string/pouch"
+        android:id="@+id/titleTextView"
         android:layout_alignParentTop="true"
         android:layout_centerHorizontal="true" />
 
     <EditText
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/editText"
+        android:id="@+id/editNamePouch"
         android:hint="@string/name_pouch"
-        android:layout_alignTop="@+id/spinner"
+        android:layout_below="@+id/titleTextView"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentRight="true"
+        />
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerValuta"
+        android:entries="@array/array_valuta"
+        android:layout_below="@+id/editNamePouch"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_toRightOf="@+id/editValuta"
+        android:layout_toEndOf="@+id/editValuta" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/addPouch"
+        android:id="@+id/addPouchButton"
+        android:onClick="addPouchButton_Click"
+        android:layout_below="@+id/addDeleteButton"
+        android:layout_alignLeft="@+id/addDeleteButton"
+        android:layout_alignStart="@+id/addDeleteButton"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/amendPouch"
+        android:id="@+id/amendPouchButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_toStartOf="@+id/deletePouchButton"
+        android:layout_toLeftOf="@+id/deletePouchButton" />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/deletePouch"
+        android:layout_alignTop="@+id/amendPouchButton"
+        android:layout_alignRight="@+id/spinnerValuta"
+        android:layout_alignEnd="@+id/spinnerValuta"
+        android:layout_toEndOf="@+id/editValuta"
+        android:layout_toRightOf="@+id/editValuta"
+        android:id="@+id/deletePouchButton" />
+
+    <EditText
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:inputType="numberDecimal"
+        android:ems="10"
+        android:id="@+id/editValuta"
+        android:layout_below="@+id/editNamePouch"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:hint="@string/sum"
+        />
+
+    <Button
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/addDelete"
+        android:id="@+id/addDeleteButton"
+        android:onClick="addDeleteButton_Click"
+        android:layout_centerVertical="true"
+        android:layout_alignRight="@+id/spinnerValuta"
+        android:layout_alignEnd="@+id/spinnerValuta"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
 
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/spinner"
-        android:layout_below="@+id/textView"
-        android:layout_toRightOf="@+id/editText"
-        android:layout_toEndOf="@+id/editText"
-        android:entries="@array/array_valuta"
-        />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/add_rm_button"
-        android:onClick="add_rm_button_Click"
-        android:layout_centerVertical="true"
+        android:id="@+id/spinnerConvertableValuta"
+        android:layout_below="@+id/editValuta"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_alignRight="@+id/spinner"
-        android:layout_alignEnd="@+id/spinner" />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button2"
-        android:layout_alignParentBottom="true"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
-        />
-
-    <Button
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="New Button"
-        android:id="@+id/button3"
-        android:layout_alignTop="@+id/button2"
-        android:layout_alignRight="@+id/spinner"
-        android:layout_alignEnd="@+id/spinner"
-        android:layout_toEndOf="@+id/button2"
-        android:layout_toRightOf="@+id/button2" />
+        android:entries="@array/array_valuta"/>
 
     <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/scrollView2"
-        android:layout_below="@+id/button"
+        android:id="@+id/scrollConvertableValuta"
+        android:layout_below="@+id/spinnerConvertableValuta"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:layout_above="@+id/button2"
+        android:layout_above="@+id/addDeleteButton"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_alignParentEnd="true" >
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+
+            android:id="@+id/textConvertableValuta"/>
+    </ScrollView>
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollPouchs"
+        android:layout_below="@+id/addPouchButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:layout_above="@+id/amendPouchButton"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true" >
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/textPouchs"/>
+
+    </ScrollView>
+
 </RelativeLayout>
