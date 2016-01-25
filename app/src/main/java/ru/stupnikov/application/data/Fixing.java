@@ -7,6 +7,7 @@ import java.util.Date;
  * Created by rodion on 25.01.16.
  */
 public class Fixing implements Serializable {
+
     public Date date = new Date();
     public double value = 0;
     public String description = "";

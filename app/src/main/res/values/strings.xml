@@ -5,10 +5,17 @@
     <string name="pouch_settings">Настройки кошельков</string>
     <string name="sum">Сумма</string>
     <string name="addDelete">Добавить/Удалить</string>
-    <string name="addPouch">Добавить кошелек</string>
-    <string name="amendPouch">Изменить кошелек</string>
-    <string name="deletePouch">Удалить кошелек</string>
-    <string name="pouch">Кошелек</string>
+    <string name="addWallet">Добавить кошелек</string>
+    <string name="amendWallet">Изменить кошелек</string>
+    <string name="deleteWallet">Удалить кошелек</string>
+    <string name="wallet">Кошелек</string>
+    <string name="date">Дата</string>
+    <string name="description">Описание</string>
+    <string name="Fix">Зафиксировать</string>
+
+    <string name="nameArcticle">Название статьи</string>
+    <string name="articleParent">Статья - Родитель</string>
+    <string name="add">Добавить</string>
 
    
 

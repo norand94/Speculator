@@ -17,6 +17,7 @@
         <item name="android:textStyle">bold</item>
 
 
+
     </style>
 
     <style name="buttonStyle" parent="MainTheme" >
@@ -27,6 +28,7 @@
     <style name="buttonStyle.Bord">
         <item name="android:background">#a73030</item>
         <item name="android:textColor">#e9b4b4</item>
+
     </style>
 
     <style name="textStyleSpinner"  >

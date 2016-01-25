@@ -1,9 +1,11 @@
-package ru.stupnikov.application.data;
+package ru.stupnikov.application.processor;
 
 import android.content.Context;
 
 import java.io.*;
 import java.util.ArrayList;
+
+import ru.stupnikov.application.data.Wallet;
 
 /**
  * Created by rodion on 21.01.16.
@@ -36,7 +38,7 @@ public class Serialzer  {
 
     }
 
-    public boolean writePouchs(ArrayList<Wallet> wallets){
+    public boolean writeWallets(ArrayList<Wallet> wallets){
         try {
             FileOutputStream fOS = context.openFileOutput(FILE_POUCHS, context.MODE_PRIVATE);
 
@@ -50,7 +52,7 @@ public class Serialzer  {
         }
     }
 
-    public ArrayList<Wallet> readPouchs (){
+    public ArrayList<Wallet> readWallets(){
         try {
             FileInputStream fIS = context.openFileInput(FILE_POUCHS);
             ObjectInputStream oIS = new ObjectInputStream(fIS);

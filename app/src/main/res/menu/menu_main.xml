@@ -17,4 +17,12 @@
         android:orderInCategory="100"
         android:title="Очистить сохранения"
         />
+    <item
+        android:id="@+id/editArcticleMain"
+        android:orderInCategory="100"
+        android:title="Изменить статьи" />
+    <item
+        android:id="@+id/controlBudgetActivityIntent"
+        android:orderInCategory="100"
+        android:title="Контроль бюджета" />
 </menu>

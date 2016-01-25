@@ -31,7 +31,7 @@ import java.util.regex.Pattern;
 
 import ru.stupnikov.application.data.Valuta;
 import ru.stupnikov.application.data.Wallet;
-import ru.stupnikov.application.data.Serialzer;
+import ru.stupnikov.application.processor.Serialzer;
 import ru.stupnikov.application.processor.Converter;
 import ru.stupnikov.application.speculator.R;
 
@@ -105,7 +105,10 @@ public class MainActivity extends AppCompatActivity {
                     shortMessage("Новый фаил создан");
                 } else shortMessage("Создание нового файла не удалось");
                 return true;
-
+            case R.id.controlBudgetActivityIntent:
+                Intent intentBudget = new Intent(MainActivity.this, BudgetControlActivity.class);
+                startActivity(intentBudget);
+                return  true;
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -230,7 +233,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... params) {
 
-            listWallets = new Serialzer(getApplicationContext()).readPouchs();
+            listWallets = new Serialzer(getApplicationContext()).readWallets();
             return null;
         }
 

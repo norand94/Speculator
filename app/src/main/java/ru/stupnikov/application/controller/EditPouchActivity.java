@@ -13,7 +13,7 @@ import java.util.ArrayList;
 
 import ru.stupnikov.application.data.Fixing;
 import ru.stupnikov.application.data.Wallet;
-import ru.stupnikov.application.data.Serialzer;
+import ru.stupnikov.application.processor.Serialzer;
 import ru.stupnikov.application.speculator.R;
 
 /**
@@ -38,6 +38,7 @@ public class EditPouchActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.edit_pouch_activity);
         mEditName = (EditText)findViewById(R.id.editNamePouch);
         mEditSum = (EditText)findViewById(R.id.editValuta);
@@ -142,7 +143,7 @@ public class EditPouchActivity extends AppCompatActivity {
 
     private boolean loadPouchs(){
 
-        listWallets =  new Serialzer(getApplicationContext()).readPouchs();
+        listWallets =  new Serialzer(getApplicationContext()).readWallets();
         if(listWallets ==null){
             shortMessage("При чтении произошла ошибка");
             return false;
@@ -154,7 +155,7 @@ public class EditPouchActivity extends AppCompatActivity {
 
     private boolean savePouchs(){
 
-        if(new Serialzer(getApplicationContext()).writePouchs(listWallets)){
+        if(new Serialzer(getApplicationContext()).writeWallets(listWallets)){
             shortMessage("Успешно записно");
             return true;
         } else {
