@@ -235,15 +235,23 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+
+            for (Valuta v: listValuta){
+            mPouchsView.append("\n" + v.name + "  -  " + v.valueRUB);
+            }
+            mPouchsView.append("\n\n");
+
             if (listWallets != null) {
                // mValutaView.append("\nЧтение прошло успешно!");
                 for (Wallet p : listWallets) {
                     mPouchsView.append("\n"  + p.name + "   " + p.value + " " + p.valuta + "\n");
                     for (String str : p.listConvertibleValuta) {
-                       if(!updated) mPouchsView.append(str + ", ");
-                        else mPouchsView.append(str + " -  " +
-                                new Converter(listValuta).convertToValuta(p.valuta, p.value, str)
-                               + ",  ");
+
+
+                        double result = new Converter(listValuta).convertToValuta(p.valuta, p.value, str);
+                        if(result!=-1) mPouchsView.append(str + " -  " + result + ",  ");
+                        else   mPouchsView.append(str + ", ");
+
                     }
                     mPouchsView.append("\n");
                 }
@@ -270,8 +278,9 @@ public class MainActivity extends AppCompatActivity {
 
             if (doc != null) {
 
+
                 listValuta.add(new Valuta("USD",
-                        searchValuta(doc.select("td.weak").first(), Pattern.compile("&nbsp;(.......)"), 1, "Доллар США: ")));
+                      searchValuta(doc.select("td.weak").first(), Pattern.compile("&nbsp;(.......)"), 1, "Доллар США: ")));
 
                 SB.append("\n");
                 listValuta.add(new Valuta("EUR",
@@ -299,8 +308,8 @@ public class MainActivity extends AppCompatActivity {
                 //  SB.append(matcher.group());
                 SB.append(text);
                 vtext = matcher.group(group)+"";
-                SB.append(vtext + " .руб \n");
-                return -1; // необходимо доработать и избавиться от запятой и пробелов в извлченном
+                SB.append(vtext  + " .руб \n");
+                return Double.parseDouble(vtext.replaceAll(" ","").replace(',', '.')); // необходимо доработать и избавиться от запятой и пробелов в извлченном
                 // значении
             }
             return -1;
@@ -328,7 +337,7 @@ public class MainActivity extends AppCompatActivity {
                     SB.append(text);
                     vtext = matcher.group(group)+"";
                     SB.append(vtext + " .руб \n");
-                    return -1;
+                    return Double.parseDouble(vtext.replaceAll(" ","").replace(',','.'));
                 }
                 i++;
             }
