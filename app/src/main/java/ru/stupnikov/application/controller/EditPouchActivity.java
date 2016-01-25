@@ -19,7 +19,7 @@ import ru.stupnikov.application.speculator.R;
 /**
  * Created by rodion on 22.01.16.
  */
-public class Edit_pouch_activity extends AppCompatActivity {
+public class EditPouchActivity extends AppCompatActivity {
 
     private EditText mEditName;
     private EditText mEditSum;
@@ -141,8 +141,8 @@ public class Edit_pouch_activity extends AppCompatActivity {
     }
 
     private boolean loadPouchs(){
-        Serialzer serialzer = new Serialzer(getApplicationContext());
-        listWallets = serialzer.readPouchs();
+
+        listWallets =  new Serialzer(getApplicationContext()).readPouchs();
         if(listWallets ==null){
             shortMessage("При чтении произошла ошибка");
             return false;
@@ -153,8 +153,8 @@ public class Edit_pouch_activity extends AppCompatActivity {
     }
 
     private boolean savePouchs(){
-        Serialzer serialzer = new Serialzer(getApplicationContext());
-        if(serialzer.writePouchs(listWallets)){
+
+        if(new Serialzer(getApplicationContext()).writePouchs(listWallets)){
             shortMessage("Успешно записно");
             return true;
         } else {

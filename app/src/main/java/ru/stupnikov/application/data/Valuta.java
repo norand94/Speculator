@@ -8,11 +8,10 @@ import java.util.Date;
  */
 public class Valuta implements Serializable {
     public String name;
-    public double value;
-    public Date date;
+    public double valueRUB; // есди это рубль, то равно =1
 
-    public Valuta(String name, double value, Date date){
-        this.name = name; this.value = value; this.date =date;
+    public Valuta(String name, double value){
+        this.name = name; this.valueRUB = value;
     }
 
 }

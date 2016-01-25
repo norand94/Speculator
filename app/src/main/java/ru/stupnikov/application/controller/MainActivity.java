@@ -1,4 +1,4 @@
-package ru.stupnikov.application.speculator;
+package ru.stupnikov.application.controller;
 
 import android.content.Context;
 import android.content.Intent;
@@ -29,16 +29,20 @@ import java.util.ArrayList;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import ru.stupnikov.application.controller.Edit_pouch_activity;
+import ru.stupnikov.application.data.Valuta;
 import ru.stupnikov.application.data.Wallet;
 import ru.stupnikov.application.data.Serialzer;
+import ru.stupnikov.application.processor.Converter;
+import ru.stupnikov.application.speculator.R;
 
 
 public class MainActivity extends AppCompatActivity {
 
+    private boolean updated = false;
     private TextView mValutaView;
    // private MotionEvent motionEvent;
     private TextView mPouchsView;
+    ArrayList<Valuta> listValuta;
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -52,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mValutaView = (TextView) findViewById(R.id.textValuta);
         mPouchsView = (TextView)findViewById(R.id.textPouchs);
-
+        listValuta = new ArrayList<Valuta>();
         downloadValuta();
         loadPouchs();
 
@@ -89,7 +93,7 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.pouchs_settings:
                 // mValutaView.append("\n Выбран пункт \"Настройки кошельков\"");
-                Intent intent = new Intent(MainActivity.this, Edit_pouch_activity.class);
+                Intent intent = new Intent(MainActivity.this, EditPouchActivity.class);
                 startActivity(intent);
                 return true;
 
@@ -223,9 +227,8 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... params) {
-            Serialzer serialzer = new Serialzer(getApplicationContext());
-            listWallets = serialzer.readPouchs();
 
+            listWallets = new Serialzer(getApplicationContext()).readPouchs();
             return null;
         }
 
@@ -237,7 +240,10 @@ public class MainActivity extends AppCompatActivity {
                 for (Wallet p : listWallets) {
                     mPouchsView.append("\n"  + p.name + "   " + p.value + " " + p.valuta + "\n");
                     for (String str : p.listConvertibleValuta) {
-                        mPouchsView.append(str + ", ");
+                       if(!updated) mPouchsView.append(str + ", ");
+                        else mPouchsView.append(str + " - " +
+                                new Converter(listValuta).convertToValuta(p.valuta, p.value, str)
+                               + ",  ");
                     }
                     mPouchsView.append("\n");
                 }
@@ -264,15 +270,19 @@ public class MainActivity extends AppCompatActivity {
 
             if (doc != null) {
 
-                searchValuta(doc.select("td.weak").first(), Pattern.compile("&nbsp;(.......)"), 1, "Доллар США: ");
+                listValuta.add(new Valuta("USD",
+                        searchValuta(doc.select("td.weak").first(), Pattern.compile("&nbsp;(.......)"), 1, "Доллар США: ")));
+
                 SB.append("\n");
-                searchValuta(doc.select("td.weak").last(), Pattern.compile("&nbsp;(.......)"), 1, "ЕВРО:  "); // 7 символов
+                listValuta.add(new Valuta("EUR",
+                        searchValuta(doc.select("td.weak").last(), Pattern.compile("&nbsp;(.......)"), 1, "ЕВРО:  "))); // 7 символов
+
                 SB.append("\n");
                 searchValuta(doc.select("div.w_data_wrap").first(), Pattern.compile("</i>(.......)"), 1, "Доллар США завтра: ");
                 //searchValuta(doc.select("div.w_data_wrap").first(), Pattern.compile("</i>(.......)"), 1, "Доллар США завтра: ");
                 SB.append("\n");
                 searchValuta(doc.body(), Pattern.compile("</i>(.......)"), 1, 6, "ЕВРО завтра: ");
-
+                updated = true;
 
             } else
                 SB.append("Ошибка");
@@ -281,28 +291,45 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        private void searchValuta(Element element, Pattern pattern, int group, String text) {
+        private double searchValuta(Element element, Pattern pattern, int group, String text) {
             //pattern = Pattern.compile("(?is)&nbsp;(.......)");
+            String vtext;
             Matcher matcher = pattern.matcher(element.html());
             while (matcher.find()) {
                 //  SB.append(matcher.group());
                 SB.append(text);
-                SB.append(matcher.group(group) + " .руб \n");
+                vtext = matcher.group(group)+"";
+                SB.append(vtext + " .руб \n");
+                return Double.valueOf(helpDouble(vtext));
             }
+            return -1;
         }
 
-        private void searchValuta(Element element, Pattern pattern, int group, int num, String text) {
+        private String helpDouble(String text){
+            char [] chars = text.toCharArray();
+            StringBuilder SBUI = new StringBuilder();
+            for (char c : chars){
+                if(c == ',')SB.append('.');
+                else SB.append(c);
+            }
+            return SBUI.toString();
+        }
+
+        private double searchValuta(Element element, Pattern pattern, int group, int num, String text) {
+            String vtext;
             Matcher matcher = pattern.matcher(element.html());
             int i = 0;
             while (matcher.find()) {
                 //  SB.append(matcher.group());
                 if (i == num) {
                     SB.append(text);
-                    SB.append(matcher.group(group) + " .руб \n");
-                    break;
+                    vtext = matcher.group(group)+"";
+                    SB.append(vtext + " .руб \n");
+                    return Double.valueOf(vtext);
                 }
                 i++;
             }
+            return -1;
         }
 
         @Override
