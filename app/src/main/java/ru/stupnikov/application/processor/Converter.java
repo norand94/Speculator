@@ -15,7 +15,7 @@ public class Converter {
 
     public double convertToValuta(String transmitterValuta, double value, String senderValuta){
 
-        double convertValue = value;
+
 
         double dTransmitterValue = -1;
         double dSenderValue = -1;
@@ -33,6 +33,11 @@ public class Converter {
         }
         if(dSenderValue == -1) return -1;
 
-        return dTransmitterValue/dSenderValue;
+        return (value*dTransmitterValue)/dSenderValue;
+    }
+
+    public double convertToValuta (Double transmitterValue, double value, Double senderValue){
+
+        return  transmitterValue*value/senderValue;
     }
 }

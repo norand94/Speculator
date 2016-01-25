@@ -57,6 +57,8 @@ public class MainActivity extends AppCompatActivity {
         mValutaView = (TextView) findViewById(R.id.textValuta);
         mPouchsView = (TextView)findViewById(R.id.textPouchs);
         listValuta = new ArrayList<Valuta>();
+        listValuta.add(new Valuta("RUB",1));
+
         downloadValuta();
         loadPouchs();
 
@@ -232,14 +234,21 @@ public class MainActivity extends AppCompatActivity {
             return null;
         }
 
+   /*     private double searhValuta(String VAL){
+            for (Valuta v : listValuta){
+                if (v.name.equals(VAL)) return v.valueRUB;
+            }
+            return -1;
+        }*/
+
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
 
-            for (Valuta v: listValuta){
+         /*   for (Valuta v: listValuta){
             mPouchsView.append("\n" + v.name + "  -  " + v.valueRUB);
             }
-            mPouchsView.append("\n\n");
+            mPouchsView.append("\n\n");*/
 
             if (listWallets != null) {
                // mValutaView.append("\nЧтение прошло успешно!");
@@ -249,8 +258,14 @@ public class MainActivity extends AppCompatActivity {
 
 
                         double result = new Converter(listValuta).convertToValuta(p.valuta, p.value, str);
-                        if(result!=-1) mPouchsView.append(str + " -  " + result + ",  ");
-                        else   mPouchsView.append(str + ", ");
+                        if(result!=-1) mPouchsView.append(str + " -  " + result + "   ,  ");
+                        else  mPouchsView.append(str + "  ,  ");
+
+                      /*  mPouchsView.append(str + ", \n");
+                        mPouchsView.append(str + "   " +
+
+                                +"  ,\n");*/
+
 
                     }
                     mPouchsView.append("\n");
@@ -280,7 +295,7 @@ public class MainActivity extends AppCompatActivity {
 
 
                 listValuta.add(new Valuta("USD",
-                      searchValuta(doc.select("td.weak").first(), Pattern.compile("&nbsp;(.......)"), 1, "Доллар США: ")));
+                        searchValuta(doc.select("td.weak").first(), Pattern.compile("&nbsp;(.......)"), 1, "Доллар США: ")));
 
                 SB.append("\n");
                 listValuta.add(new Valuta("EUR",
