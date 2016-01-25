@@ -3,17 +3,16 @@ package ru.stupnikov.application.controller;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
-import ru.stupnikov.application.data.Pouch;
+import ru.stupnikov.application.data.Fixing;
+import ru.stupnikov.application.data.Wallet;
 import ru.stupnikov.application.data.Serialzer;
 import ru.stupnikov.application.speculator.R;
 
@@ -22,10 +21,10 @@ import ru.stupnikov.application.speculator.R;
  */
 public class Edit_pouch_activity extends AppCompatActivity {
 
-   private   EditText mEditName;
-   private EditText mEditSum;
-   private Spinner mSpinnerValuta;
-   private Spinner mSpinnerConvertableValuta;
+    private EditText mEditName;
+    private EditText mEditSum;
+    private Spinner mSpinnerValuta;
+    private Spinner mSpinnerConvertableValuta;
     private TextView mListConvertableValuta;
 
     private TextView mListPouchs;
@@ -33,7 +32,7 @@ public class Edit_pouch_activity extends AppCompatActivity {
 
     private Button mAddPouchButton;
 
-    ArrayList<Pouch> listPouchs;
+    ArrayList<Wallet> listWallets;
     ArrayList<String>listConvertableValuta = new ArrayList<String>();
 
     @Override
@@ -46,8 +45,8 @@ public class Edit_pouch_activity extends AppCompatActivity {
         mSpinnerConvertableValuta = (Spinner)findViewById(R.id.spinnerConvertableValuta);
         mListConvertableValuta = (TextView)findViewById(R.id.textConvertableValuta);
         mListPouchs = (TextView)findViewById(R.id.textPouchs);
-       // mListPouchs = (ListView)findViewById(R.id.listPouchs);
-        listPouchs = new ArrayList<Pouch>();
+       // mListPouchs = (ListView)findViewById(R.id.listWallets);
+        listWallets = new ArrayList<Wallet>();
 
         if(loadPouchs()) updateListPouchs();
 
@@ -88,7 +87,7 @@ public class Edit_pouch_activity extends AppCompatActivity {
     private void  updateListPouchs(){
 
         mListPouchs.setText("");
-        for (Pouch p: listPouchs){
+        for (Wallet p: listWallets){
             mListPouchs.append(""+p.name + " -  " + p.value + " " + p.valuta +"\n");
             for (String str : p.listConvertibleValuta){
                 mListPouchs.append(str + ", ");
@@ -97,7 +96,7 @@ public class Edit_pouch_activity extends AppCompatActivity {
         }
 
    /*     ArrayList<String> listPouchsNames = new ArrayList<String>();
-        for (Pouch p: listPouchs){
+        for (Wallet p: listWallets){
             listPouchsNames.add(p.name);
 
         }
@@ -110,11 +109,12 @@ public class Edit_pouch_activity extends AppCompatActivity {
 
 
        // if(FieldsNotEmpty()) {
-            listPouchs.add(new Pouch(mEditName.getText().toString(),
+            listWallets.add(new Wallet(mEditName.getText().toString(),
                     mSpinnerValuta.getSelectedItem().toString(),
                     Double.valueOf(mEditSum.getText().toString()),
                     0,
-                    listConvertableValuta
+                    listConvertableValuta,
+                    new ArrayList<Fixing>()
             ));
 
             if (savePouchs()) {
@@ -142,8 +142,8 @@ public class Edit_pouch_activity extends AppCompatActivity {
 
     private boolean loadPouchs(){
         Serialzer serialzer = new Serialzer(getApplicationContext());
-        listPouchs = serialzer.readPouchs();
-        if(listPouchs ==null){
+        listWallets = serialzer.readPouchs();
+        if(listWallets ==null){
             shortMessage("При чтении произошла ошибка");
             return false;
         } else {
@@ -154,7 +154,7 @@ public class Edit_pouch_activity extends AppCompatActivity {
 
     private boolean savePouchs(){
         Serialzer serialzer = new Serialzer(getApplicationContext());
-        if(serialzer.writePouchs(listPouchs)){
+        if(serialzer.writePouchs(listWallets)){
             shortMessage("Успешно записно");
             return true;
         } else {
@@ -168,12 +168,12 @@ public class Edit_pouch_activity extends AppCompatActivity {
             mEditName.setHint("Введите здесь название кошелька, который вы желаете удалить");
             shortMessage("Введите в поле название кошелька, который вы желаете удалить");
         } else {
-            Pouch selected = null;
-            for (Pouch p : listPouchs){
+            Wallet selected = null;
+            for (Wallet p : listWallets){
                 if(p.name.equals(mEditName.getText().toString())) selected = p;
             }
             if (selected!=null) {
-                listPouchs.remove(selected);
+                listWallets.remove(selected);
                 savePouchs();
                 updateListPouchs();
                 clearAll();

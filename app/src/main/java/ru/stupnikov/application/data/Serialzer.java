@@ -1,7 +1,6 @@
 package ru.stupnikov.application.data;
 
 import android.content.Context;
-import android.content.SharedPreferences;
 
 import java.io.*;
 import java.util.ArrayList;
@@ -25,7 +24,7 @@ public class Serialzer  {
 
             FileOutputStream fOS = context.openFileOutput(FILE_POUCHS, context.MODE_WORLD_READABLE);
             ObjectOutputStream oOS = new ObjectOutputStream(fOS);
-            oOS.writeObject(new ArrayList<Pouch>());
+            oOS.writeObject(new ArrayList<Wallet>());
             oOS.flush();
             oOS.close();
 
@@ -37,12 +36,12 @@ public class Serialzer  {
 
     }
 
-    public boolean writePouchs(ArrayList<Pouch> pouchs){
+    public boolean writePouchs(ArrayList<Wallet> wallets){
         try {
             FileOutputStream fOS = context.openFileOutput(FILE_POUCHS, context.MODE_PRIVATE);
 
             ObjectOutputStream oOS = new ObjectOutputStream(fOS);
-            oOS.writeObject(pouchs);
+            oOS.writeObject(wallets);
             oOS.close();
             return true;
         } catch (IOException e){
@@ -51,13 +50,13 @@ public class Serialzer  {
         }
     }
 
-    public ArrayList<Pouch> readPouchs (){
+    public ArrayList<Wallet> readPouchs (){
         try {
             FileInputStream fIS = context.openFileInput(FILE_POUCHS);
             ObjectInputStream oIS = new ObjectInputStream(fIS);
-            ArrayList<Pouch> pouchs = (ArrayList<Pouch>)oIS.readObject();
+            ArrayList<Wallet> wallets = (ArrayList<Wallet>)oIS.readObject();
             oIS.close();
-            return  pouchs;
+            return wallets;
         }catch (IOException e){
             e.printStackTrace();
             return null;

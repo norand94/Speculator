@@ -1,18 +1,14 @@
 package ru.stupnikov.application.speculator;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.SharedPreferences;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.AsyncTask;
-import android.provider.DocumentsContract;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -27,18 +23,14 @@ import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
 
 
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.ObjectOutputStream;
-import java.io.OutputStreamWriter;
 import java.net.InetAddress;
 import java.util.ArrayList;
-import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import ru.stupnikov.application.controller.Edit_pouch_activity;
-import ru.stupnikov.application.data.Pouch;
+import ru.stupnikov.application.data.Wallet;
 import ru.stupnikov.application.data.Serialzer;
 
 
@@ -227,12 +219,12 @@ public class MainActivity extends AppCompatActivity {
 
     class AsyncSerialize extends AsyncTask<Void, Void, Void> {
 
-        public ArrayList<Pouch> listPouches = null;
+        public ArrayList<Wallet> listWallets = null;
 
         @Override
         protected Void doInBackground(Void... params) {
             Serialzer serialzer = new Serialzer(getApplicationContext());
-            listPouches = serialzer.readPouchs();
+            listWallets = serialzer.readPouchs();
 
             return null;
         }
@@ -240,9 +232,9 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            if (listPouches != null) {
+            if (listWallets != null) {
                // mValutaView.append("\nЧтение прошло успешно!");
-                for (Pouch p : listPouches) {
+                for (Wallet p : listWallets) {
                     mPouchsView.append("\n"  + p.name + "   " + p.value + " " + p.valuta + "\n");
                     for (String str : p.listConvertibleValuta) {
                         mPouchsView.append(str + ", ");
