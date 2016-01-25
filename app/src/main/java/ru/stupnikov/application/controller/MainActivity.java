@@ -241,7 +241,7 @@ public class MainActivity extends AppCompatActivity {
                     mPouchsView.append("\n"  + p.name + "   " + p.value + " " + p.valuta + "\n");
                     for (String str : p.listConvertibleValuta) {
                        if(!updated) mPouchsView.append(str + ", ");
-                        else mPouchsView.append(str + " - " +
+                        else mPouchsView.append(str + " -  " +
                                 new Converter(listValuta).convertToValuta(p.valuta, p.value, str)
                                + ",  ");
                     }
@@ -300,10 +300,12 @@ public class MainActivity extends AppCompatActivity {
                 SB.append(text);
                 vtext = matcher.group(group)+"";
                 SB.append(vtext + " .руб \n");
-                return Double.valueOf(helpDouble(vtext));
+                return -1; // необходимо доработать и избавиться от запятой и пробелов в извлченном
+                // значении
             }
             return -1;
         }
+/*
 
         private String helpDouble(String text){
             char [] chars = text.toCharArray();
@@ -314,6 +316,7 @@ public class MainActivity extends AppCompatActivity {
             }
             return SBUI.toString();
         }
+*/
 
         private double searchValuta(Element element, Pattern pattern, int group, int num, String text) {
             String vtext;
@@ -325,7 +328,7 @@ public class MainActivity extends AppCompatActivity {
                     SB.append(text);
                     vtext = matcher.group(group)+"";
                     SB.append(vtext + " .руб \n");
-                    return Double.valueOf(vtext);
+                    return -1;
                 }
                 i++;
             }
