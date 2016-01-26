@@ -24,8 +24,11 @@ import org.jsoup.nodes.Element;
 
 
 import java.io.IOException;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.net.InetAddress;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -40,9 +43,11 @@ public class MainActivity extends AppCompatActivity {
 
     private boolean updated = false;
     private TextView mValutaView;
+    private TextView mDateText;
    // private MotionEvent motionEvent;
     private TextView mPouchsView;
     ArrayList<Valuta> listValuta;
+
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -56,6 +61,9 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         mValutaView = (TextView) findViewById(R.id.textValuta);
         mPouchsView = (TextView)findViewById(R.id.textPouchs);
+        mDateText = (TextView)findViewById(R.id.dateTextView);
+
+        mDateText.setText( new Date().toString());
         listValuta = new ArrayList<Valuta>();
         listValuta.add(new Valuta("RUB",1));
 
@@ -226,6 +234,10 @@ public class MainActivity extends AppCompatActivity {
         client.disconnect();
     }
 
+    public double round(double value, int scale) {
+        return Math.round(value * Math.pow(10, scale)) / Math.pow(10, scale);
+    }
+
     class AsyncSerialize extends AsyncTask<Void, Void, Void> {
 
         public ArrayList<Wallet> listWallets = null;
@@ -261,8 +273,8 @@ public class MainActivity extends AppCompatActivity {
 
 
                         double result = new Converter(listValuta).convertToValuta(p.valuta, p.value, str);
-                        if(result!=-1) mPouchsView.append(str + " -  " + result + "   ,  ");
-                        else  mPouchsView.append(str + "  ,  ");
+                        if(result!=-1) mPouchsView.append(str + " -  " + round(result,3) + "\n");
+                        else  mPouchsView.append(str + "\n");
 
                       /*  mPouchsView.append(str + ", \n");
                         mPouchsView.append(str + "   " +
@@ -326,12 +338,16 @@ public class MainActivity extends AppCompatActivity {
                 //  SB.append(matcher.group());
                 SB.append(text);
                 vtext = matcher.group(group)+"";
-                SB.append(vtext  + " .руб \n");
-                return Double.parseDouble(vtext.replaceAll(" ","").replace(',', '.')); // необходимо доработать и избавиться от запятой и пробелов в извлченном
-                // значении
+                SB.append(vtext + " .руб \n");
+
+                return round(Double.parseDouble(vtext.replaceAll(" ", "").replace(',', '.')), 4) ; // отбрасываем знаки, мешающие преобразованию
+                         // округляем до 4 знаков после запятой
+
             }
             return -1;
         }
+
+
 /*
 
         private String helpDouble(String text){

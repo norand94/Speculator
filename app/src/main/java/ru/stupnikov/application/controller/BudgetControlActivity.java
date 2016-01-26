@@ -3,7 +3,9 @@ package ru.stupnikov.application.controller;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 
@@ -24,7 +26,11 @@ public class BudgetControlActivity extends AppCompatActivity {
     private Spinner mSpinnerCategory;
     private Spinner mSpinnerSubCategory;
     private EditText mEditDescription;
+    private ListView mListVievFixings;
     // private Button mSubmitButton;
+
+
+    String [] test = new String[]{"first", "second", "третий", "удивительно, но... четвертый"};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,6 +43,9 @@ public class BudgetControlActivity extends AppCompatActivity {
         mSpinnerCategory = (Spinner)findViewById(R.id.spinnerCategory);
         mSpinnerSubCategory = (Spinner)findViewById(R.id.spinnerSubCategory);
         mEditDescription = (EditText)findViewById(R.id.editDescription);
+        mListVievFixings = (ListView)findViewById(R.id.listVievFixings);
+
+
        // mSubmitButton = (Button)findViewById(R.id.submitButton);
 
 
