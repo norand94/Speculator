@@ -3,7 +3,6 @@ package ru.stupnikov.application.controller;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -35,7 +34,7 @@ public class BudgetControlActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.budget_control_activity);
+        setContentView(R.layout.control_budget_activity);
 
         mBalanceText = (TextView)findViewById(R.id.BalanceView);
         mEditFixing = (EditText)findViewById(R.id.editFixing);

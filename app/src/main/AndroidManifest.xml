@@ -18,11 +18,12 @@
             </intent-filter>
         </activity>
         <activity android:name="ru.stupnikov.application.controller.EditPouchActivity" android:label="@string/pouch_settings">
-
         </activity>
-        <activity android:name="ru.stupnikov.application.controller.BudgetControlActivity" android:label="Контроль Бюджета">
-
+        <activity android:name="ru.stupnikov.application.controller.BudgetControlActivity" android:label="@string/controlBudget">
         </activity>
+        <activity android:name="ru.stupnikov.application.controller.EditArticleActivity" android:label="@string/editArcticle">
+        </activity>
+
 
         <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
              App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.

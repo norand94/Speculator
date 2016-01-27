@@ -24,8 +24,6 @@ import org.jsoup.nodes.Element;
 
 
 import java.io.IOException;
-import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Date;
@@ -108,15 +106,20 @@ public class MainActivity extends AppCompatActivity {
                 return true;
 
             case R.id.repair_saving:
-                Serialzer serialzer = new Serialzer(getApplicationContext());
-                if (serialzer.createFile()) {
-                    shortMessage("Новый фаил создан");
-                } else shortMessage("Создание нового файла не удалось");
+               if (new Serialzer(getApplicationContext()).createAllFiles()){
+                   shortMessage("все файлы очищены и создано заново");
+               } else {
+                   shortMessage("неудачное очищение");
+               }
                 return true;
             case R.id.controlBudgetActivityIntent:
                 Intent intentBudget = new Intent(MainActivity.this, BudgetControlActivity.class);
                 startActivity(intentBudget);
                 return  true;
+            case R.id.editArcticleMain:
+                Intent intentArticle = new Intent(MainActivity.this, EditArticleActivity.class);
+                startActivity(intentArticle);
+                return true;
 
             default:
                 return super.onOptionsItemSelected(item);
@@ -246,27 +249,16 @@ public class MainActivity extends AppCompatActivity {
         protected Void doInBackground(Void... params) {
 
             listWallets = new Serialzer(getApplicationContext()).readWallets();
+            if (listWallets == null){
+                listWallets = new ArrayList<Wallet>();
+            }
             return null;
         }
-
-   /*     private double searhValuta(String VAL){
-            for (Valuta v : listValuta){
-                if (v.name.equals(VAL)) return v.valueRUB;
-            }
-            return -1;
-        }*/
 
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-
-         /*   for (Valuta v: listValuta){
-            mPouchsView.append("\n" + v.name + "  -  " + v.valueRUB);
-            }
-            mPouchsView.append("\n\n");*/
-
             if (listWallets != null) {
-               // mValutaView.append("\nЧтение прошло успешно!");
                 for (Wallet p : listWallets) {
                     mPouchsView.append("\n"  + p.name + "   " + p.value + " " + p.valuta + "\n");
                     for (String str : p.listConvertibleValuta) {
@@ -275,12 +267,6 @@ public class MainActivity extends AppCompatActivity {
                         double result = new Converter(listValuta).convertToValuta(p.valuta, p.value, str);
                         if(result!=-1) mPouchsView.append(str + " -  " + round(result,3) + "\n");
                         else  mPouchsView.append(str + "\n");
-
-                      /*  mPouchsView.append(str + ", \n");
-                        mPouchsView.append(str + "   " +
-
-                                +"  ,\n");*/
-
 
                     }
                     mPouchsView.append("\n");

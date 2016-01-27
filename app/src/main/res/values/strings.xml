@@ -13,9 +13,13 @@
     <string name="description">Описание</string>
     <string name="Fix">Зафиксировать</string>
 
-    <string name="nameArcticle">Название статьи</string>
-    <string name="articleParent">Статья - Родитель</string>
+    <string name="category">Категория</string>
+    <string name="subcategory">Подкатегория</string>
     <string name="add">Добавить</string>
+    <string name="controlBudget">Контроль бюджета</string>
+    <string name="editArcticle">Изменить артикул</string>
+    <string name="addArticle">Добавить статью</string>
+    <string name="deleteArticle">Удалить статью</string>
 
    
 
