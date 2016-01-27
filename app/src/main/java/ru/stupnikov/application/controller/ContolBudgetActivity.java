@@ -3,6 +3,7 @@ package ru.stupnikov.application.controller;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -17,7 +18,7 @@ import ru.stupnikov.application.speculator.R;
 /**
  * Created by rodion on 25.01.16.
  */
-public class BudgetControlActivity extends AppCompatActivity {
+public class ContolBudgetActivity extends AppCompatActivity {
 
     private TextView mBalanceText;
     private EditText mEditFixing;
@@ -44,7 +45,8 @@ public class BudgetControlActivity extends AppCompatActivity {
         mEditDescription = (EditText)findViewById(R.id.editDescription);
         mListVievFixings = (ListView)findViewById(R.id.listVievFixings);
 
-
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, test);
+        mListVievFixings.setAdapter(adapter);
        // mSubmitButton = (Button)findViewById(R.id.submitButton);
 
 

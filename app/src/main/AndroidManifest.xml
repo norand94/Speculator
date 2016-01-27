@@ -19,7 +19,7 @@
         </activity>
         <activity android:name="ru.stupnikov.application.controller.EditPouchActivity" android:label="@string/pouch_settings">
         </activity>
-        <activity android:name="ru.stupnikov.application.controller.BudgetControlActivity" android:label="@string/controlBudget">
+        <activity android:name="ru.stupnikov.application.controller.ContolBudgetActivity" android:label="@string/controlBudget">
         </activity>
         <activity android:name="ru.stupnikov.application.controller.EditArticleActivity" android:label="@string/editArcticle">
         </activity>

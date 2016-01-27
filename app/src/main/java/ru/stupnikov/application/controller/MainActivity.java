@@ -10,7 +10,8 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.Button;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -40,11 +41,13 @@ import ru.stupnikov.application.speculator.R;
 public class MainActivity extends AppCompatActivity {
 
     private boolean updated = false;
-    private TextView mValutaView;
     private TextView mDateText;
+    private ListView mListViewValuta;
+    private ListView mListViewWallets;
    // private MotionEvent motionEvent;
-    private TextView mPouchsView;
     ArrayList<Valuta> listValuta;
+    ArrayList<String> listTextValuta = new ArrayList<String>();
+    ArrayList<String> listTextWallet = new ArrayList<String>();
 
 
     /**
@@ -57,27 +60,16 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        mValutaView = (TextView) findViewById(R.id.textValuta);
-        mPouchsView = (TextView)findViewById(R.id.textPouchs);
+        mListViewValuta = (ListView)findViewById(R.id.valutaListViev);
         mDateText = (TextView)findViewById(R.id.dateTextView);
+        mListViewWallets = (ListView)findViewById(R.id.walletsListView);
 
         mDateText.setText( new Date().toString());
         listValuta = new ArrayList<Valuta>();
         listValuta.add(new Valuta("RUB",1));
 
         downloadValuta();
-        loadPouchs();
-
-        final Button mSaveButton = (Button) findViewById(R.id.saveButton);
-
-
-        mSaveButton.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                shortMessage("Создание новых кошельков теперь проводится в другом месте");
-
-            }
-        });
+        loadWallets();
 
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
@@ -97,7 +89,7 @@ public class MainActivity extends AppCompatActivity {
 
         switch (id) {
             case R.id.general_settings:
-                mValutaView.append("\n Выбран пункт \"Общие настройки\"");
+                shortMessage("Выбран пунк общие настройки");
                 return true;
             case R.id.pouchs_settings:
                 // mValutaView.append("\n Выбран пункт \"Настройки кошельков\"");
@@ -113,7 +105,7 @@ public class MainActivity extends AppCompatActivity {
                }
                 return true;
             case R.id.controlBudgetActivityIntent:
-                Intent intentBudget = new Intent(MainActivity.this, BudgetControlActivity.class);
+                Intent intentBudget = new Intent(MainActivity.this, ContolBudgetActivity.class);
                 startActivity(intentBudget);
                 return  true;
             case R.id.editArcticleMain:
@@ -166,29 +158,34 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void downloadValuta(){
-        mValutaView.append("\nConnection...\n");
+
 
 
         if (isNetworkConnected()) {
-            mValutaView.append("\nПодключено\nЗагружаем...");
+            shortMessage("Идет соединение...");
 
             AsyncParse AD = new AsyncParse();
             AD.execute();
 
 
         } else {
-            mValutaView.append("\nНет соединения");
+            shortMessage("Нет сети");
         }
     }
 
 
-    public void loadButton_Click(View view) {
-        loadPouchs();
-    }
-
-    private void loadPouchs(){
+    private void loadWallets(){
         AsyncSerialize AS = new AsyncSerialize();
         AS.execute();
+    }
+
+    private void  updateValutaListView(){
+        mListViewValuta.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listTextValuta));
+    }
+
+    private  void updateWalletListView(){
+       // String [] test = new String[]{"1", "2", "3"};
+        mListViewWallets.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listTextWallet));
     }
 
 
@@ -258,21 +255,25 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+            StringBuilder SB = new StringBuilder();
             if (listWallets != null) {
                 for (Wallet p : listWallets) {
-                    mPouchsView.append("\n"  + p.name + "   " + p.value + " " + p.valuta + "\n");
+                    SB.append("\n" + p.name + "   " + p.value + " " + p.valuta + "\n");
                     for (String str : p.listConvertibleValuta) {
 
 
                         double result = new Converter(listValuta).convertToValuta(p.valuta, p.value, str);
-                        if(result!=-1) mPouchsView.append(str + " -  " + round(result,3) + "\n");
-                        else  mPouchsView.append(str + "\n");
+                        if(result!=-1) SB.append(str + " -  " + round(result,3) + "\n");
+                        else  SB.append(str + "\n");
 
                     }
-                    mPouchsView.append("\n");
+                  //  SB.append("\n");
+                    listTextWallet.add(SB.toString());
+                    SB = new StringBuilder();
                 }
-            } else mPouchsView.append("\n Произошла ошибка во время чтения");
 
+            } else shortMessage("\n Произошла ошибка во время чтения");
+            updateWalletListView();
         }
     }
 
@@ -296,36 +297,30 @@ public class MainActivity extends AppCompatActivity {
 
 
                 listValuta.add(new Valuta("USD",
-                        searchValuta(doc.select("td.weak").first(), Pattern.compile("&nbsp;(.......)"), 1, "Доллар США: ")));
+                        searchValuta(doc.select("td.weak").first(), Pattern.compile("&nbsp;(.......)"), 1)));
 
-                SB.append("\n");
+
                 listValuta.add(new Valuta("EUR",
-                        searchValuta(doc.select("td.weak").last(), Pattern.compile("&nbsp;(.......)"), 1, "ЕВРО:  "))); // 7 символов
+                        searchValuta(doc.select("td.weak").last(), Pattern.compile("&nbsp;(.......)"), 1))); // 7 символов
 
-                SB.append("\n");
-                searchValuta(doc.select("div.w_data_wrap").first(), Pattern.compile("</i>(.......)"), 1, "Доллар США завтра: ");
+
+                searchValuta(doc.select("div.w_data_wrap").first(), Pattern.compile("</i>(.......)"), 1);
                 //searchValuta(doc.select("div.w_data_wrap").first(), Pattern.compile("</i>(.......)"), 1, "Доллар США завтра: ");
-                SB.append("\n");
-                searchValuta(doc.body(), Pattern.compile("</i>(.......)"), 1, 6, "ЕВРО завтра: ");
+
+                searchValuta(doc.body(), Pattern.compile("</i>(.......)"), 1, 6);
                 updated = true;
 
-            } else
-                SB.append("Ошибка");
+            }
 
             return null;
 
         }
 
-        private double searchValuta(Element element, Pattern pattern, int group, String text) {
-            //pattern = Pattern.compile("(?is)&nbsp;(.......)");
+        private double searchValuta(Element element, Pattern pattern, int group) {
             String vtext;
             Matcher matcher = pattern.matcher(element.html());
             while (matcher.find()) {
-                //  SB.append(matcher.group());
-                SB.append(text);
                 vtext = matcher.group(group)+"";
-                SB.append(vtext + " .руб \n");
-
                 return round(Double.parseDouble(vtext.replaceAll(" ", "").replace(',', '.')), 4) ; // отбрасываем знаки, мешающие преобразованию
                          // округляем до 4 знаков после запятой
 
@@ -334,29 +329,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-/*
-
-        private String helpDouble(String text){
-            char [] chars = text.toCharArray();
-            StringBuilder SBUI = new StringBuilder();
-            for (char c : chars){
-                if(c == ',')SB.append('.');
-                else SB.append(c);
-            }
-            return SBUI.toString();
-        }
-*/
-
-        private double searchValuta(Element element, Pattern pattern, int group, int num, String text) {
+        private double searchValuta(Element element, Pattern pattern, int group, int num) {
             String vtext;
             Matcher matcher = pattern.matcher(element.html());
             int i = 0;
             while (matcher.find()) {
                 //  SB.append(matcher.group());
                 if (i == num) {
-                    SB.append(text);
                     vtext = matcher.group(group)+"";
-                    SB.append(vtext + " .руб \n");
                     return Double.parseDouble(vtext.replaceAll(" ","").replace(',','.'));
                 }
                 i++;
@@ -367,8 +347,10 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-
-            mValutaView.setText(SB);
+            for (Valuta v: listValuta){
+                listTextValuta.add(v.name + "  " + v.valueRUB);
+            }
+            updateValutaListView();
         }
     }
 }
