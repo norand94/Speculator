@@ -37,7 +37,7 @@ public class EditArticleActivity extends AppCompatActivity {
     }
 
     private void loadArticles(){
-        listArticles = (ArrayList<Article>) new Serialzer(getApplicationContext()).readObject(Serialzer.FILE_ARTICLES);
+        listArticles = (ArrayList<Article>) Serialzer.readObject(getApplicationContext(), Serialzer.FILE_ARTICLES);
         if (listArticles == null){
             shortMessage("Неудачная загрузка артиклей");
             listArticles = new ArrayList<Article>();
@@ -61,7 +61,7 @@ public class EditArticleActivity extends AppCompatActivity {
     }
 
     private boolean saveArticles(){
-        if(new Serialzer(getApplicationContext()).writeObject(listArticles, Serialzer.FILE_ARTICLES)){
+        if(Serialzer.writeObject(getApplicationContext(), listArticles, Serialzer.FILE_ARTICLES)){
             return true;
         } else return false;
     }
@@ -77,23 +77,23 @@ public class EditArticleActivity extends AppCompatActivity {
             shortMessage("Введите текст!");
         }
         else if ( mEditCategory.getText().toString().equals("") &&  !mEditSubCategory.getText().toString().equals("")){
-            shortMessage("У под категории должна быть главная категория!");
+            shortMessage("У подкатегории должна быть главная категория!");
         }
         else if (!mEditCategory.getText().toString().equals("") &&  mEditSubCategory.getText().toString().equals("")){
-            if (searhArticle(mEditCategory.getText().toString())==null){
+            if (Article.searhArticle(listArticles, mEditCategory.getText().toString())==null){
             listArticles.add(new Article(mEditCategory.getText().toString(), new ArrayList<String>()));
             } else shortMessage("Такая категория уже существует");
 
         }
         else if (!mEditCategory.getText().toString().equals("") &&  !mEditSubCategory.getText().toString().equals("")){
-            Article article = searhArticle(mEditCategory.getText().toString());
+            Article article =  Article.searhArticle(listArticles, mEditCategory.getText().toString());
             ArrayList<String> listSub = new ArrayList<>();
             listSub.add(mEditSubCategory.getText().toString());
 
             if (article == null) {
                 listArticles.add(new Article(mEditCategory.getText().toString(), listSub));
             } else {
-                if (searh_subcategory(article, mEditSubCategory.getText().toString())){
+                if (article.searh_subcategory(mEditSubCategory.getText().toString())){
                     shortMessage("такая статья уже существует");
                 } else {
                     listArticles.remove(article);
@@ -107,23 +107,12 @@ public class EditArticleActivity extends AppCompatActivity {
 
     }
 
-    private Article searhArticle(String category){
-        for (Article a: listArticles){
-            if (a.category.equals(category)) return a;
-        }
-        return null;
-    }
 
-    private boolean searh_subcategory(Article article, String subcategory){
-        for (String sub : article.listSubCategory){
-            if (sub.equals(subcategory))return  true;
-        }
-        return false;
-    }
+
 
     public void deleteArticleButton_Click(View view) {
 
-    listArticles.remove(searhArticle(mEditCategory.getText().toString()));
+    listArticles.remove(Article.searhArticle(listArticles, mEditCategory.getText().toString()));
         saveArticles();
         updateArticlesViev();
 

@@ -93,12 +93,12 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.pouchs_settings:
                 // mValutaView.append("\n Выбран пункт \"Настройки кошельков\"");
-                Intent intent = new Intent(MainActivity.this, EditPouchActivity.class);
+                Intent intent = new Intent(MainActivity.this, EditWalletActivity.class);
                 startActivity(intent);
                 return true;
 
             case R.id.repair_saving:
-               if (new Serialzer(getApplicationContext()).createAllFiles()){
+               if (Serialzer.createAllFiles(getApplicationContext())){
                    shortMessage("все файлы очищены и создано заново");
                } else {
                    shortMessage("неудачное очищение");
@@ -245,7 +245,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected Void doInBackground(Void... params) {
 
-            listWallets = new Serialzer(getApplicationContext()).readWallets();
+            listWallets = Serialzer.readWallets(getApplicationContext());
             if (listWallets == null){
                 listWallets = new ArrayList<Wallet>();
             }
@@ -262,7 +262,7 @@ public class MainActivity extends AppCompatActivity {
                     for (String str : p.listConvertibleValuta) {
 
 
-                        double result = new Converter(listValuta).convertToValuta(p.valuta, p.value, str);
+                        double result = Converter.convertToValuta(listValuta, p.valuta, p.value, str);
                         if(result!=-1) SB.append(str + " -  " + round(result,3) + "\n");
                         else  SB.append(str + "\n");
 

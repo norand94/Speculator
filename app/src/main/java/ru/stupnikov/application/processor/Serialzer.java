@@ -15,16 +15,15 @@ import ru.stupnikov.application.data.Wallet;
 
 public class Serialzer  {
 
-    private Context context;
     public final static String FILE_WALLETS = "file_wallets";
     public final static String FILE_ARTICLES = "file_articles";
     public final static String FILE_FIXINGS = "file_fixings";
 
-    public Serialzer(Context context) {
-        this.context = context;
-    }
+/*    public Serialzer() {
 
-    public boolean createFileWallets(){
+    }*/
+
+    public static boolean createFileWallets(Context context){
         try {
 
 
@@ -42,7 +41,7 @@ public class Serialzer  {
 
     }
 
-    public boolean createFileArticles(){
+    public static boolean createFileArticles(Context context){
         try {
             FileOutputStream fOS = context.openFileOutput(FILE_ARTICLES, context.MODE_WORLD_READABLE);
             ObjectOutputStream oOS = new ObjectOutputStream(fOS);
@@ -57,7 +56,7 @@ public class Serialzer  {
 
     }
 
-    public boolean createFileFixings (){
+    public static boolean createFileFixings (Context context){
         try {
             FileOutputStream fOS = context.openFileOutput(FILE_FIXINGS, context.MODE_WORLD_READABLE);
             ObjectOutputStream oOS = new ObjectOutputStream(fOS);
@@ -71,18 +70,18 @@ public class Serialzer  {
         }
     }
 
-    public boolean createAllFiles (){
+    public static boolean createAllFiles (Context context){
         if (
-                createFileArticles() &&
-                createFileFixings() &&
-                createFileWallets()
+                createFileArticles(context) &&
+                createFileFixings(context) &&
+                createFileWallets(context)
                 ) {
             return true;
         }
         return false;
     }
 
-    public boolean writeObject(Object object, String file){
+    public static boolean writeObject(Context context ,Object object, String file){
         try {
             FileOutputStream fileOutputStream = context.openFileOutput(file, context.MODE_PRIVATE);
             ObjectOutputStream objectOutputStream = new ObjectOutputStream(fileOutputStream);
@@ -95,7 +94,7 @@ public class Serialzer  {
         }
     }
 
-    public Object readObject(String file){
+    public static Object readObject(Context context, String file){
         try {
             FileInputStream fileInputStream = context.openFileInput(file);
             ObjectInputStream objectInputStream = new ObjectInputStream(fileInputStream);
@@ -112,7 +111,7 @@ public class Serialzer  {
     }
 
 
-    public boolean writeWallets(ArrayList<Wallet> wallets){
+    public static boolean writeWallets(Context context, ArrayList<Wallet> wallets){
         try {
             FileOutputStream fOS = context.openFileOutput(FILE_WALLETS, context.MODE_PRIVATE);
 
@@ -126,7 +125,7 @@ public class Serialzer  {
         }
     }
 
-    public ArrayList<Wallet> readWallets(){
+    public static ArrayList<Wallet> readWallets(Context context){
         try {
             FileInputStream fIS = context.openFileInput(FILE_WALLETS);
             ObjectInputStream oIS = new ObjectInputStream(fIS);

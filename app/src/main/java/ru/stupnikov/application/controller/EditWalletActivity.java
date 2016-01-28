@@ -19,7 +19,7 @@ import ru.stupnikov.application.speculator.R;
 /**
  * Created by rodion on 22.01.16.
  */
-public class EditPouchActivity extends AppCompatActivity {
+public class EditWalletActivity extends AppCompatActivity {
 
     private EditText mEditName;
     private EditText mEditSum;
@@ -39,7 +39,7 @@ public class EditPouchActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        setContentView(R.layout.edit_pouch_activity);
+        setContentView(R.layout.edit_wallet_activity);
         mEditName = (EditText)findViewById(R.id.editNamePouch);
         mEditSum = (EditText)findViewById(R.id.editValuta);
         mSpinnerValuta = (Spinner)findViewById(R.id.spinnerValuta);
@@ -53,7 +53,7 @@ public class EditPouchActivity extends AppCompatActivity {
 
 
      /*
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.valuta, R.layout.edit_pouch_activity);
+        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.valuta, R.layout.edit_wallet_activity);
         adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
         mSpinner.setAdapter(adapter);
 */
@@ -143,7 +143,7 @@ public class EditPouchActivity extends AppCompatActivity {
 
     private boolean loadPouchs(){
 
-        listWallets =  new Serialzer(getApplicationContext()).readWallets();
+        listWallets =  Serialzer.readWallets(getApplicationContext());
         if(listWallets ==null){
             shortMessage("При чтении произошла ошибка");
             return false;
@@ -155,7 +155,7 @@ public class EditPouchActivity extends AppCompatActivity {
 
     private boolean savePouchs(){
 
-        if(new Serialzer(getApplicationContext()).writeWallets(listWallets)){
+        if(Serialzer.writeWallets(getApplicationContext(), listWallets)){
             shortMessage("Успешно записно");
             return true;
         } else {

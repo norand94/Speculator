@@ -14,4 +14,19 @@ public class Article implements Serializable {
         this.category = category;
         this.listSubCategory = listSubCategory;
     }
+
+    public  boolean searh_subcategory(String subcategory){
+        for (String sub : listSubCategory){
+            if (sub.equals(subcategory))return  true;
+        }
+        return false;
+    }
+
+    public static Article searhArticle(ArrayList<Article> listArticles, String category){
+        for (Article a: listArticles){
+            if (a.category.equals(category)) return a;
+        }
+        return null;
+    }
+
 }

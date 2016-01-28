@@ -7,15 +7,11 @@ import ru.stupnikov.application.data.Valuta;
 /**
  * Created by rodion on 25.01.16.
  */
-public class Converter {
-    ArrayList<Valuta> listValuta;
-    public Converter(ArrayList<Valuta> listValuta){
-        this.listValuta = listValuta;
-    }
-
-    public double convertToValuta(String transmitterValuta, double value, String senderValuta){
+public  class Converter {
 
 
+
+    public static double convertToValuta(ArrayList<Valuta> listValuta, String transmitterValuta, double value, String senderValuta){
 
         double dTransmitterValue = -1;
         double dSenderValue = -1;
@@ -36,7 +32,7 @@ public class Converter {
         return (value*dTransmitterValue)/dSenderValue;
     }
 
-    public double convertToValuta (Double transmitterValue, double value, Double senderValue){
+    public static double convertToValuta (Double transmitterValue, double value, Double senderValue){
 
         return  transmitterValue*value/senderValue;
     }
