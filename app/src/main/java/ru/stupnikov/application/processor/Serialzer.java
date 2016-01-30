@@ -19,9 +19,6 @@ public class Serialzer  {
     public final static String FILE_ARTICLES = "file_articles";
     public final static String FILE_FIXINGS = "file_fixings";
 
-/*    public Serialzer() {
-
-    }*/
 
     public static boolean createFileWallets(Context context){
         try {

@@ -8,6 +8,13 @@ import java.util.ArrayList;
  */
 public class Wallet implements Serializable {
 
+    public String name = "default";
+    public String valuta = "RUB";
+    public double value = 0;
+    public int position = 0;
+    public ArrayList<String> listConvertibleValuta = new ArrayList<String>();
+    public ArrayList<Fixing>listFixings =new ArrayList<Fixing>();
+
     public Wallet() {}
     public Wallet(String name) {this.name = name;}
     public Wallet(String name, String valuta, double value, int position,
@@ -17,10 +24,10 @@ public class Wallet implements Serializable {
         this.listFixings = listFixings;
     }
 
-    public String name = "default";
-    public String valuta = "RUB";
-    public double value = 0;
-    public int position = 0;
-    public ArrayList<String> listConvertibleValuta = new ArrayList<String>();
-    public ArrayList<Fixing>listFixings =new ArrayList<Fixing>();
+  public static Wallet searchWallet(ArrayList<Wallet> listWallets ,String name){
+      for (Wallet w: listWallets){
+          if(w.name.equals(name)) return w;
+      }
+      return null;
+  }
 }
