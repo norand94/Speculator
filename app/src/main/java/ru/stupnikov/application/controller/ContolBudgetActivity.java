@@ -7,14 +7,17 @@ import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
+import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
+import android.widget.TimePicker;
 import android.widget.Toast;
 
 
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 import ru.stupnikov.application.data.Article;
@@ -32,7 +35,7 @@ public class ContolBudgetActivity extends AppCompatActivity {
 
     private TextView mBalanceText;
     private EditText mEditFixing;
-    private TextView mEditDate;
+    private DatePicker mEditDate;
     private Spinner mSpinnerCategory;
     private Spinner mSpinnerSubCategory;
     private EditText mEditDescription;
@@ -44,6 +47,10 @@ public class ContolBudgetActivity extends AppCompatActivity {
     ArrayList<Wallet> listWallets;
     Wallet selectedWallet;
 
+  /*  private  int year;
+    private int month;
+    private int day;*/
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,12 +58,16 @@ public class ContolBudgetActivity extends AppCompatActivity {
 
         mBalanceText = (TextView) findViewById(R.id.BalanceView);
         mEditFixing = (EditText) findViewById(R.id.editSum);
-        mEditDate = (TextView) findViewById(R.id.editDate);
+        mEditDate = (DatePicker) findViewById(R.id.editDate);
         mSpinnerCategory = (Spinner) findViewById(R.id.spinnerCategory);
         mSpinnerSubCategory = (Spinner) findViewById(R.id.spinnerSubCategory);
         mEditDescription = (EditText) findViewById(R.id.editDescription);
         mListVievFixings = (ListView) findViewById(R.id.listVievFixings);
         mButtonSwitch = (Button) findViewById(R.id.buttonSwitch);
+
+
+        Calendar today = Calendar.getInstance();
+
 
         loadArticles();
         loadWallets();
@@ -85,16 +96,15 @@ public class ContolBudgetActivity extends AppCompatActivity {
         updateBalanceView();
         saveWallet();
         updateListViewFixing();
+
     }
 
     private void addFixing (){
 
-    /*    Fixing fixing = new Fixing(new Date(),
-               Double.valueOf( Double.valueOf( mEditFixing.getText().toString())),
-               "",
-               "",
-               "");*/
-          Fixing fixing = new Fixing(new Date(), mButtonSwitch.getText().toString().equals("+"),
+
+          Fixing fixing = new Fixing(
+                  new Date(mEditDate.getYear(), mEditDate.getMonth()+1, mEditDate.getDayOfMonth()),
+                  mButtonSwitch.getText().toString().equals("+"),
                Double.valueOf( mEditFixing.getText().toString()),
                 mEditDescription.getText().toString(),
                 mSpinnerCategory.getSelectedItem().toString(),
@@ -173,14 +183,19 @@ public class ContolBudgetActivity extends AppCompatActivity {
         StringBuilder SB;
         for (Fixing f: selectedWallet.listFixings){
             SB = new StringBuilder();
-            SB.append("[" + f.date + "]    " +  f.category + ":" + f.subcategory + "    ->   ");
+            SB.append(  printDate(f.date)+"   "
+                    +  f.category + ":" + f.subcategory + "    ->   ");
             if (f.isProfit) SB.append("+ ");
             else SB.append("- ");
             SB.append(""+ f.value);
             adapter.add(SB.toString());
         }
+
         mListVievFixings.setAdapter(adapter);
     }
 
+    public static String printDate(Date date){
+        return "[" + date.getDate() + "." + date.getMonth() + "." + date.getYear() +  "]";
+    }
 
 }
