@@ -19,23 +19,32 @@
         android:ems="10"
         android:id="@+id/editSum"
         android:layout_below="@+id/BalanceView"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
         android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true" />
+        android:layout_toRightOf="@+id/buttonSwitch"
+        android:layout_toEndOf="@+id/buttonSwitch"
+        android:layout_alignBottom="@+id/buttonSwitch" />
 
-    <EditText
+    <Button
+        style="@style/buttonStyle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:inputType="date"
-        android:hint="@string/date"
-        android:ems="10"
-        android:id="@+id/editDate"
-        android:layout_below="@+id/editSum"
-        android:layout_alignParentRight="true"
-        android:layout_alignParentEnd="true"
+        android:onClick="buttonSwith_Click"
+        android:id="@+id/buttonSwitch"
+        android:text="+"
+        android:textSize="40dp"
+        android:layout_below="@+id/BalanceView"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true" />
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/date"
+        android:textSize="30dp"
+        android:id="@+id/editDate"
+        android:layout_below="@+id/editSum"
+        android:layout_centerHorizontal="true"
+        android:onClick="editDate_Click"/>
 
     <Spinner
         android:layout_width="match_parent"
@@ -57,6 +66,7 @@
         android:layout_height="wrap_content"
         android:id="@+id/editDescription"
         android:hint="@string/description"
+        android:text=""
         android:layout_below="@+id/spinnerSubCategory"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true"
@@ -83,6 +93,7 @@
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
         android:onClick="submitButton_Click"/>
+
 
 
 

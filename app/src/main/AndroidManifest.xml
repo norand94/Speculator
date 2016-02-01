@@ -23,6 +23,7 @@
         </activity>
         <activity android:name="ru.stupnikov.application.controller.EditArticleActivity" android:label="@string/editArcticle">
         </activity>
+        <activity android:name="ru.stupnikov.application.controller.GeneralSettingsActivity" android:label="@string/general_settings"></activity>
 
 
         <!-- ATTENTION: This was auto-generated to add Google Play services to your project for

@@ -20,7 +20,8 @@
     <string name="editArcticle">Изменить артикул</string>
     <string name="addArticle">Добавить статью</string>
     <string name="deleteArticle">Удалить статью</string>
+    <string name="main_wallet">Главный кошелек</string>
 
-   
+
 
 </resources>

@@ -86,14 +86,14 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
+        Intent intent;
         switch (id) {
             case R.id.general_settings:
-                shortMessage("Выбран пунк общие настройки");
+                intent = new Intent(MainActivity.this, GeneralSettingsActivity.class);
+                startActivity(intent);
                 return true;
             case R.id.pouchs_settings:
-                // mValutaView.append("\n Выбран пункт \"Настройки кошельков\"");
-                Intent intent = new Intent(MainActivity.this, EditWalletActivity.class);
+                intent = new Intent(MainActivity.this, EditWalletActivity.class);
                 startActivity(intent);
                 return true;
 
@@ -105,12 +105,12 @@ public class MainActivity extends AppCompatActivity {
                }
                 return true;
             case R.id.controlBudgetActivityIntent:
-                Intent intentBudget = new Intent(MainActivity.this, ContolBudgetActivity.class);
-                startActivity(intentBudget);
+                intent = new Intent(MainActivity.this, ContolBudgetActivity.class);
+                startActivity(intent);
                 return  true;
             case R.id.editArcticleMain:
-                Intent intentArticle = new Intent(MainActivity.this, EditArticleActivity.class);
-                startActivity(intentArticle);
+                intent = new Intent(MainActivity.this, EditArticleActivity.class);
+                startActivity(intent);
                 return true;
 
             default:

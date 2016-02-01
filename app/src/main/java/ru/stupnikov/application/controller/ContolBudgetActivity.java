@@ -1,10 +1,12 @@
 package ru.stupnikov.application.controller;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
@@ -30,13 +32,14 @@ public class ContolBudgetActivity extends AppCompatActivity {
 
     private TextView mBalanceText;
     private EditText mEditFixing;
-    private EditText mEditDate;
+    private TextView mEditDate;
     private Spinner mSpinnerCategory;
     private Spinner mSpinnerSubCategory;
     private EditText mEditDescription;
     private ListView mListVievFixings;
+    private Button mButtonSwitch;
 
-    ArrayList<String> listCategory = new ArrayList<String>();
+ //   ArrayList<String> listCategory = new ArrayList<String>();
     ArrayList<Article> listArticles = new ArrayList<Article>();
     ArrayList<Wallet> listWallets;
     Wallet selectedWallet;
@@ -48,14 +51,18 @@ public class ContolBudgetActivity extends AppCompatActivity {
 
         mBalanceText = (TextView) findViewById(R.id.BalanceView);
         mEditFixing = (EditText) findViewById(R.id.editSum);
-        mEditDate = (EditText) findViewById(R.id.editDate);
+        mEditDate = (TextView) findViewById(R.id.editDate);
         mSpinnerCategory = (Spinner) findViewById(R.id.spinnerCategory);
         mSpinnerSubCategory = (Spinner) findViewById(R.id.spinnerSubCategory);
         mEditDescription = (EditText) findViewById(R.id.editDescription);
         mListVievFixings = (ListView) findViewById(R.id.listVievFixings);
+        mButtonSwitch = (Button) findViewById(R.id.buttonSwitch);
 
         loadArticles();
-        loadWallet();
+        loadWallets();
+        mSpinnerSubCategory.setSelection(0);
+        mSpinnerCategory.setSelection(0);
+        updateListViewFixing();
 
         mSpinnerCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
@@ -75,16 +82,27 @@ public class ContolBudgetActivity extends AppCompatActivity {
 
     public void submitButton_Click(View view) {
         addFixing();
+        updateBalanceView();
         saveWallet();
+        updateListViewFixing();
     }
 
     private void addFixing (){
-        Fixing fixing = new Fixing(new Date(),
+
+    /*    Fixing fixing = new Fixing(new Date(),
+               Double.valueOf( Double.valueOf( mEditFixing.getText().toString())),
+               "",
+               "",
+               "");*/
+          Fixing fixing = new Fixing(new Date(), mButtonSwitch.getText().toString().equals("+"),
                Double.valueOf( mEditFixing.getText().toString()),
                 mEditDescription.getText().toString(),
                 mSpinnerCategory.getSelectedItem().toString(),
                 mSpinnerSubCategory.getSelectedItem().toString());
-        selectedWallet.value += fixing.value;
+
+        if(mButtonSwitch.getText().toString().equals("-"))
+        selectedWallet.value -= fixing.value;
+        else selectedWallet.value += fixing.value;
         selectedWallet.listFixings.add(fixing);
 
     }
@@ -93,6 +111,10 @@ public class ContolBudgetActivity extends AppCompatActivity {
         listWallets.remove(Wallet.searchWallet(listWallets, selectedWallet.name));
         listWallets.add(selectedWallet);
         Serialzer.writeWallets(getApplicationContext(), listWallets);
+    }
+
+    private void updateBalanceView(){
+        mBalanceText.setText(selectedWallet.name + ": " + selectedWallet.value + " " + selectedWallet.valuta);
     }
 
     private void updateSubCategories(ArrayList<String> listString){
@@ -111,10 +133,10 @@ public class ContolBudgetActivity extends AppCompatActivity {
         listArticles  = (ArrayList<Article>) Serialzer.readObject(getApplicationContext(), Serialzer.FILE_ARTICLES);
         if (listArticles == null) shortMessage("Не удалось загрузить категории");
         else {
+            ArrayAdapter<String> adapterSpinnerCategory = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
             for (Article a: listArticles){
-               listCategory.add(a.category);
+               adapterSpinnerCategory.add(a.category);
             }
-            ArrayAdapter<String> adapterSpinnerCategory = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item, listCategory);
             adapterSpinnerCategory.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
             mSpinnerCategory.setAdapter(adapterSpinnerCategory);
         }
@@ -122,19 +144,43 @@ public class ContolBudgetActivity extends AppCompatActivity {
 
 
 
-    private void loadWallet(){
+    private void loadWallets(){
         listWallets = Serialzer.readWallets(getApplicationContext());
         if (listWallets == null) mBalanceText.setText("Неудачная загрузка баланса");
             else {
                 selectedWallet = Wallet.searchWallet
-                        (listWallets, new Settings(getApplicationContext()).loadParametrString(Settings.DEFAULT_WALLET));
+                        (listWallets, Settings.loadParametrString(getApplicationContext(), Settings.DEFAULT_WALLET));
                 if (selectedWallet ==null) {
                     shortMessage("Кошелек по умолчание не выбран");
                 }else {
                     shortMessage(selectedWallet.name);
-                    mBalanceText.setText(selectedWallet.name + ": " + selectedWallet.value + " " + selectedWallet.valuta);
+                   updateBalanceView();
 
                 }
             }
     }
+
+    public void buttonSwith_Click(View view) {
+        if (mButtonSwitch.getText().toString().equals("-")){
+            mButtonSwitch.setText("+");
+        } else {
+            mButtonSwitch.setText("-");
+        }
+    }
+
+    private void updateListViewFixing(){
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
+        StringBuilder SB;
+        for (Fixing f: selectedWallet.listFixings){
+            SB = new StringBuilder();
+            SB.append("[" + f.date + "]    " +  f.category + ":" + f.subcategory + "    ->   ");
+            if (f.isProfit) SB.append("+ ");
+            else SB.append("- ");
+            SB.append(""+ f.value);
+            adapter.add(SB.toString());
+        }
+        mListVievFixings.setAdapter(adapter);
+    }
+
+
 }

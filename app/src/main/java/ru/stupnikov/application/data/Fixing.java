@@ -9,13 +9,16 @@ import java.util.Date;
 public class Fixing implements Serializable {
 
     public Date date = new Date();
+    public boolean isProfit;
     public double value = 0;
     public String description = "";
     public String category ="";
     public String subcategory ="";
 
-    public Fixing(Date date, double value, String description, String category, String subcategory){
-        this.date =date; this.value =value; this.description = description;
+    public Fixing(Date date, boolean isProfit, double value, String description, String category, String subcategory){
+        this.date =date;
+        this.isProfit = isProfit;
+        this.value =value; this.description = description;
         this.category =category;
         this.subcategory =subcategory;
     }

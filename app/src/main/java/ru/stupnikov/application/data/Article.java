@@ -9,10 +9,14 @@ import java.util.ArrayList;
 public class Article implements Serializable {
     public String category;
     public ArrayList<String> listSubCategory;
+ //   public boolean isProfit;
 
-    public Article(String category, ArrayList<String> listSubCategory ){
+    public Article(String category, ArrayList<String> listSubCategory
+                   //,boolean isProfit
+    ){
         this.category = category;
         this.listSubCategory = listSubCategory;
+      //  this.isProfit = isProfit;
     }
 
     public  boolean searh_subcategory(String subcategory){
