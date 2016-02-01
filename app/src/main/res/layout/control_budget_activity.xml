@@ -16,6 +16,7 @@
         android:layout_height="wrap_content"
         android:inputType="numberDecimal"
         android:hint="@string/sum"
+        android:text=""
         android:ems="10"
         android:id="@+id/editSum"
         android:layout_below="@+id/BalanceView"

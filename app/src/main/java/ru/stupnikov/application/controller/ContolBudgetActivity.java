@@ -92,30 +92,57 @@ public class ContolBudgetActivity extends AppCompatActivity {
     }
 
     public void submitButton_Click(View view) {
-        addFixing();
-        updateBalanceView();
-        saveWallet();
-        updateListViewFixing();
+        if (!mEditFixing.getText().toString().equals("")) {
+            try {
 
+                addFixing();
+            }  catch (NullPointerException e){
+                e.printStackTrace();
+                addFixing("");
+            }
+            updateBalanceView();
+            saveWallet();
+            updateListViewFixing();
+        } else {
+            Toast.makeText(this, "Необходимо ввести число!", Toast.LENGTH_SHORT).show();
+        }
+
+    }
+
+    private void addFixing (String subCategory){
+
+
+            Fixing fixing = new Fixing(
+                    new Date(mEditDate.getYear(), mEditDate.getMonth() + 1, mEditDate.getDayOfMonth()),
+                    mButtonSwitch.getText().toString().equals("+"),
+                    Double.valueOf(mEditFixing.getText().toString()),
+                    mEditDescription.getText().toString(),
+                    mSpinnerCategory.getSelectedItem().toString(),
+                    subCategory);
+
+            if (mButtonSwitch.getText().toString().equals("-"))
+                selectedWallet.value -= fixing.value;
+            else selectedWallet.value += fixing.value;
+            selectedWallet.listFixings.add(fixing);
     }
 
     private void addFixing (){
 
 
-          Fixing fixing = new Fixing(
-                  new Date(mEditDate.getYear(), mEditDate.getMonth()+1, mEditDate.getDayOfMonth()),
-                  mButtonSwitch.getText().toString().equals("+"),
-               Double.valueOf( mEditFixing.getText().toString()),
+        Fixing fixing = new Fixing(
+                new Date(mEditDate.getYear(), mEditDate.getMonth() + 1, mEditDate.getDayOfMonth()),
+                mButtonSwitch.getText().toString().equals("+"),
+                Double.valueOf(mEditFixing.getText().toString()),
                 mEditDescription.getText().toString(),
                 mSpinnerCategory.getSelectedItem().toString(),
                 mSpinnerSubCategory.getSelectedItem().toString());
 
-        if(mButtonSwitch.getText().toString().equals("-"))
-        selectedWallet.value -= fixing.value;
+        if (mButtonSwitch.getText().toString().equals("-"))
+            selectedWallet.value -= fixing.value;
         else selectedWallet.value += fixing.value;
         selectedWallet.listFixings.add(fixing);
-
     }
+
 
     private void saveWallet(){
         listWallets.remove(Wallet.searchWallet(listWallets, selectedWallet.name));
