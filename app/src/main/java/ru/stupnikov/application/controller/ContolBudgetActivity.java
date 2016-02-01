@@ -11,6 +11,7 @@ import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -45,23 +46,28 @@ public class ContolBudgetActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.control_budget_activity);
 
-        mBalanceText = (TextView)findViewById(R.id.BalanceView);
-        mEditFixing = (EditText)findViewById(R.id.editSum);
-        mEditDate = (EditText)findViewById(R.id.editDate);
-        mSpinnerCategory = (Spinner)findViewById(R.id.spinnerCategory);
-        mSpinnerSubCategory = (Spinner)findViewById(R.id.spinnerSubCategory);
-        mEditDescription = (EditText)findViewById(R.id.editDescription);
-        mListVievFixings = (ListView)findViewById(R.id.listVievFixings);
+        mBalanceText = (TextView) findViewById(R.id.BalanceView);
+        mEditFixing = (EditText) findViewById(R.id.editSum);
+        mEditDate = (EditText) findViewById(R.id.editDate);
+        mSpinnerCategory = (Spinner) findViewById(R.id.spinnerCategory);
+        mSpinnerSubCategory = (Spinner) findViewById(R.id.spinnerSubCategory);
+        mEditDescription = (EditText) findViewById(R.id.editDescription);
+        mListVievFixings = (ListView) findViewById(R.id.listVievFixings);
 
         loadArticles();
         loadWallet();
 
-        mSpinnerCategory.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        mSpinnerCategory.setOnItemSelectedListener(new AdapterView.OnItemSelectedListener() {
             @Override
-            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+            public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
                 String selected = mSpinnerCategory.getSelectedItem().toString();
                 Article selectedArticle = Article.searhArticle(listArticles, selected);
                 updateSubCategories(selectedArticle.listSubCategory);
+            }
+
+            @Override
+            public void onNothingSelected(AdapterView<?> parent) {
+
             }
         });
 
