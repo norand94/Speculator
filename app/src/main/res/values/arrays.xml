@@ -8,4 +8,9 @@
         <item>UAH</item>
     </string-array>
 
+    <string-array name="array_activityes">
+        <item>Главная страница</item>
+        <item>Контроль бюджета</item>
+    </string-array>
+
 </resources>

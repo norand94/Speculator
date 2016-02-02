@@ -1,8 +1,11 @@
 package ru.stupnikov.application.controller;
 
 import android.app.Dialog;
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
@@ -91,8 +94,11 @@ public class ContolBudgetActivity extends AppCompatActivity {
 
     }
 
+
+
     public void submitButton_Click(View view) {
-        if (!mEditFixing.getText().toString().equals("")) {
+        try {
+            if (!mEditFixing.getText().toString().equals("")) {
             try {
 
                 addFixing();
@@ -100,13 +106,55 @@ public class ContolBudgetActivity extends AppCompatActivity {
                 e.printStackTrace();
                 addFixing("");
             }
-            updateBalanceView();
-            saveWallet();
-            updateListViewFixing();
-        } else {
-            Toast.makeText(this, "Необходимо ввести число!", Toast.LENGTH_SHORT).show();
-        }
+                updateBalanceView();
+                saveWallet();
+                updateListViewFixing();
 
+            } else {
+            Toast.makeText(this, "Необходимо ввести число!", Toast.LENGTH_SHORT).show();
+            }
+        } catch (NullPointerException e){
+            e.printStackTrace();
+            shortMessage("Не созданы кошельки и/или статьи");
+        }
+    }
+
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_main, menu);
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        int id = item.getItemId();
+
+        switch (id) {
+            case R.id.general_settings:
+                startActivity(new Intent(this, GeneralSettingsActivity.class));
+                return true;
+            case R.id.pouchs_settings:
+                startActivity(new Intent(this, EditWalletActivity.class));
+                return true;
+
+            case R.id.repair_saving:
+                if (Serialzer.createAllFiles(getApplicationContext())){
+                    shortMessage("все файлы очищены и создано заново");
+                } else {
+                    shortMessage("неудачное очищение");
+                }
+                return true;
+            case R.id.controlBudgetActivityIntent:
+                startActivity(new Intent(this, ContolBudgetActivity.class));
+                return  true;
+            case R.id.editArcticleMain:
+                startActivity(new Intent(this, EditArticleActivity.class));
+                return true;
+
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     private void addFixing (String subCategory){
@@ -183,16 +231,17 @@ public class ContolBudgetActivity extends AppCompatActivity {
 
     private void loadWallets(){
         listWallets = Serialzer.readWallets(getApplicationContext());
-        if (listWallets == null) mBalanceText.setText("Неудачная загрузка баланса");
+        if (listWallets == null) mBalanceText.setText(getResources().getString(R.string.Not_selected_wallet));
             else {
                 selectedWallet = Wallet.searchWallet
                         (listWallets, Settings.loadParametrString(getApplicationContext(), Settings.DEFAULT_WALLET));
                 if (selectedWallet ==null) {
-                    shortMessage("Кошелек по умолчание не выбран");
+                    shortMessage("Кошелек по умолчанию не выбран. Автоустановка...");
+                    selectedWallet = listWallets.get(0);
+                    Settings.saveParameter(getApplicationContext(), Settings.DEFAULT_WALLET, selectedWallet.name);
+                    updateBalanceView();
                 }else {
-                    shortMessage(selectedWallet.name);
                    updateBalanceView();
-
                 }
             }
     }
@@ -208,17 +257,23 @@ public class ContolBudgetActivity extends AppCompatActivity {
     private void updateListViewFixing(){
         ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
         StringBuilder SB;
-        for (Fixing f: selectedWallet.listFixings){
-            SB = new StringBuilder();
-            SB.append(  printDate(f.date)+"   "
-                    +  f.category + ":" + f.subcategory + "    ->   ");
-            if (f.isProfit) SB.append("+ ");
-            else SB.append("- ");
-            SB.append(""+ f.value);
-            adapter.add(SB.toString());
-        }
+        try {
+            for (Fixing f : selectedWallet.listFixings) {
+                SB = new StringBuilder();
+                SB.append(printDate(f.date) + "   "
+                        + f.category + ":" + f.subcategory + "    ->   ");
+                if (f.isProfit) SB.append("+ ");
+                else SB.append("- ");
+                SB.append("" + f.value);
+                adapter.add(SB.toString());
+            }
 
-        mListVievFixings.setAdapter(adapter);
+            mListVievFixings.setAdapter(adapter);
+        } catch (NullPointerException e){
+            e.printStackTrace();
+            adapter.add("Не удалось загрузить фиксации для кошелька");
+            mListVievFixings.setAdapter(adapter);
+        }
     }
 
     public static String printDate(Date date){

@@ -88,6 +88,10 @@ public class Serialzer  {
         } catch (IOException e){
             e.printStackTrace();
             return false;
+        } catch (NullPointerException e){
+            e.printStackTrace();
+            createAllFiles(context);
+            return false;
         }
     }
 
@@ -102,6 +106,9 @@ public class Serialzer  {
             e.printStackTrace();
             return null;
         } catch (ClassNotFoundException e){
+            e.printStackTrace();
+            return null;
+        } catch (NullPointerException e){
             e.printStackTrace();
             return null;
         }
@@ -119,6 +126,10 @@ public class Serialzer  {
         } catch (IOException e){
             e.printStackTrace();
             return false;
+        } catch (NullPointerException e){
+            e.printStackTrace();
+            createFileWallets(context);
+            return false;
         }
     }
 
@@ -135,6 +146,9 @@ public class Serialzer  {
         } catch (ClassNotFoundException e2){
             e2.printStackTrace();
             return  null;
+        } catch (NullPointerException e){
+            e.printStackTrace();
+            return null;
         }
     }
 

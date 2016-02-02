@@ -27,8 +27,7 @@ public class EditWalletActivity extends AppCompatActivity {
     private Spinner mSpinnerConvertableValuta;
     private TextView mListConvertableValuta;
 
-    private TextView mListPouchs;
-   // private ListView mListPouchs;
+    private TextView mListWallets;
 
     private Button mAddPouchButton;
 
@@ -45,11 +44,12 @@ public class EditWalletActivity extends AppCompatActivity {
         mSpinnerValuta = (Spinner)findViewById(R.id.spinnerValuta);
         mSpinnerConvertableValuta = (Spinner)findViewById(R.id.spinnerConvertableValuta);
         mListConvertableValuta = (TextView)findViewById(R.id.textConvertableValuta);
-        mListPouchs = (TextView)findViewById(R.id.textPouchs);
-       // mListPouchs = (ListView)findViewById(R.id.listWallets);
+        mListWallets = (TextView)findViewById(R.id.textPouchs);
+
         listWallets = new ArrayList<Wallet>();
 
-        if(loadPouchs()) updateListPouchs();
+        if(loadWallets()) updateListWallets();
+        mSpinnerValuta.setSelection(2);
 
 
      /*
@@ -85,25 +85,18 @@ public class EditWalletActivity extends AppCompatActivity {
             mListConvertableValuta.append(str + ",  ");
         }
     }
-    private void  updateListPouchs(){
+    private void updateListWallets(){
 
-        mListPouchs.setText("");
+        mListWallets.setText("");
         for (Wallet p: listWallets){
-            mListPouchs.append(""+p.name + " -  " + p.value + " " + p.valuta +"\n");
+            mListWallets.append("" + p.name + " -  " + p.value + " " + p.valuta + "\n");
             for (String str : p.listConvertibleValuta){
-                mListPouchs.append(str + ", ");
+                mListWallets.append(str + ", ");
             }
-            mListPouchs.append("\n");
+            mListWallets.append("\n");
         }
 
-   /*     ArrayList<String> listPouchsNames = new ArrayList<String>();
-        for (Wallet p: listWallets){
-            listPouchsNames.add(p.name);
 
-        }
-
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, 0, listPouchsNames);
-        mListPouchs.setAdapter(adapter);*/
 
     }
     public void addPouchButton_Click(View view) {
@@ -119,7 +112,7 @@ public class EditWalletActivity extends AppCompatActivity {
             ));
 
             if (savePouchs()) {
-                updateListPouchs();
+                updateListWallets();
 
             }
       //  } else  longMessage("Поля обязательно должны быть заполнены для добавления кошелька!");
@@ -135,17 +128,19 @@ public class EditWalletActivity extends AppCompatActivity {
     private void longMessage(String text){
         Toast.makeText(getApplicationContext(),text,Toast.LENGTH_LONG).show();
     }
+
     private void clearAll(){
          mEditName.setText("");
         mEditSum.setText("0");
         mListConvertableValuta.setText("");
     }
 
-    private boolean loadPouchs(){
+    private boolean loadWallets(){
 
         listWallets =  Serialzer.readWallets(getApplicationContext());
         if(listWallets ==null){
-            shortMessage("При чтении произошла ошибка");
+            shortMessage("При чтении произошла ошибка!");
+            //Serialzer.createFileWallets(getApplicationContext());
             return false;
         } else {
             shortMessage("Успешно считано");
@@ -176,7 +171,7 @@ public class EditWalletActivity extends AppCompatActivity {
             if (selected!=null) {
                 listWallets.remove(selected);
                 savePouchs();
-                updateListPouchs();
+                updateListWallets();
                 clearAll();
             }
         }

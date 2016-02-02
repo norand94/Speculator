@@ -2,6 +2,7 @@ package ru.stupnikov.application.controller;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.net.ConnectivityManager;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -35,6 +36,7 @@ import ru.stupnikov.application.data.Valuta;
 import ru.stupnikov.application.data.Wallet;
 import ru.stupnikov.application.processor.Serialzer;
 import ru.stupnikov.application.processor.Converter;
+import ru.stupnikov.application.processor.Settings;
 import ru.stupnikov.application.speculator.R;
 
 
@@ -58,23 +60,41 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+        preCreateMethod();
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
         mListViewValuta = (ListView)findViewById(R.id.valutaListViev);
         mDateText = (TextView)findViewById(R.id.dateTextView);
         mListViewWallets = (ListView)findViewById(R.id.walletsListView);
 
         mDateText.setText( new Date().toString());
         listValuta = new ArrayList<Valuta>();
-        listValuta.add(new Valuta("RUB",1));
+        listValuta.add(new Valuta("RUB", 1));
 
         downloadValuta();
         loadWallets();
 
+     /*   mListViewWallets.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+              //  preCreateMethod();
+            }
+        });*/
 
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
         client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+    }
+
+    private void preCreateMethod(){
+        String [] arrayActivity = getResources().getStringArray(R.array.array_activityes);
+        String load = Settings.loadParametrString(getApplicationContext(), Settings.DEFAULT_ACTIVITY);
+        if(load != null)
+        if(load.equals(arrayActivity[1])){
+            startActivity(new Intent(MainActivity.this, ContolBudgetActivity.class));
+        }
     }
 
     @Override
@@ -86,31 +106,25 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-        Intent intent;
+
         switch (id) {
             case R.id.general_settings:
-                intent = new Intent(MainActivity.this, GeneralSettingsActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(MainActivity.this, GeneralSettingsActivity.class));
                 return true;
             case R.id.pouchs_settings:
-                intent = new Intent(MainActivity.this, EditWalletActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(MainActivity.this, EditWalletActivity.class));
                 return true;
 
             case R.id.repair_saving:
-               if (Serialzer.createAllFiles(getApplicationContext())){
+                    createAllFiles();
                    shortMessage("все файлы очищены и создано заново");
-               } else {
-                   shortMessage("неудачное очищение");
-               }
                 return true;
+
             case R.id.controlBudgetActivityIntent:
-                intent = new Intent(MainActivity.this, ContolBudgetActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(MainActivity.this, ContolBudgetActivity.class));
                 return  true;
             case R.id.editArcticleMain:
-                intent = new Intent(MainActivity.this, EditArticleActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(MainActivity.this, EditArticleActivity.class));
                 return true;
 
             default:
@@ -120,27 +134,15 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    private void createAllFiles(){
+        Serialzer.createAllFiles(getApplicationContext());
+        Settings.saveParameter(getApplicationContext(), Settings.DEFAULT_ACTIVITY, "default");
+    }
+
     private void shortMessage(String text) {
         Toast.makeText(getApplicationContext(),
                 text,
                 Toast.LENGTH_SHORT).show();
-    }
-
-    public boolean isInternetAvailable() {
-        try {
-
-            InetAddress ipAddr = InetAddress.getByName("google.com"); //You can replace it with your name
-
-            if (ipAddr.equals("")) {
-                return false;
-            } else {
-                return true;
-            }
-
-        } catch (Exception e) {
-            return false;
-        }
-
     }
 
 

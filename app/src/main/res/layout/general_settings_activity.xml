@@ -8,12 +8,44 @@
         android:text="@string/main_wallet"
         android:id="@+id/textMainWallet"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true"
+        android:layout_alignParentLeft="true"
          />
 
     <Spinner
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/spinnerMainWallet"
-        android:layout_below="@id/textMainWallet"/>
+        android:layout_alignParentTop="true"
+        android:layout_toRightOf="@+id/textMainWallet"
+        android:layout_toEndOf="@+id/textMainWallet" />
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/spinnerMainWallet"
+        android:text="@string/default_activity"
+        android:id="@+id/textDefaultActivity"/>
+
+    <Spinner
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerDefaultActivity"
+        android:layout_below="@+id/spinnerMainWallet"
+        android:layout_toRightOf="@+id/textDefaultActivity"
+        android:entries="@array/array_activityes"
+        />
+
+    <Button
+        style="@style/buttonStyle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/save"
+        android:id="@+id/saveButton"
+        android:layout_alignParentBottom="true"
+        android:layout_alignRight="@+id/spinnerMainWallet"
+        android:layout_alignEnd="@+id/spinnerMainWallet"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+        android:onClick="saveButton_Click"/>
+
+
 </RelativeLayout>

@@ -39,7 +39,7 @@ public class EditArticleActivity extends AppCompatActivity {
     private void loadArticles(){
         listArticles = (ArrayList<Article>) Serialzer.readObject(getApplicationContext(), Serialzer.FILE_ARTICLES);
         if (listArticles == null){
-            shortMessage("Неудачная загрузка артиклей");
+           // shortMessage("Неудачная загрузка артиклей");
             listArticles = new ArrayList<Article>();
         }
         updateArticlesViev();

@@ -10,6 +10,7 @@ import android.content.SharedPreferences;
 public class Settings {
     public static final String FILE_GENERAL_SETTINGS = "file_general_settings";
     public static final String DEFAULT_WALLET = "default_wallet";
+    public static final String DEFAULT_ACTIVITY = "default_activity";
 
 /*    private SharedPreferences.Editor editor;
     private SharedPreferences SP;*/
@@ -28,29 +29,40 @@ public class Settings {
     }
 
 
-    public static boolean saveParameter(Context context, String parametr, String value){
+    public static void saveParameter(Context context, String parametr, String value){
         SharedPreferences.Editor editor = getEditor(context);
         editor.putString(parametr, value);
         editor.apply();
-        return true;
-    }
-    public static String loadParametrString(Context context, String parametr){
-        SharedPreferences SP =  getSharedPreferences(context);
-            if (SP.contains(parametr))
-            return SP.getString(parametr, "null");
-            else return null;
+
     }
 
-    public static boolean saveParametr (Context context, String parametr, int value){
+    public static String loadParametrString(Context context, String parametr){
+        try {
+            SharedPreferences SP = getSharedPreferences(context);
+            if (SP.contains(parametr))
+                return SP.getString(parametr, "null");
+            else return null;
+        } catch (NullPointerException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public static void saveParametr (Context context, String parametr, int value){
         SharedPreferences.Editor editor = getEditor(context);
         editor.putInt(parametr, value);
         editor.apply();
-        return true;
+
     }
 
     public static int loadParemetrInt (Context context, String parametr){
-        SharedPreferences SP = getSharedPreferences(context);
-        if (SP.contains(parametr)) return SP.getInt(parametr, -1);
-        else return -1;
+        try {
+            SharedPreferences SP = getSharedPreferences(context);
+            if (SP.contains(parametr)) return SP.getInt(parametr, -1);
+            else return -1;
+        } catch (NullPointerException e){
+            e.printStackTrace();
+            return -1;
+        }
     }
 }
