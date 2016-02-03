@@ -21,7 +21,8 @@
         android:textColor="@color/black"
         android:textStyle="bold"
         android:layout_alignParentTop="true"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerHorizontal="true"
+        />
 
     <ListView
         android:layout_width="wrap_content"
@@ -29,6 +30,7 @@
         android:layout_below="@+id/dateTextView"
         android:id="@+id/walletsListView"
         android:layout_above="@+id/centerSeparator"
+
         />
 
 

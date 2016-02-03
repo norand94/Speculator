@@ -35,6 +35,7 @@ import java.util.regex.Pattern;
 
 import ru.stupnikov.application.data.Valuta;
 import ru.stupnikov.application.data.Wallet;
+import ru.stupnikov.application.fragment.MaintFragmentActivity;
 import ru.stupnikov.application.processor.Serialzer;
 import ru.stupnikov.application.processor.Converter;
 import ru.stupnikov.application.processor.Settings;
@@ -151,9 +152,9 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    //TODO: это для тестирования новых функций
     public void dateTextView_Click(View view) {
-        downloadValuta();
-
+        startActivity(new Intent(this, MaintFragmentActivity.class));
     }
 
     private void downloadValuta(){
