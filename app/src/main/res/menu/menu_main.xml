@@ -12,11 +12,7 @@
         android:orderInCategory="100"
         android:title="@string/pouch_settings"
         />
-    <item
-        android:id="@+id/repair_saving"
-        android:orderInCategory="100"
-        android:title="Очистить сохранения"
-        />
+
     <item
         android:id="@+id/editArcticleMain"
         android:orderInCategory="100"

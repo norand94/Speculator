@@ -33,18 +33,24 @@
         android:layout_toRightOf="@+id/textDefaultActivity"
         android:entries="@array/array_activityes"
         />
+    <Button
+        style="@style/buttonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/clearButton"
+        android:layout_below="@+id/spinnerDefaultActivity"
+        android:text="@string/clear_all_saves"
+        android:onClick="clearButton_Click"
+        />
 
     <Button
         style="@style/buttonStyle"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="@string/save"
         android:id="@+id/saveButton"
         android:layout_alignParentBottom="true"
-        android:layout_alignRight="@+id/spinnerMainWallet"
-        android:layout_alignEnd="@+id/spinnerMainWallet"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentStart="true"
+
         android:onClick="saveButton_Click"/>
 
 

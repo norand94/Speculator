@@ -15,7 +15,6 @@ import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 
@@ -136,14 +135,6 @@ public class ContolBudgetActivity extends AppCompatActivity {
                 return true;
             case R.id.pouchs_settings:
                 startActivity(new Intent(this, EditWalletActivity.class));
-                return true;
-
-            case R.id.repair_saving:
-                if (Serialzer.createAllFiles(getApplicationContext())){
-                    shortMessage("все файлы очищены и создано заново");
-                } else {
-                    shortMessage("неудачное очищение");
-                }
                 return true;
             case R.id.controlBudgetActivityIntent:
                 startActivity(new Intent(this, ContolBudgetActivity.class));

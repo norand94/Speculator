@@ -8,6 +8,7 @@ import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -46,17 +47,19 @@ public class MainActivity extends AppCompatActivity {
     private TextView mDateText;
     private ListView mListViewValuta;
     private ListView mListViewWallets;
-   // private MotionEvent motionEvent;
     ArrayList<Valuta> listValuta;
-    ArrayList<String> listTextValuta = new ArrayList<String>();
-    ArrayList<String> listTextWallet = new ArrayList<String>();
+
+    // ArrayAdapter<String> adapterListValuta = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
+   // ArrayAdapter<String> adapterListWallet = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
+  //  ArrayList<String> listTextValuta = new ArrayList<String>();
+   // ArrayList<String> listTextWallet = new ArrayList<String>();
 
 
     /**
      * ATTENTION: This was auto-generated to implement the App Indexing API.
      * See https://g.co/AppIndexing/AndroidStudio for more information.
      */
-    private GoogleApiClient client;
+/*    private GoogleApiClient client;*/
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,19 +77,13 @@ public class MainActivity extends AppCompatActivity {
 
         downloadValuta();
         loadWallets();
-
-     /*   mListViewWallets.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-              //  preCreateMethod();
-            }
-        });*/
-
+/*
         // ATTENTION: This was auto-generated to implement the App Indexing API.
         // See https://g.co/AppIndexing/AndroidStudio for more information.
-        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();
+        client = new GoogleApiClient.Builder(this).addApi(AppIndex.API).build();*/
     }
+    
+
 
     private void preCreateMethod(){
         String [] arrayActivity = getResources().getStringArray(R.array.array_activityes);
@@ -95,6 +92,11 @@ public class MainActivity extends AppCompatActivity {
         if(load.equals(arrayActivity[1])){
             startActivity(new Intent(MainActivity.this, ContolBudgetActivity.class));
         }
+    }
+
+    protected void onStart(){
+        super.onStart();
+        loadWallets();
     }
 
     @Override
@@ -113,11 +115,6 @@ public class MainActivity extends AppCompatActivity {
                 return true;
             case R.id.pouchs_settings:
                 startActivity(new Intent(MainActivity.this, EditWalletActivity.class));
-                return true;
-
-            case R.id.repair_saving:
-                    createAllFiles();
-                   shortMessage("все файлы очищены и создано заново");
                 return true;
 
             case R.id.controlBudgetActivityIntent:
@@ -181,19 +178,46 @@ public class MainActivity extends AppCompatActivity {
         AS.execute();
     }
 
+
     private void  updateValutaListView(){
-        mListViewValuta.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listTextValuta));
+
+        ArrayAdapter<String> adapterListValuta = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
+        for (Valuta v: listValuta){
+            adapterListValuta.add(v.name + "  " + v.valueRUB);
+        }
+        mListViewValuta.setAdapter(adapterListValuta);
     }
 
-    private  void updateWalletListView(){
-       // String [] test = new String[]{"1", "2", "3"};
-        mListViewWallets.setAdapter(new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, listTextWallet));
+    private  void updateWalletListView(ArrayList<Wallet> listWallets){
+
+        ArrayAdapter<String> adapterListWallet = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
+        StringBuilder SB = new StringBuilder();
+        if (listWallets != null) {
+            for (Wallet p : listWallets) {
+                SB.append("\n" + p.name + "   " + p.value + " " + p.valuta + "\n");
+                for (String str : p.listConvertibleValuta) {
+
+
+                    double result = Converter.convertToValuta(listValuta, p.valuta, p.value, str);
+                    if(result!=-1) SB.append(str + " -  " + round(result,3) + "\n");
+                    else  SB.append(str + "\n");
+
+                }
+                //  SB.append("\n");
+                adapterListWallet.add(SB.toString());
+                SB = new StringBuilder();
+            }
+
+        } else shortMessage("\n Произошла ошибка во время чтения");
+
+        mListViewWallets.setAdapter(adapterListWallet);
     }
 
 
 
 
 
+/*
 
     //Google API (???)
     @Override
@@ -235,10 +259,16 @@ public class MainActivity extends AppCompatActivity {
         AppIndex.AppIndexApi.end(client, viewAction);
         client.disconnect();
     }
+*/
+
+
+
+
 
     public double round(double value, int scale) {
         return Math.round(value * Math.pow(10, scale)) / Math.pow(10, scale);
     }
+
 
     class AsyncSerialize extends AsyncTask<Void, Void, Void> {
 
@@ -257,25 +287,7 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            StringBuilder SB = new StringBuilder();
-            if (listWallets != null) {
-                for (Wallet p : listWallets) {
-                    SB.append("\n" + p.name + "   " + p.value + " " + p.valuta + "\n");
-                    for (String str : p.listConvertibleValuta) {
-
-
-                        double result = Converter.convertToValuta(listValuta, p.valuta, p.value, str);
-                        if(result!=-1) SB.append(str + " -  " + round(result,3) + "\n");
-                        else  SB.append(str + "\n");
-
-                    }
-                  //  SB.append("\n");
-                    listTextWallet.add(SB.toString());
-                    SB = new StringBuilder();
-                }
-
-            } else shortMessage("\n Произошла ошибка во время чтения");
-            updateWalletListView();
+            updateWalletListView(listWallets);
         }
     }
 
@@ -349,9 +361,6 @@ public class MainActivity extends AppCompatActivity {
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
-            for (Valuta v: listValuta){
-                listTextValuta.add(v.name + "  " + v.valueRUB);
-            }
             updateValutaListView();
         }
     }

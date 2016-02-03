@@ -24,10 +24,17 @@
     <string name="main_wallet">Главный кошелек</string>
     <string name="default_activity">Страница по умолчанию</string>
     <string name="save">Сохранить</string>
+    <string name="clear_all_saves">Очистить все сохранения</string>
 
     <string name="main_activity">Главная страница</string>
     <string name="budget_control_activity">Страница контроля бюджета</string>
 
+    <!-- AllertDialog -->
+    <string name="Delete_all_files_preserving_and_recreate_them">Удалить все сохранения и заново создать их пустыми?
+        Это приведет к потере всех записанных данных</string>
+    <string name="yes">Да</string>
+    <string name="no">Нет</string>
+    
     <!-- Messages -->
 
 

@@ -1,5 +1,7 @@
 package ru.stupnikov.application.controller;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -20,6 +22,7 @@ import ru.stupnikov.application.speculator.R;
  */
 public class GeneralSettingsActivity extends AppCompatActivity {
 
+
     private Spinner mSpinnerMainWallet;
     private Spinner mSpinnerDefaultActivity;
     ArrayList<Wallet> listWallets = new ArrayList<Wallet>();
@@ -31,18 +34,11 @@ public class GeneralSettingsActivity extends AppCompatActivity {
         mSpinnerMainWallet = (Spinner)findViewById(R.id.spinnerMainWallet);
         mSpinnerDefaultActivity = (Spinner)findViewById(R.id.spinnerDefaultActivity);
 
-
         loadWallets();
         loadDefaultWalletSettings();
 
     }
 
-/*    private void adaptSpinnerDefaultActivity(){
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_spinner_item);
-        adapter.add(getString(R.string.main_activity));
-        adapter.add(getString(R.string.budget_control_activity));
-        mSpinnerDefaultActivity.setAdapter(adapter);
-    }*/
 
     private void saveDefaultWallet(){
         try {
@@ -93,4 +89,43 @@ public class GeneralSettingsActivity extends AppCompatActivity {
     }
 
 
+    private void createAllFiles(){
+        Serialzer.createAllFiles(getApplicationContext());
+        Settings.saveParameter(getApplicationContext(), Settings.DEFAULT_ACTIVITY, "default");
+    }
+
+    public void clearButton_Click(View view) {
+        try {
+
+            AlertDialog.Builder builder = new AlertDialog.Builder(GeneralSettingsActivity.this);
+            builder.setTitle(R.string.clear_all_saves)
+                    .setMessage(R.string.Delete_all_files_preserving_and_recreate_them)
+                    .setCancelable(true)
+                    .setPositiveButton(R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            createAllFiles();
+                            shortMessage("Все файлы удалены и созданы заново");
+                            dialog.cancel();
+                        }
+                    })
+                    .setNegativeButton(R.string.no,
+                            new DialogInterface.OnClickListener() {
+                                public void onClick(DialogInterface dialog, int id) {
+                                    dialog.cancel();
+                                }
+                            });
+
+            AlertDialog alert = builder.create();
+            alert.show();
+
+        } catch (IllegalStateException e){
+            // Брошенный, когда действие предпринимается в тот момент, когда виртуальная машина не находится в правильном состоянии.
+            e.printStackTrace();
+            shortMessage("Неправильное состояние VM");
+        } catch (Exception e){
+            e.printStackTrace();
+            shortMessage("Неизвестная ошибка");
+        }
+    }
 }
