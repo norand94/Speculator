@@ -16,6 +16,7 @@
         android:layout_height="wrap_content"
         android:name="ru.stupnikov.application.fragment.MainFragment2"
         android:id="@+id/fragment2"
-        android:layout_below="@+id/fragment"
-        android:layout_centerHorizontal="true" />
+        android:layout_centerVertical="true"
+        android:layout_alignLeft="@+id/fragment"
+        android:layout_alignStart="@+id/fragment" />
 </RelativeLayout>
