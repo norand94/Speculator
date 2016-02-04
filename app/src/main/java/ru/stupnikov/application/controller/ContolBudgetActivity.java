@@ -133,6 +133,9 @@ public class ContolBudgetActivity extends AppCompatActivity {
             case R.id.general_settings:
                 startActivity(new Intent(this, GeneralSettingsActivity.class));
                 return true;
+            case R.id.main_activity_intent:
+                startActivity(new Intent(this, MainActivity.class));
+                return true;
             case R.id.pouchs_settings:
                 startActivity(new Intent(this, EditWalletActivity.class));
                 return true;
