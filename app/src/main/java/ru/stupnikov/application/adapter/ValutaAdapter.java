@@ -39,26 +39,6 @@ public class ValutaAdapter extends BaseAdapter {
         valueTextView1.setText(listValutaCon.get(position).getValue1_toString());
         valueTextView2.setText(listValutaCon.get(position).getValue2_toString());
         valutaIcon.setImageResource(listValutaCon.get(position).icon);
-        /*
-        * final LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-        convertView = inflater.inflate(R.layout.test_list_item, parent, false);
-        TextView textView = (TextView) convertView.findViewById(R.id.textView);
-        textView.setText(data.get(position).text);
-        final Button button = (Button)convertView.findViewById(R.id.button);
-        button.setBackgroundColor(context.getResources().getColor(data.get(position).color));
-
-        textView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Intent intent = new Intent(context, SecondActivity.class);
-                intent.putExtra(KEY_POSITION, position + "");
-                intent.putExtra(KEY_COLOR, data.get(position).color);
-                context.startActivity(intent);
-            }
-        });
-
-        return convertView;
-        * */
 
         return convertView;
     }

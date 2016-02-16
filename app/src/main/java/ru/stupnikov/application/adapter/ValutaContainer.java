@@ -11,7 +11,10 @@ public class ValutaContainer  {
     public double valueRUB_1; // есди это рубль, то равно =1
     public double valueRUB_2;
 
+
+
 /*
+     public boolean visible;
     public Date date_value1;
     public Date date_value2;
 */
@@ -29,4 +32,6 @@ public class ValutaContainer  {
         return String.valueOf(valueRUB_2);
     }
 
+  /*  public void setVisible(boolean visible){this.visible = visible;}
+    public boolean getVisible(){return  visible; }*/
 }
