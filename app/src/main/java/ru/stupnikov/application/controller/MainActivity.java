@@ -33,6 +33,8 @@ import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import ru.stupnikov.application.adapter.ValutaAdapter;
+import ru.stupnikov.application.adapter.ValutaContainer;
 import ru.stupnikov.application.data.Valuta;
 import ru.stupnikov.application.data.Wallet;
 import ru.stupnikov.application.fragment.MaintFragmentActivity;
@@ -49,7 +51,9 @@ public class MainActivity extends AppCompatActivity {
     private TextView mDateText;
     private ListView mListViewValuta;
     private ListView mListViewWallets;
+
     ArrayList<Valuta> listValuta;
+    ArrayList<ValutaContainer> listValutaCon;
 
 
     @Override
@@ -63,6 +67,10 @@ public class MainActivity extends AppCompatActivity {
         mListViewWallets = (ListView)findViewById(R.id.walletsListView);
 
         mDateText.setText( new Date().toString());
+
+        listValutaCon = new ArrayList<ValutaContainer>();
+        listValutaCon.add(new ValutaContainer("RUB", R.drawable.dollar_icon, 1, 1));
+
         listValuta = new ArrayList<Valuta>();
         listValuta.add(new Valuta("RUB", 1));
 
@@ -175,11 +183,13 @@ public class MainActivity extends AppCompatActivity {
 
     private void  updateValutaListView(){
 
-        ArrayAdapter<String> adapterListValuta = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
+        mListViewValuta.setAdapter(new ValutaAdapter(this, listValutaCon));
+
+      /*  ArrayAdapter<String> adapterListValuta = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
         for (Valuta v: listValuta){
             adapterListValuta.add(v.name + "  " + v.valueRUB);
         }
-        mListViewValuta.setAdapter(adapterListValuta);
+        mListViewValuta.setAdapter(adapterListValuta);*/
     }
 
     private  void updateWalletListView(ArrayList<Wallet> listWallets){
@@ -239,6 +249,7 @@ public class MainActivity extends AppCompatActivity {
 
     class AsyncParse extends AsyncTask<Void, Void, Void> {
 
+       // ArrayList<ValutaContainer> listValutaCon;
 
         StringBuilder SB = new StringBuilder();
 
@@ -255,7 +266,21 @@ public class MainActivity extends AppCompatActivity {
 
             if (doc != null) {
 
+                // listValutaCon = new ArrayList<ValutaContainer>();
 
+                listValutaCon.add(new ValutaContainer(
+                        "USD", R.drawable.dollar_icon,
+                        searchValuta(doc.select("td.weak").first(), Pattern.compile("&nbsp;(.......)"), 1),
+                        searchValuta(doc.select("div.w_data_wrap").first(), Pattern.compile("</i>(.......)"), 1)
+                ));
+
+                listValutaCon.add(new ValutaContainer(
+                        "EUR", R.drawable.dollar_icon,
+                        searchValuta(doc.select("td.weak").last(), Pattern.compile("&nbsp;(.......)"), 1),
+                        searchValuta(doc.body(), Pattern.compile("</i>(.......)"), 1, 6)
+                ));
+
+                // В будущем два нижних вызова удалить
                 listValuta.add(new Valuta("USD",
                         searchValuta(doc.select("td.weak").first(), Pattern.compile("&nbsp;(.......)"), 1)));
 
@@ -263,11 +288,15 @@ public class MainActivity extends AppCompatActivity {
                 listValuta.add(new Valuta("EUR",
                         searchValuta(doc.select("td.weak").last(), Pattern.compile("&nbsp;(.......)"), 1))); // 7 символов
 
+            /*
+
 
                 searchValuta(doc.select("div.w_data_wrap").first(), Pattern.compile("</i>(.......)"), 1);
                 //searchValuta(doc.select("div.w_data_wrap").first(), Pattern.compile("</i>(.......)"), 1, "Доллар США завтра: ");
 
-                searchValuta(doc.body(), Pattern.compile("</i>(.......)"), 1, 6);
+                searchValuta(doc.body(), Pattern.compile("</i>(.......)"), 1, 6);*/
+
+
               //  updated = true;
 
             }
