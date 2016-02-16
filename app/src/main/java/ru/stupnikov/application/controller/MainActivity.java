@@ -216,6 +216,7 @@ public class MainActivity extends AppCompatActivity {
             listWallets = Serialzer.readWallets(getApplicationContext());
             if (listWallets == null){
                 listWallets = new ArrayList<Wallet>();
+                Serialzer.createAllFiles(getApplicationContext());
             }
             return null;
         }

@@ -78,6 +78,14 @@ public class Serialzer  {
         return false;
     }
 
+
+/*    public static boolean allSavesIsExist (Context context){
+        if (readWallets(context) != null && readObject(context, FILE_ARTICLES) != null &&
+               readObject(context, FILE_FIXINGS) != null  ) return true;
+        else return false;
+    }
+    */
+
     public static boolean writeObject(Context context ,Object object, String file){
         try {
             FileOutputStream fileOutputStream = context.openFileOutput(file, context.MODE_PRIVATE);
