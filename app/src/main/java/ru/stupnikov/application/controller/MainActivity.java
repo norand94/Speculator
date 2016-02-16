@@ -44,7 +44,8 @@ import ru.stupnikov.application.speculator.R;
 
 public class MainActivity extends AppCompatActivity {
 
-    private boolean updated = false;
+//    private boolean updated = false;
+
     private TextView mDateText;
     private ListView mListViewValuta;
     private ListView mListViewWallets;
@@ -267,7 +268,7 @@ public class MainActivity extends AppCompatActivity {
                 //searchValuta(doc.select("div.w_data_wrap").first(), Pattern.compile("</i>(.......)"), 1, "Доллар США завтра: ");
 
                 searchValuta(doc.body(), Pattern.compile("</i>(.......)"), 1, 6);
-                updated = true;
+              //  updated = true;
 
             }
 
