@@ -160,8 +160,15 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void loadWallets(){
-        AsyncSerialize AS = new AsyncSerialize();
-        AS.execute();
+        ArrayList<Wallet> listWallets;
+        listWallets = Serialzer.readWallets(getApplicationContext());
+        if (listWallets == null){
+            Toast.makeText(this,"Первый запуск. Установлены настройки по умолчанию ", Toast.LENGTH_LONG).show();
+            listWallets = new ArrayList<Wallet>();
+            Serialzer.createAllFiles(getApplicationContext());
+        }
+        updateWalletListView(listWallets);
+
     }
 
 
@@ -206,7 +213,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-    class AsyncSerialize extends AsyncTask<Void, Void, Void> {
+/*    class AsyncSerialize extends AsyncTask<Void, Void, Void> {
 
         public ArrayList<Wallet> listWallets = null;
 
@@ -215,6 +222,7 @@ public class MainActivity extends AppCompatActivity {
 
             listWallets = Serialzer.readWallets(getApplicationContext());
             if (listWallets == null){
+                shortMessage("Первый запуск. Созданы файлы сохранений.");
                 listWallets = new ArrayList<Wallet>();
                 Serialzer.createAllFiles(getApplicationContext());
             }
@@ -226,7 +234,7 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(aVoid);
             updateWalletListView(listWallets);
         }
-    }
+    }*/
 
     class AsyncParse extends AsyncTask<Void, Void, Void> {
 
