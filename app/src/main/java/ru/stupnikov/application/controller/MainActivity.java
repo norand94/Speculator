@@ -51,6 +51,8 @@ public class MainActivity extends AppCompatActivity {
     private TextView mDateText;
     private ListView mListViewValuta;
     private ListView mListViewWallets;
+    private TextView mDateText1;
+    private TextView mDateText2;
 
     ArrayList<Valuta> listValuta;
     ArrayList<ValutaContainer> listValutaCon;
@@ -65,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
         mListViewValuta = (ListView)findViewById(R.id.valutaListViev);
         mDateText = (TextView)findViewById(R.id.dateTextView);
         mListViewWallets = (ListView)findViewById(R.id.walletsListView);
+        mDateText1 = (TextView)findViewById(R.id.dateTextView1);
+        mDateText2 = (TextView)findViewById(R.id.dateTextView2);
 
         mDateText.setText( new Date().toString());
 
@@ -251,7 +255,7 @@ public class MainActivity extends AppCompatActivity {
 
        // ArrayList<ValutaContainer> listValutaCon;
 
-        StringBuilder SB = new StringBuilder();
+      //  String date1, date2;
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -287,6 +291,15 @@ public class MainActivity extends AppCompatActivity {
 
                 listValuta.add(new Valuta("EUR",
                         searchValuta(doc.select("td.weak").last(), Pattern.compile("&nbsp;(.......)"), 1))); // 7 символов
+
+              //  date1 = searchData(doc.body(), Pattern.compile(">(.......)"), 1);
+
+             //   searchData(doc.body(), Pattern.compile(">(.......)"), 1)
+
+                /*
+
+                 */
+
 
             /*
 
@@ -333,10 +346,23 @@ public class MainActivity extends AppCompatActivity {
             return -1;
         }
 
+        // Переработать!!!
+        private String searchData (Element element, Pattern pattern, int group) {
+            StringBuilder SB = new StringBuilder();
+            Matcher matcher = pattern.matcher(element.html());
+            int i = 0;
+            while (matcher.find()){
+                SB.append(matcher.group(group) + "\n");
+            }
+
+            return SB.toString();
+        }
+
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             updateValutaListView();
+            //mDateText1.setText(date1);
         }
     }
 }
