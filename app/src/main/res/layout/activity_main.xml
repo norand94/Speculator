@@ -52,7 +52,6 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        android:text="data1"
         android:id="@+id/dateTextView1"
         android:layout_centerVertical="true"
         android:layout_centerHorizontal="true" />
@@ -60,7 +59,6 @@
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="date2"
         android:id="@+id/dateTextView2"
         android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
