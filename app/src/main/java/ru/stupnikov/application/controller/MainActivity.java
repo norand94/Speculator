@@ -24,6 +24,7 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
+import org.jsoup.select.Elements;
 
 
 import java.io.IOException;
@@ -228,34 +229,11 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
-/*    class AsyncSerialize extends AsyncTask<Void, Void, Void> {
-
-        public ArrayList<Wallet> listWallets = null;
-
-        @Override
-        protected Void doInBackground(Void... params) {
-
-            listWallets = Serialzer.readWallets(getApplicationContext());
-            if (listWallets == null){
-                shortMessage("Первый запуск. Созданы файлы сохранений.");
-                listWallets = new ArrayList<Wallet>();
-                Serialzer.createAllFiles(getApplicationContext());
-            }
-            return null;
-        }
-
-        @Override
-        protected void onPostExecute(Void aVoid) {
-            super.onPostExecute(aVoid);
-            updateWalletListView(listWallets);
-        }
-    }*/
-
     class AsyncParse extends AsyncTask<Void, Void, Void> {
 
        // ArrayList<ValutaContainer> listValutaCon;
 
-      //  String date1, date2;
+        String date1 = "sorry :(", date2;
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -292,12 +270,17 @@ public class MainActivity extends AppCompatActivity {
                 listValuta.add(new Valuta("EUR",
                         searchValuta(doc.select("td.weak").last(), Pattern.compile("&nbsp;(.......)"), 1))); // 7 символов
 
+                   date1 =   searchString(doc.body().getElementsByTag("th"), Pattern.compile(">(..........)"), 1);
+
+
+
+
               //  date1 = searchData(doc.body(), Pattern.compile(">(.......)"), 1);
 
              //   searchData(doc.body(), Pattern.compile(">(.......)"), 1)
 
                 /*
-
+                    <a href="/currency_base/daily.aspx?date_req=19.02.2016">19.02.2016</a>
                  */
 
 
@@ -347,12 +330,14 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Переработать!!!
-        private String searchData (Element element, Pattern pattern, int group) {
+        private String searchString (Elements element, Pattern pattern, int group) {
             StringBuilder SB = new StringBuilder();
             Matcher matcher = pattern.matcher(element.html());
             int i = 0;
             while (matcher.find()){
-                SB.append(matcher.group(group) + "\n");
+               // if (i==num) {
+                    SB.append(matcher.group(group) + "\n"); break;
+               // }
             }
 
             return SB.toString();
@@ -362,7 +347,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             updateValutaListView();
-            //mDateText1.setText(date1);
+            mDateText1.setText(date1);
         }
     }
 }
