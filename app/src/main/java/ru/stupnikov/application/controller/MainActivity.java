@@ -252,48 +252,28 @@ public class MainActivity extends AppCompatActivity {
 
                 listValutaCon.add(new ValutaContainer(
                         "USD", R.drawable.dollar_icon,
-                        searchValuta(doc.select("td.weak").first(), Pattern.compile("&nbsp;(.......)"), 1),
-                        searchValuta(doc.select("div.w_data_wrap").first(), Pattern.compile("</i>(.......)"), 1)
+                        searchValuta(doc.select("td.weak").first(), Pattern.compile("&nbsp;(.......)")),
+                        searchValuta(doc.select("div.w_data_wrap").first(), Pattern.compile("</i>(.......)"))
                 ));
 
                 listValutaCon.add(new ValutaContainer(
                         "EUR", R.drawable.dollar_icon,
-                        searchValuta(doc.select("td.weak").last(), Pattern.compile("&nbsp;(.......)"), 1),
-                        searchValuta(doc.body(), Pattern.compile("</i>(.......)"), 1, 6)
+                        searchValuta(doc.select("td.weak").last(), Pattern.compile("&nbsp;(.......)")),
+                        searchValuta(doc.body(), Pattern.compile("</i>(.......)"), 6)
                 ));
 
-                // В будущем два нижних вызова удалить
+                //todo: В будущем два нижних вызова удалить, перенести данные на listValutaCon
                 listValuta.add(new Valuta("USD",
-                        searchValuta(doc.select("td.weak").first(), Pattern.compile("&nbsp;(.......)"), 1)));
+                        searchValuta(doc.select("td.weak").first(), Pattern.compile("&nbsp;(.......)"))));
 
 
                 listValuta.add(new Valuta("EUR",
-                        searchValuta(doc.select("td.weak").last(), Pattern.compile("&nbsp;(.......)"), 1))); // 7 символов
+                        searchValuta(doc.select("td.weak").last(), Pattern.compile("&nbsp;(.......)")))); // 7 символов
 
-                   date1 =   searchString(doc.body().getElementsByTag("th"), Pattern.compile(">(..........)"), 1);
-
-
-
-
-              //  date1 = searchData(doc.body(), Pattern.compile(">(.......)"), 1);
-
-             //   searchData(doc.body(), Pattern.compile(">(.......)"), 1)
-
-                /*
-                    <a href="/currency_base/daily.aspx?date_req=19.02.2016">19.02.2016</a>
-                 */
+                   date1 = searchString(doc.body().getElementsByTag("th"), Pattern.compile(">(..........)"), 0);
+                   date2 = searchString(doc.body().getElementsByTag("th"), Pattern.compile(">(..........)"), 1);
 
 
-            /*
-
-
-                searchValuta(doc.select("div.w_data_wrap").first(), Pattern.compile("</i>(.......)"), 1);
-                //searchValuta(doc.select("div.w_data_wrap").first(), Pattern.compile("</i>(.......)"), 1, "Доллар США завтра: ");
-
-                searchValuta(doc.body(), Pattern.compile("</i>(.......)"), 1, 6);*/
-
-
-              //  updated = true;
 
             }
 
@@ -301,11 +281,11 @@ public class MainActivity extends AppCompatActivity {
 
         }
 
-        private double searchValuta(Element element, Pattern pattern, int group) {
+        private double searchValuta(Element element, Pattern pattern) {
             String vtext;
             Matcher matcher = pattern.matcher(element.html());
             while (matcher.find()) {
-                vtext = matcher.group(group)+"";
+                vtext = matcher.group(1)+"";
                 return round(Double.parseDouble(vtext.replaceAll(" ", "").replace(',', '.')), 4) ; // отбрасываем знаки, мешающие преобразованию
                          // округляем до 4 знаков после запятой
 
@@ -314,14 +294,13 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-        private double searchValuta(Element element, Pattern pattern, int group, int num) {
+        private double searchValuta(Element element, Pattern pattern, int num) {
             String vtext;
             Matcher matcher = pattern.matcher(element.html());
             int i = 0;
             while (matcher.find()) {
-                //  SB.append(matcher.group());
                 if (i == num) {
-                    vtext = matcher.group(group)+"";
+                    vtext = matcher.group(1)+"";
                     return Double.parseDouble(vtext.replaceAll(" ","").replace(',','.'));
                 }
                 i++;
@@ -330,14 +309,15 @@ public class MainActivity extends AppCompatActivity {
         }
 
         // Переработать!!!
-        private String searchString (Elements element, Pattern pattern, int group) {
+        private String searchString (Elements element, Pattern pattern, int num) {
             StringBuilder SB = new StringBuilder();
             Matcher matcher = pattern.matcher(element.html());
             int i = 0;
             while (matcher.find()){
-               // if (i==num) {
-                    SB.append(matcher.group(group) + "\n"); break;
-               // }
+                if (i==num) {
+                    SB.append(matcher.group(1) + "\n"); break;
+                }
+                i ++;
             }
 
             return SB.toString();
@@ -348,6 +328,7 @@ public class MainActivity extends AppCompatActivity {
             super.onPostExecute(aVoid);
             updateValutaListView();
             mDateText1.setText(date1);
+            mDateText2.setText(date2);
         }
     }
 }
