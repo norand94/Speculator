@@ -1,5 +1,90 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent" android:layout_height="match_parent">
+    android:layout_width="match_parent" android:layout_height="match_parent"
+    android:background="@drawable/fone_gradient">
 
+
+
+    <Spinner
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/spinnerWalletStatistic"
+        android:layout_alignParentTop="true" />
+
+    <Button
+        style="@style/buttonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/quikly_select_period"
+        android:id="@+id/quicklySelectPeriodButton"
+        android:layout_below="@id/spinnerWalletStatistic"/>
+
+    <DatePicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/datePickerFrom"
+        android:layout_below="@+id/quicklySelectPeriodButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true"
+
+        android:spinnersShown="false"/>
+
+    <DatePicker
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/datePickerBefore"
+        android:layout_below="@+id/quicklySelectPeriodButton"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+
+        android:spinnersShown="false"/>
+
+    <Button
+        style="@style/buttonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/list_all_income_and_expenses"
+        android:id="@+id/buttonAllIncomeAndExpenses"
+        android:layout_below="@+id/datePickerBefore"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <Button
+        style="@style/buttonStyle"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/display_by_category"
+        android:id="@+id/displayByCategoryButton"
+        android:layout_below="@+id/buttonAllIncomeAndExpenses"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/text"
+        android:id="@+id/radioButtonText"
+        android:layout_below="@+id/displayByCategoryButton"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
+
+    <RadioButton
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/timetable"
+        android:id="@+id/radioButtonTimetable"
+        android:layout_below="@+id/displayByCategoryButton"
+        android:layout_toRightOf="@+id/datePickerFrom"
+        android:layout_toEndOf="@+id/datePickerFrom" />
+
+    <ScrollView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/scrollView"
+        android:layout_below="@+id/radioButtonText"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentLeft="true"
+        android:layout_alignParentStart="true" />
 </RelativeLayout>

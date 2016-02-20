@@ -153,7 +153,8 @@ public class MainActivity extends AppCompatActivity {
 
     //TODO: это для тестирования новых функций
     public void dateTextView_Click(View view) {
-        startActivity(new Intent(this, MaintFragmentActivity.class));
+        //startActivity(new Intent(this, MaintFragmentActivity.class));
+        startActivity(new Intent(MainActivity.this, StatisticBudgetActivity.class));
     }
 
     private void downloadValuta(){

@@ -28,6 +28,14 @@
 
     <string name="main_activity">Главная страница</string>
     <string name="budget_control_activity">Страница контроля бюджета</string>
+    
+    <!-- Statistic_budget_activity -->
+    <string name="quikly_select_period">Быстро выбрать период</string>
+    <string name="list_all_income_and_expenses">Вывести все доходы и расходы</string>
+    <string name="display_by_category">Вывести по категориям</string>
+    <string name="text">Текст</string>
+    <string name="timetable">График</string>
+    <string name="statistic">Статистика</string>
 
     <!-- AllertDialog -->
     <string name="Delete_all_files_preserving_and_recreate_them">Удалить все сохранения и заново создать их пустыми?

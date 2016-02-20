@@ -23,6 +23,7 @@
         <activity android:name="ru.stupnikov.application.controller.EditArticleActivity" android:label="@string/editArcticle"></activity>
         <activity android:name="ru.stupnikov.application.controller.GeneralSettingsActivity" android:label="@string/general_settings"></activity>
         <activity android:name="ru.stupnikov.application.fragment.MaintFragmentActivity" android:label="test"></activity>
+        <activity android:name="ru.stupnikov.application.controller.StatisticBudgetActivity" android:label="@string/statistic"></activity>
 
         <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
              App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
