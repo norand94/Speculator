@@ -274,7 +274,6 @@ public class MainActivity extends AppCompatActivity {
                    date2 = searchString(doc.body().getElementsByTag("th"), Pattern.compile(">(..........)"), 1);
 
 
-
             }
 
             return null;
