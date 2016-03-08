@@ -52,21 +52,11 @@
         android:layout_alignParentStart="true"
         android:onClick="deleteArticleButton_Click"/>
 
-    <ScrollView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/scrollView2"
-        android:layout_below="@+id/addArticleButton"
-        android:layout_alignParentLeft="true"
-        android:layout_alignParentRight="true"
-        android:layout_above="@+id/deleteArticleButton"
-
-        >
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:id="@+id/articleViev"/>
-
-    </ScrollView>
+   <ListView
+       android:layout_width="wrap_content"
+       android:layout_height="wrap_content"
+       android:id="@+id/articleListView"
+       android:layout_below="@id/addArticleButton"
+       android:layout_above="@id/deleteArticleButton"/>
 
 </RelativeLayout>

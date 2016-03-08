@@ -3,12 +3,16 @@ package ru.stupnikov.application.activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
 
+import ru.stupnikov.application.adapter.ArticleAdapter;
 import ru.stupnikov.application.data.Article;
 import ru.stupnikov.application.processor.Serialzer;
 import ru.stupnikov.application.speculator.R;
@@ -20,7 +24,7 @@ public class EditArticleActivity extends AppCompatActivity {
 
     private EditText mEditCategory;
     private EditText mEditSubCategory;
-    private TextView mArticleView;
+    private ListView mArticleListView;
 
 
     ArrayList<Article> listArticles = new ArrayList<Article>();
@@ -31,9 +35,16 @@ public class EditArticleActivity extends AppCompatActivity {
         setContentView(R.layout.edit_article_activity);
         mEditCategory =(EditText)findViewById(R.id.editCategory);
         mEditSubCategory = (EditText)findViewById(R.id.editSubCategory);
-        mArticleView = (TextView)findViewById(R.id.articleViev);
+        mArticleListView = (ListView)findViewById(R.id.articleListView);
 
         loadArticles();
+
+        mArticleListView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                shortMessage("OK!");
+            }
+        });
     }
 
     private void loadArticles(){
@@ -47,7 +58,10 @@ public class EditArticleActivity extends AppCompatActivity {
     }
 
     private void updateArticlesViev()
-    {   mArticleView.setText("");
+    {
+
+        mArticleListView.setAdapter(new ArticleAdapter(this, listArticles));
+    /*mArticleView.setText("");
         for (Article article : listArticles){
             mArticleView.append(article.category);
                 mArticleView.append(":");
@@ -57,7 +71,7 @@ public class EditArticleActivity extends AppCompatActivity {
 
                 mArticleView.append("\n");
 
-        }
+        }*/
     }
 
     private boolean saveArticles(){
