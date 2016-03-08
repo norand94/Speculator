@@ -12,6 +12,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 import ru.stupnikov.application.data.Wallet;
+import ru.stupnikov.application.processor.DefaultGenerator;
 import ru.stupnikov.application.processor.Serialzer;
 import ru.stupnikov.application.processor.Settings;
 import ru.stupnikov.application.speculator.R;
@@ -89,7 +90,8 @@ public class GeneralSettingsActivity extends AppCompatActivity {
 
 
     private void createAllFiles(){
-        Serialzer.createAllFiles(getApplicationContext());
+        Serialzer.createFileFixings(getApplicationContext());
+        DefaultGenerator.generateAllDefaulParams(getApplicationContext());
         Settings.saveParameter(getApplicationContext(), Settings.DEFAULT_ACTIVITY, "default");
     }
 
@@ -104,7 +106,7 @@ public class GeneralSettingsActivity extends AppCompatActivity {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             createAllFiles();
-                            shortMessage("Все файлы удалены и созданы заново");
+                            shortMessage("Восстановлены настройки по умолчанию");
                             dialog.cancel();
                         }
                     })
