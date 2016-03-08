@@ -53,6 +53,7 @@ public class Serialzer  {
 
     }
 
+    //TODO: Это зачем, если Wallet уже содержит коллекцию Fixing ??
     public static boolean createFileFixings (Context context){
         try {
             FileOutputStream fOS = context.openFileOutput(FILE_FIXINGS, context.MODE_WORLD_READABLE);

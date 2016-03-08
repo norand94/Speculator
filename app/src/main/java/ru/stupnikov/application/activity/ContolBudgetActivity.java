@@ -1,6 +1,5 @@
-package ru.stupnikov.application.controller;
+package ru.stupnikov.application.activity;
 
-import android.app.Dialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;

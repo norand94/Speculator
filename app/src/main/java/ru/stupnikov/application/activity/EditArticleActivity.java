@@ -1,4 +1,4 @@
-package ru.stupnikov.application.controller;
+package ru.stupnikov.application.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import ru.stupnikov.application.data.Article;
 import ru.stupnikov.application.processor.Serialzer;
 import ru.stupnikov.application.speculator.R;
-import java.lang.Object;
+
 /**
  * Created by rodion on 27.01.16.
  */

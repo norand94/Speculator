@@ -1,14 +1,11 @@
-package ru.stupnikov.application.controller;
+package ru.stupnikov.application.activity;
 
 import android.content.Context;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.net.ConnectivityManager;
-import android.net.Uri;
 import android.os.AsyncTask;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.support.v7.view.ActionMode;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -17,10 +14,6 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.google.android.gms.appindexing.Action;
-import com.google.android.gms.appindexing.AppIndex;
-import com.google.android.gms.common.api.GoogleApiClient;
-
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -28,7 +21,6 @@ import org.jsoup.select.Elements;
 
 
 import java.io.IOException;
-import java.net.InetAddress;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.regex.Matcher;
@@ -38,7 +30,7 @@ import ru.stupnikov.application.adapter.ValutaAdapter;
 import ru.stupnikov.application.adapter.ValutaContainer;
 import ru.stupnikov.application.data.Valuta;
 import ru.stupnikov.application.data.Wallet;
-import ru.stupnikov.application.fragment.MaintFragmentActivity;
+import ru.stupnikov.application.processor.DefaultGenerator;
 import ru.stupnikov.application.processor.Serialzer;
 import ru.stupnikov.application.processor.Converter;
 import ru.stupnikov.application.processor.Settings;
@@ -108,7 +100,6 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         int id = item.getItemId();
-
         switch (id) {
             case R.id.general_settings:
                 startActivity(new Intent(MainActivity.this, GeneralSettingsActivity.class));
@@ -178,9 +169,10 @@ public class MainActivity extends AppCompatActivity {
         ArrayList<Wallet> listWallets;
         listWallets = Serialzer.readWallets(getApplicationContext());
         if (listWallets == null){
-            Toast.makeText(this,"Первый запуск. Установлены настройки по умолчанию ", Toast.LENGTH_LONG).show();
-            listWallets = new ArrayList<Wallet>();
-            Serialzer.createAllFiles(getApplicationContext());
+            listWallets = DefaultGenerator.getDefaultWallets(getApplicationContext());
+            if(DefaultGenerator.generateAllDefaulParams(getApplicationContext()) &&
+                    Serialzer.createFileFixings(getApplicationContext()))
+                Toast.makeText(this,"Первый запуск. Установлены настройки по умолчанию ", Toast.LENGTH_LONG).show();
         }
         updateWalletListView(listWallets);
 

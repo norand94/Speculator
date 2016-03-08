@@ -1,4 +1,4 @@
-package ru.stupnikov.application.controller;
+package ru.stupnikov.application.activity;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -111,7 +111,7 @@ public class EditWalletActivity extends AppCompatActivity {
                     new ArrayList<Fixing>()
             ));
 
-            if (savePouchs()) {
+            if (saveWallet()) {
                 updateListWallets();
 
             }
@@ -148,7 +148,7 @@ public class EditWalletActivity extends AppCompatActivity {
         }
     }
 
-    private boolean savePouchs(){
+    private boolean saveWallet(){
 
         if(Serialzer.writeWallets(getApplicationContext(), listWallets)){
             shortMessage("Успешно записно");
@@ -170,7 +170,7 @@ public class EditWalletActivity extends AppCompatActivity {
             }
             if (selected!=null) {
                 listWallets.remove(selected);
-                savePouchs();
+                saveWallet();
                 updateListWallets();
                 clearAll();
             }
