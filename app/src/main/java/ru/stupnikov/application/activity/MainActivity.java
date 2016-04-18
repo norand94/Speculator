@@ -197,7 +197,7 @@ public class MainActivity extends AppCompatActivity {
         if (listWallets != null) {
             for (Wallet p : listWallets) {
                 SB.append("\n" + p.name + "   " + p.value + " " + p.valuta + "\n");
-                for (String str : p.listConvertibleValuta) {
+                for (String str : p.listConvertableValuta) {
 
 
                     double result = Converter.convertToValuta(listValuta, p.valuta, p.value, str);

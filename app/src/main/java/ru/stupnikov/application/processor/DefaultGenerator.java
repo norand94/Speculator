@@ -48,8 +48,8 @@ public class DefaultGenerator  {
         defaultWallet.position = 0;
         defaultWallet.value = 0;
         defaultWallet.valuta = "RUB";
-        defaultWallet.listConvertibleValuta.add("USD");
-        defaultWallet.listConvertibleValuta.add("EUR");
+        defaultWallet.listConvertableValuta.add("USD");
+        defaultWallet.listConvertableValuta.add("EUR");
         return defaultWallet;
     }
 

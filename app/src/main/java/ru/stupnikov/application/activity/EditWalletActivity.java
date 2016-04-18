@@ -90,7 +90,7 @@ public class EditWalletActivity extends AppCompatActivity {
         mListWallets.setText("");
         for (Wallet p: listWallets){
             mListWallets.append("" + p.name + " -  " + p.value + " " + p.valuta + "\n");
-            for (String str : p.listConvertibleValuta){
+            for (String str : p.listConvertableValuta){
                 mListWallets.append(str + ", ");
             }
             mListWallets.append("\n");
