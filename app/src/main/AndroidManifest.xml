@@ -24,7 +24,13 @@
         <activity android:name="ru.stupnikov.application.activity.GeneralSettingsActivity" android:label="@string/general_settings"></activity>
         <activity android:name="ru.stupnikov.application.fragment.MaintFragmentActivity" android:label="test"></activity>
         <activity android:name="ru.stupnikov.application.activity.StatisticBudgetActivity" android:label="@string/statistic"></activity>
-        <activity android:name="ru.stupnikov.application.activity.TestActivity"></activity>
+        <activity android:name="ru.stupnikov.application.activity.TestActivity" android:label="testAtivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
 
         <!-- ATTENTION: This was auto-generated to add Google Play services to your project for
              App Indexing.  See https://g.co/AppIndexing/AndroidStudio for more information.
