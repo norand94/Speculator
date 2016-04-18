@@ -26,4 +26,7 @@
         android:id="@+id/controlBudgetActivityIntent"
         android:orderInCategory="100"
         android:title="Контроль бюджета" />
+    <item android:id="@+id/testActivityIntent"
+        android:orderInCategory="100"
+        android:title="testActivity" />
 </menu>

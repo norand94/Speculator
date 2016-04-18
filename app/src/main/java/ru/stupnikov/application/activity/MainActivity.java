@@ -114,7 +114,8 @@ public class MainActivity extends AppCompatActivity {
             case R.id.editArcticleMain:
                 startActivity(new Intent(MainActivity.this, EditArticleActivity.class));
                 return true;
-
+            case R.id.testActivityIntent:
+                startActivity(new Intent(MainActivity.this, TestActivity.class));
             default:
                 return super.onOptionsItemSelected(item);
         }
