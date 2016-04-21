@@ -42,7 +42,7 @@ public class TestActivity extends AppCompatActivity {
             public void onClick(View v) {
                 ArrayList<Wallet> listWallet = Serialzer.readWallets(getApplicationContext());
                 Wallet wallet = listWallet.get(Integer.valueOf(numerEditText.getText().toString()));
-                testTextView.append("\n " + wallet.name + "  записан");
+                testTextView.append("\n Записано: \n " + wallet.name );
                 wallet.addThisWalletToDB(getApplicationContext());
             }
         });
@@ -50,10 +50,14 @@ public class TestActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 ArrayList<Wallet> listWallet = new ArrayList<Wallet>();
-                testTextView.append("Считанные кошельки:");
+                testTextView.append("\n\nСчитанные кошельки:");
                 listWallet = Wallet.readWalletDB(getApplicationContext());
                 for (Wallet w: listWallet){
-                    testTextView.append("\n"+ w.name);
+                    testTextView.append("\n\n" +
+                            w.name + "\n" +
+                            w.valuta + "\n" +
+                            w.value
+                    );
                 }
             }
         });

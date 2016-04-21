@@ -17,9 +17,11 @@ public class DBmanager extends SQLiteOpenHelper  implements BaseColumns{
     public static final String WALLET_wallet_id = "wallet_id";
     public static final String WALLET_name_wallet = "name_wallet";
     public static final String WALLET_valuta = "valuta";
-    public static final String WALLET_value = "value";
+    public static final String WALLET_value = "wallet_value";
 
     public static final String TABLE_CATEGORY = "category";
+    public static final String TABLE_SUBCATEGORY = "subcategory";
+    public static final String TABLE_FIXING = "fixing";
 
 
     public DBmanager (Context context){
@@ -46,30 +48,31 @@ public class DBmanager extends SQLiteOpenHelper  implements BaseColumns{
                 "CREATE TABLE wallet (\n" +
                         "    wallet_id integer PRIMARY KEY AUTOINCREMENT,\n" +
                         "    name_wallet text NOT NULL,\n" +
-                        "    value integer NOT NULL,\n" +
-                        "    valuta text NOT NULL\n" +
+                        "    valuta text NOT NULL,\n" +
+                        "    wallet_value real NOT NULL\n" +
                         ");";
 
-    /*       final String  CREATE_TABLE_WALLET =
+/*          final String  CREATE_TABLE_WALLET =
                     "CREATE TABLE  " + TABLE_WALLET + "  (\n" +
-                            WALLET_wallet_id +  "integer PRIMARY KEY AUTOINCREMENT,\n" +
-                            WALLET_name_wallet + "  text NOT NULL,\n" +
-                            WALLET_valuta +  " text NOT NULL,\n " +
-                            WALLET_value + "  integer NOT NULL,\n" +
-                            ");";*/
+                          " " + WALLET_wallet_id +  "integer PRIMARY KEY AUTOINCREMENT,\n" +
+                          " " + WALLET_name_wallet + "  text NOT NULL,\n" +
+                          " " + WALLET_valuta +  " text NOT NULL,\n " +
+                          " " + WALLET_value + "  real NOT NULL\n" +
+                            " );";*/
+
             db.execSQL(CREATE_TABLE_WALLET);
 
             db.execSQL("CREATE TABLE " + TABLE_CATEGORY + "  (" +
                     "category_id integer primary key autoincrement, " +
                     "name text NOT NULL" +
                     ");");
-            db.execSQL("CREATE TABLE subcategory (" +
+            db.execSQL("CREATE TABLE " + TABLE_SUBCATEGORY + "  (" +
                     "subcategory integer primary key autoincrement," +
                     "name text NOT NULL," +
                     "category_id integer NOT NULL," +
                     "FOREIGN KEY (category_id)  REFERENCES category(category_id)" +
                     ");");
-            db.execSQL("CREATE TABLE fixing (" +
+            db.execSQL("CREATE TABLE " +TABLE_FIXING + " (" +
                     "fixing_id INT AUTO_INCREMENT PRIMARY KEY," +
                     "date DATE NOT NULL," +
                     "value DECIMAL(11,5) NOT NULL," +

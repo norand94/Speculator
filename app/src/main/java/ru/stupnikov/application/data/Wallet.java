@@ -68,7 +68,7 @@ public class Wallet implements Serializable {
     public void addThisWalletToDB (Context context){
         DBmanager DBhelper = new DBmanager(context);
         SQLiteDatabase db = DBhelper.getWritableDatabase();
-
+        double deb = value;
         ContentValues cv = new ContentValues();
         cv.put(DBmanager.WALLET_wallet_id, 0);
         cv.put(DBmanager.WALLET_name_wallet, name );
