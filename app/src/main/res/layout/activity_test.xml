@@ -35,5 +35,11 @@
         android:id="@+id/numerEditText"
         android:layout_above="@+id/readButton"
         android:layout_centerHorizontal="true" />
+    <Button
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_above="@+id/numerEditText"
+        android:id="@+id/sqlrequestButton"
+        android:text="SQLrequest"/>
 
 </RelativeLayout>
