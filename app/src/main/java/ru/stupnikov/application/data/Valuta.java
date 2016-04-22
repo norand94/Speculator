@@ -6,6 +6,8 @@ import java.util.Date;
 /**
  * Created by rodion on 25.01.16.
  */
+
+
 public class Valuta implements Serializable {
     public String name;
     public double valueRUB; // есди это рубль, то равно =1

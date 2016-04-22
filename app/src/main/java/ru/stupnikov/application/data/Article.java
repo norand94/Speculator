@@ -1,5 +1,7 @@
 package ru.stupnikov.application.data;
 
+import com.orm.dsl.Table;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 

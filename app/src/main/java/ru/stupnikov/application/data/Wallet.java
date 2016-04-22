@@ -5,6 +5,8 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import com.orm.dsl.Table;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 
@@ -13,6 +15,7 @@ import ru.stupnikov.application.processor.DBmanager;
 /**
  * Created by rodion on 21.01.16.
  */
+@Table
 public class Wallet implements Serializable {
 
     public String name = "default";
