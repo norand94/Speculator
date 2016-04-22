@@ -11,9 +11,12 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import ru.stupnikov.application.adapter.ArticleAdapter;
 import ru.stupnikov.application.data.Article;
+import ru.stupnikov.application.orm_classes.Category;
+import ru.stupnikov.application.orm_classes.Subcategory;
 import ru.stupnikov.application.processor.Serialzer;
 import ru.stupnikov.application.speculator.R;
 
@@ -27,7 +30,8 @@ public class EditArticleActivity extends AppCompatActivity {
     private ListView mArticleListView;
 
 
-    ArrayList<Article> listArticles = new ArrayList<Article>();
+    //ArrayList<Article> listArticles = new ArrayList<Article>();
+    List<Category> listCategory;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -48,37 +52,30 @@ public class EditArticleActivity extends AppCompatActivity {
     }
 
     private void loadArticles(){
-        listArticles = (ArrayList<Article>) Serialzer.readObject(getApplicationContext(), Serialzer.FILE_ARTICLES);
+            listCategory = Category.listAll(Category.class);
+        if (listCategory == null){
+            shortMessage("Неудачная загрузка категорий");
+           // listCategory = new ArrayList<Category>();
+        }
+   /*     listArticles = (ArrayList<Article>) Serialzer.readObject(getApplicationContext(), Serialzer.FILE_ARTICLES);
         if (listArticles == null){
            // shortMessage("Неудачная загрузка артиклей");
             listArticles = new ArrayList<Article>();
         }
-        updateArticlesViev();
+        updateArticlesViev();*/
 
     }
 
     private void updateArticlesViev()
     {
-
-        mArticleListView.setAdapter(new ArticleAdapter(this, listArticles));
-    /*mArticleView.setText("");
-        for (Article article : listArticles){
-            mArticleView.append(article.category);
-                mArticleView.append(":");
-                for (String sub : article.listSubCategory){
-                    mArticleView.append("\n-- " + sub);
-                }
-
-                mArticleView.append("\n");
-
-        }*/
+        mArticleListView.setAdapter(new ArticleAdapter(this, listCategory));
     }
 
-    private boolean saveArticles(){
+/*    private boolean saveArticles(){
         if(Serialzer.writeObject(getApplicationContext(), listArticles, Serialzer.FILE_ARTICLES)){
             return true;
         } else return false;
-    }
+    }*/
 
     private void shortMessage(String text){
         Toast.makeText (getApplicationContext(), text, Toast.LENGTH_SHORT).show();
@@ -93,42 +90,34 @@ public class EditArticleActivity extends AppCompatActivity {
         else if ( mEditCategory.getText().toString().equals("") &&  !mEditSubCategory.getText().toString().equals("")){
             shortMessage("У подкатегории должна быть главная категория!");
         }
-        else if (!mEditCategory.getText().toString().equals("") &&  mEditSubCategory.getText().toString().equals("")){
-            if (Article.searhArticle(listArticles, mEditCategory.getText().toString())==null){
-            listArticles.add(new Article(mEditCategory.getText().toString(), new ArrayList<String>()));
-            } else shortMessage("Такая категория уже существует");
-
+        else if (!mEditCategory.getText().toString().equals("") && mEditSubCategory.getText().toString().equals("")){
+            addCategory();
         }
-        else if (!mEditCategory.getText().toString().equals("") &&  !mEditSubCategory.getText().toString().equals("")){
-            Article article =  Article.searhArticle(listArticles, mEditCategory.getText().toString());
-            ArrayList<String> listSub = new ArrayList<>();
-            listSub.add(mEditSubCategory.getText().toString());
-
-            if (article == null) {
-                listArticles.add(new Article(mEditCategory.getText().toString(), listSub));
-            } else {
-                if (article.searh_subcategory(mEditSubCategory.getText().toString())){
-                    shortMessage("такая статья уже существует");
-                } else {
-                    listArticles.remove(article);
-                    article.listSubCategory.add(mEditSubCategory.getText().toString());
-                    listArticles.add(article);
-                }
-            }
+        else if (!mEditCategory.getText().toString().equals("") && !mEditSubCategory.getText().toString().equals("")){
+            addSubcategory();
         }
-        saveArticles();
-        updateArticlesViev();
 
     }
 
+    private void addSubcategory() {
+        Category selectedCategory = Category.find(Category.class, "name = ?", mEditCategory.getText().toString()).get(0);
+        Subcategory subcategory = new Subcategory(mEditSubCategory.getText().toString(), selectedCategory.getId());
+        subcategory.save();
+        shortMessage("Подкатегория успешно записана");
+    }
 
+    private void addCategory() {
+        Category category = new Category(mEditCategory.getText().toString());
+        category.save();
+        shortMessage("Категория успешно записана");
+    }
 
 
     public void deleteArticleButton_Click(View view) {
 
-    listArticles.remove(Article.searhArticle(listArticles, mEditCategory.getText().toString()));
+/*    listArticles.remove(Article.searhArticle(listArticles, mEditCategory.getText().toString()));
         saveArticles();
-        updateArticlesViev();
+        updateArticlesViev();*/
 
     }
 }
