@@ -1,5 +1,6 @@
 package ru.stupnikov.application.activity;
 
+import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -7,6 +8,8 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import com.activeandroid.query.Select;
 
 import java.util.List;
 
@@ -48,6 +51,7 @@ public class EditArticleActivity extends AppCompatActivity {
 
     private void loadArticles(){
         try {
+         //   listCategory = Category.getListCategories();
            // listCategory = Category.listAll(Category.class);
             if (listCategory == null) {
                 shortMessage("Неудачная загрузка категорий");
@@ -57,7 +61,10 @@ public class EditArticleActivity extends AppCompatActivity {
 
             updateArticlesViev();
         }catch (RuntimeException e) {
-            shortMessage("Неудачная загрузка категорий");
+           // shortMessage("Неудачная загрузка категорий");
+        } catch (Exception e2) {
+          //  shortMessage("Неудачная загрузка категорий");
+
         }
 
     }
@@ -91,9 +98,21 @@ public class EditArticleActivity extends AppCompatActivity {
     }
 
     private void addSubcategory() {
-  /*      Category selectedCategory = Category.find(Category.class, "name = ?", mEditCategory.getText().toString()).get(0);
+        Category selectedCategory = Category.findCategoryByName(mEditCategory.getText().toString());
+        if (selectedCategory == null) {
+            selectedCategory = new Category(mEditCategory.getText().toString());
+            selectedCategory.save();
+
+            saveSubcategory(selectedCategory);
+        }
+        else {
+            saveSubcategory(selectedCategory);
+        }
+    }
+
+    private void saveSubcategory(Category selectedCategory){
         Subcategory subcategory = new Subcategory(mEditSubCategory.getText().toString(), selectedCategory.getId());
-        subcategory.save();*/
+        subcategory.save();
         shortMessage("Подкатегория успешно записана");
     }
 

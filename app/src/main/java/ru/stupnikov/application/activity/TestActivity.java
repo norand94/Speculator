@@ -1,6 +1,5 @@
 package ru.stupnikov.application.activity;
 
-import android.database.sqlite.SQLiteDatabase;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -14,8 +13,6 @@ import java.util.ArrayList;
 
 import ru.stupnikov.application.data.Wallet;
 import ru.stupnikov.application.orm_classes.Category;
-import ru.stupnikov.application.orm_classes.Subcategory;
-import ru.stupnikov.application.processor.DBmanager;
 import ru.stupnikov.application.processor.Serialzer;
 import ru.stupnikov.application.speculator.R;
 
@@ -45,9 +42,9 @@ public class TestActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //writeWalletOfIndex();
-               // writeCategory();
-                WriteBD WBD = new WriteBD();
-                WBD.execute();
+                writeCategory();
+           /*     WriteBD WBD = new WriteBD();
+                WBD.execute();*/
             }
         });
 
@@ -94,7 +91,7 @@ public class TestActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... params) {
-            Subcategory subcategory = new Subcategory("Субпобеда" , (long)3);
+
 
             // Category category = new Category("Победа");
             //category
