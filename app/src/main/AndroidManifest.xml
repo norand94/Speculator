@@ -7,13 +7,10 @@
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
         android:supportsRtl="true"
-        android:theme="@style/MainTheme"
-        android:name="com.orm.SugarApp">
+        android:theme="@style/MainTheme">
 
-        <meta-data android:name="DATABASE" android:value="sugar_example.db" />
-        <meta-data android:name="VERSION" android:value="3" />
-        <meta-data android:name="QUERY_LOG" android:value="true" />
-        <meta-data android:name="DOMAIN_PACKAGE_NAME" android:value="ru.stupnikov.application.speculator" />
+        <meta-data android:name="AA_DB_NAME" android:value="Wallet.db" />
+        <meta-data android:name="AA_DB_VERSION" android:value="1" />
 
         <activity android:name="ru.stupnikov.application.activity.MainActivity">
              <intent-filter>

@@ -14,6 +14,8 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.activeandroid.ActiveAndroid;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.nodes.Element;
@@ -57,6 +59,13 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        ActiveAndroid.initialize(this);
+        initInterface();
+        downloadValuta();
+        loadWallets();
+    }
+
+    private void initInterface() {
         mListViewValuta = (ListView)findViewById(R.id.valutaListViev);
         mDateText = (TextView)findViewById(R.id.dateTextView);
         mListViewWallets = (ListView)findViewById(R.id.walletsListView);
@@ -70,9 +79,6 @@ public class MainActivity extends AppCompatActivity {
 
         listValuta = new ArrayList<Valuta>();
         listValuta.add(new Valuta("RUB", 1));
-
-        downloadValuta();
-        loadWallets();
     }
 
 

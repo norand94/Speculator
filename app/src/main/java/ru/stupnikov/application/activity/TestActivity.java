@@ -1,6 +1,7 @@
 package ru.stupnikov.application.activity;
 
 import android.database.sqlite.SQLiteDatabase;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 
 import ru.stupnikov.application.data.Wallet;
 import ru.stupnikov.application.orm_classes.Category;
+import ru.stupnikov.application.orm_classes.Subcategory;
 import ru.stupnikov.application.processor.DBmanager;
 import ru.stupnikov.application.processor.Serialzer;
 import ru.stupnikov.application.speculator.R;
@@ -43,10 +45,13 @@ public class TestActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 //writeWalletOfIndex();
-                writeCategory();
+               // writeCategory();
+                WriteBD WBD = new WriteBD();
+                WBD.execute();
             }
         });
-        readButton.setOnClickListener(new View.OnClickListener() {
+
+       /* readButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 ArrayList<Wallet> listWallet = new ArrayList<Wallet>();
@@ -69,7 +74,7 @@ public class TestActivity extends AppCompatActivity {
                 SQLiteDatabase db = dBmanager.getWritableDatabase();
                 db.execSQL(numerEditText.getText().toString());
             }
-        });
+        });*/
     }
 
     private void writeWalletOfIndex(){
@@ -83,6 +88,25 @@ public class TestActivity extends AppCompatActivity {
         Category category = new Category(numerEditText.getText().toString());
         category.save();
         Toast.makeText(getApplicationContext(), "Записано!", Toast.LENGTH_SHORT).show();
+    }
+
+    class WriteBD extends AsyncTask<Void, Void, Void> {
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            Subcategory subcategory = new Subcategory("Субпобеда" , (long)3);
+
+            // Category category = new Category("Победа");
+            //category
+            //category.save();
+            return null;
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            Toast.makeText(getApplicationContext(), "Записано!", Toast.LENGTH_SHORT).show();
+        }
     }
 
 }

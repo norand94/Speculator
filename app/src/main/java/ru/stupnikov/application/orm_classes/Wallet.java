@@ -1,14 +1,12 @@
 package ru.stupnikov.application.orm_classes;
 
-import com.orm.SugarRecord;
-import com.orm.dsl.Table;
-
 import java.util.List;
 
 /**
  * Created by rodion on 22.04.16.
  */
-public class Wallet extends SugarRecord{
+public class Wallet{
+
     public String name = "default";
     public String valuta = "RUB";
     public double value = 0;
@@ -20,9 +18,6 @@ public class Wallet extends SugarRecord{
         this.name =name; this.valuta =valuta; this.value = value;
     }
 
-    public List<Fixing> getListFixing(){
-        return Fixing.find(Fixing.class, "id_wallet = ?", String.valueOf(getId()));
-    }
 
 
 }

@@ -48,7 +48,7 @@ public class EditArticleActivity extends AppCompatActivity {
 
     private void loadArticles(){
         try {
-            listCategory = Category.listAll(Category.class);
+           // listCategory = Category.listAll(Category.class);
             if (listCategory == null) {
                 shortMessage("Неудачная загрузка категорий");
                 // listCategory = new ArrayList<Category>();
@@ -91,9 +91,9 @@ public class EditArticleActivity extends AppCompatActivity {
     }
 
     private void addSubcategory() {
-        Category selectedCategory = Category.find(Category.class, "name = ?", mEditCategory.getText().toString()).get(0);
+  /*      Category selectedCategory = Category.find(Category.class, "name = ?", mEditCategory.getText().toString()).get(0);
         Subcategory subcategory = new Subcategory(mEditSubCategory.getText().toString(), selectedCategory.getId());
-        subcategory.save();
+        subcategory.save();*/
         shortMessage("Подкатегория успешно записана");
     }
 

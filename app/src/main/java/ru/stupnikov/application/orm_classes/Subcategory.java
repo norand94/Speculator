@@ -1,13 +1,10 @@
 package ru.stupnikov.application.orm_classes;
 
-import com.orm.SugarRecord;
-import com.orm.dsl.Table;
-
 /**
  * Created by rodion on 22.04.16.
  */
 
-public class Subcategory extends SugarRecord {
+public class Subcategory {
     private String name;
     private Long id_category; //Вторичный ключ
 

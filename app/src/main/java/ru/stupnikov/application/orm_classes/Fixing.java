@@ -1,6 +1,5 @@
 package ru.stupnikov.application.orm_classes;
 
-import com.orm.SugarRecord;
 
 import java.util.Date;
 
@@ -8,7 +7,7 @@ import java.util.Date;
  * Created by rodion on 22.04.16.
  */
 
-public class Fixing extends SugarRecord {
+public class Fixing {
 
     public Date date = new Date();
     //public boolean isProfit;
@@ -18,21 +17,19 @@ public class Fixing extends SugarRecord {
     private Long id_subcategory;
     private Long id_wallet;
 
-    public Fixing(){
+    public Fixing() {
 
     }
-    public Fixing(Date date, double value, String description, Long id_category, Long id_subcategory, Long id_wallet ){
-        this.date =date; this.value =value; this.description =description;
-        this.id_category =id_category;
-        this.id_subcategory =id_subcategory;
-        this.id_wallet =id_wallet;
-    }
 
-
-    public String getCategory(){
-        return Category.findById(Category.class, id_category).getName();
-    }
-    public String getSubcategory(){
-        return Subcategory.findById(Subcategory.class, id_subcategory).getName();
+    public Fixing(Date date, double value, String description, Long id_category, Long id_subcategory, Long id_wallet) {
+        this.date = date;
+        this.value = value;
+        this.description = description;
+        this.id_category = id_category;
+        this.id_subcategory = id_subcategory;
+        this.id_wallet = id_wallet;
     }
 }
+
+
+

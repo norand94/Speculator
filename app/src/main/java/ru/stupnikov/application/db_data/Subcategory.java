@@ -1,12 +1,12 @@
 package ru.stupnikov.application.db_data;
 
-import com.orm.SugarRecord;
 
 /**
  * Created by rodion on 22.04.16.
  */
 
-public class Subcategory extends SugarRecord {
+public class Subcategory  {
+    private Long id;
     private String name;
     private Long id_category; //Вторичный ключ
 

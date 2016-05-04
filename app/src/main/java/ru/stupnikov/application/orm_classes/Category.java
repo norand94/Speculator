@@ -1,44 +1,37 @@
 package ru.stupnikov.application.orm_classes;
 
-import com.orm.SugarRecord;
-import com.orm.dsl.Unique;
-
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
 
 import java.util.List;
 
 /**
  * Created by rodion on 22.04.16.
  */
+@Table(name = "Categoryes")
+public class Category extends Model{
 
-public class Category extends SugarRecord {
-
-    @Unique
+    @Column(name = "Name")
     private String name;
 
     public Category(){
-
+        super();
     }
-    public Category(String name){
+    public Category(String name)
+    {
+        super();
         this.name = name;
     }
 
-
-    @Override
-    public Long getId() {
-        return super.getId();
-    }
 
     public String getName() {
         return name;
     }
 
-    //unstable
-    public  List<Subcategory> getListSubcategory(){
-        return Subcategory.find(Subcategory.class, "category = ?", String.valueOf(getId())) ;
-    }
 
-    public static final String CREATE_SCRIPT =
-            " ";
+
+
 
 
 

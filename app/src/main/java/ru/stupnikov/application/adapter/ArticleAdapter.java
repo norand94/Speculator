@@ -52,9 +52,9 @@ public class ArticleAdapter extends BaseAdapter {
         TextView subcategoryView = (TextView)convertView.findViewById(R.id.subcategoryTextView);
 
         Category category = listCategory.get(position);
-        List<Subcategory> listSubcategory = Subcategory.find(Subcategory.class, "id_category = ?", String.valueOf(category.getId()));
+       // List<Subcategory> listSubcategory = Subcategory.find(Subcategory.class, "id_category = ?", String.valueOf(category.getId()));
         categoryView.setText(category.getName());
-        for (Subcategory subcategory : listSubcategory) subcategoryView.append(subcategory.getName() + "\n");
+       // for (Subcategory subcategory : listSubcategory) subcategoryView.append(subcategory.getName() + "\n");
        // categoryView.setText(article.category);
        // for (String subcategory : article.listSubCategory) subcategoryView.append(subcategory + "\n");
 
