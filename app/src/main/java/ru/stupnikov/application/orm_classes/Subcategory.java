@@ -17,12 +17,16 @@ import java.util.List;
 public class Subcategory extends Model {
     public static final String NAME = "Name";
     public static final String ID_CATEGORY = "id_category";
+    public static final String CATEGORY= "Category";
 
     @Column(name = NAME)
     private String name;
 
     @Column(name = ID_CATEGORY)
     private Long id_category; //Вторичный ключ
+
+    @Column(name =CATEGORY)
+    private Category category;
 
 
     public Subcategory(){
@@ -32,6 +36,10 @@ public class Subcategory extends Model {
         this.name = name; this.id_category = id_category;
     }
 
+    public Subcategory(String name, Category category) {
+        this.name = name;
+        this.category = category;
+    }
 
     public String getName() {
         return name;
@@ -56,4 +64,19 @@ public class Subcategory extends Model {
         }
     }
 
+    public static List<Subcategory> getListSubcategory_new(Category category){
+        try {
+            return new Select().from(Subcategory.class)
+                    .where(CATEGORY + " = ? ", category.getName())
+                    .orderBy(Category.NAME + " ASC ")
+                    .executeSingle();
+        } catch (SQLiteException e){
+            e.printStackTrace();
+            return null;
+        }
+    }
+
+    public Category getCategory() {
+        return category;
+    }
 }

@@ -51,8 +51,7 @@ public class EditArticleActivity extends AppCompatActivity {
 
     private void loadArticles(){
         try {
-         //   listCategory = Category.getListCategories();
-           // listCategory = Category.listAll(Category.class);
+            listCategory = Category.getListCategories();
             if (listCategory == null) {
                 shortMessage("Неудачная загрузка категорий");
                 // listCategory = new ArrayList<Category>();
@@ -99,6 +98,7 @@ public class EditArticleActivity extends AppCompatActivity {
 
     private void addSubcategory() {
         Category selectedCategory = Category.findCategoryByName(mEditCategory.getText().toString());
+
         if (selectedCategory == null) {
             selectedCategory = new Category(mEditCategory.getText().toString());
             selectedCategory.save();

@@ -53,9 +53,9 @@ public class Category extends Model{
 
     public List<Subcategory> getListSubcategories(){
         try {
-            return new Select()
+            return  new Select()
                     .from(Subcategory.class)
-                    .where("id_category", getId())
+                    .where(Subcategory.ID_CATEGORY, getId())
                     .orderBy(NAME + " ASC")
                     .execute();
         } catch (SQLiteException e){
@@ -68,7 +68,7 @@ public class Category extends Model{
         try {
             return new Select()
                     .from(Category.class)
-                    .where(NAME, name)
+                    .where(NAME + " = ? ", name)
                     .executeSingle();
         } catch (SQLiteException e){
             e.printStackTrace();

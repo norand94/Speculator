@@ -51,8 +51,8 @@ public class ArticleAdapter extends BaseAdapter {
 
         Category category = listCategory.get(position);
         categoryView.setText(category.getName());
-        List<Subcategory> subcategoryList = category.getListSubcategories();
-        
+        List<Subcategory> subcategoryList =  category.getListSubcategories();
+
         if (subcategoryList != null)
         for (Subcategory subcategory : subcategoryList) subcategoryView.append(subcategory.getName() + "\n");
 

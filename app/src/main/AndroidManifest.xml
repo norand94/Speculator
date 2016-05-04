@@ -10,7 +10,7 @@
         android:theme="@style/MainTheme">
 
         <meta-data android:name="AA_DB_NAME" android:value="Wallet.db" />
-        <meta-data android:name="AA_DB_VERSION" android:value="1" />
+        <meta-data android:name="AA_DB_VERSION" android:value="2" />
 
         <activity android:name="ru.stupnikov.application.activity.MainActivity">
              <intent-filter>
