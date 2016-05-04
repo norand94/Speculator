@@ -1,14 +1,18 @@
 package ru.stupnikov.application.orm_classes;
 
 import com.orm.SugarRecord;
+import com.orm.dsl.Unique;
+
 
 import java.util.List;
 
 /**
  * Created by rodion on 22.04.16.
  */
+
 public class Category extends SugarRecord {
-    private Long id;
+
+    @Unique
     private String name;
 
     public Category(){
@@ -18,16 +22,24 @@ public class Category extends SugarRecord {
         this.name = name;
     }
 
+
+    @Override
     public Long getId() {
-        return id;
+        return super.getId();
     }
+
     public String getName() {
         return name;
     }
 
-    List<Subcategory> getListSubcategory(){
+    //unstable
+    public  List<Subcategory> getListSubcategory(){
         return Subcategory.find(Subcategory.class, "category = ?", String.valueOf(getId())) ;
     }
+
+    public static final String CREATE_SCRIPT =
+            " ";
+
 
 
 }

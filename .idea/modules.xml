@@ -4,7 +4,6 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/Speculator.iml" filepath="$PROJECT_DIR$/Speculator.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
-      <module fileurl="file://$PROJECT_DIR$/leasedaogenerator/leasedaogenerator.iml" filepath="$PROJECT_DIR$/leasedaogenerator/leasedaogenerator.iml" />
     </modules>
   </component>
 </project>

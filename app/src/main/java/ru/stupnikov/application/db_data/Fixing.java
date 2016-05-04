@@ -1,4 +1,4 @@
-package ru.stupnikov.application.orm_classes;
+package ru.stupnikov.application.db_data;
 
 import com.orm.SugarRecord;
 

@@ -4,20 +4,15 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.EditText;
 import android.widget.ListView;
-import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ru.stupnikov.application.adapter.ArticleAdapter;
-import ru.stupnikov.application.data.Article;
 import ru.stupnikov.application.orm_classes.Category;
 import ru.stupnikov.application.orm_classes.Subcategory;
-import ru.stupnikov.application.processor.Serialzer;
 import ru.stupnikov.application.speculator.R;
 
 /**
@@ -52,17 +47,18 @@ public class EditArticleActivity extends AppCompatActivity {
     }
 
     private void loadArticles(){
+        try {
             listCategory = Category.listAll(Category.class);
-        if (listCategory == null){
+            if (listCategory == null) {
+                shortMessage("Неудачная загрузка категорий");
+                // listCategory = new ArrayList<Category>();
+                return;
+            }
+
+            updateArticlesViev();
+        }catch (RuntimeException e) {
             shortMessage("Неудачная загрузка категорий");
-           // listCategory = new ArrayList<Category>();
         }
-   /*     listArticles = (ArrayList<Article>) Serialzer.readObject(getApplicationContext(), Serialzer.FILE_ARTICLES);
-        if (listArticles == null){
-           // shortMessage("Неудачная загрузка артиклей");
-            listArticles = new ArrayList<Article>();
-        }
-        updateArticlesViev();*/
 
     }
 
@@ -71,11 +67,6 @@ public class EditArticleActivity extends AppCompatActivity {
         mArticleListView.setAdapter(new ArticleAdapter(this, listCategory));
     }
 
-/*    private boolean saveArticles(){
-        if(Serialzer.writeObject(getApplicationContext(), listArticles, Serialzer.FILE_ARTICLES)){
-            return true;
-        } else return false;
-    }*/
 
     private void shortMessage(String text){
         Toast.makeText (getApplicationContext(), text, Toast.LENGTH_SHORT).show();
@@ -107,8 +98,10 @@ public class EditArticleActivity extends AppCompatActivity {
     }
 
     private void addCategory() {
+
         Category category = new Category(mEditCategory.getText().toString());
         category.save();
+
         shortMessage("Категория успешно записана");
     }
 

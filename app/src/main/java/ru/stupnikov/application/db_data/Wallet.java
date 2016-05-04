@@ -1,7 +1,6 @@
-package ru.stupnikov.application.orm_classes;
+package ru.stupnikov.application.db_data;
 
 import com.orm.SugarRecord;
-import com.orm.dsl.Table;
 
 import java.util.List;
 

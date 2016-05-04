@@ -1,7 +1,6 @@
-package ru.stupnikov.application.orm_classes;
+package ru.stupnikov.application.db_data;
 
 import com.orm.SugarRecord;
-import com.orm.dsl.Table;
 
 /**
  * Created by rodion on 22.04.16.

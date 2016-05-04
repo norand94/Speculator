@@ -7,10 +7,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 
 import ru.stupnikov.application.data.Wallet;
+import ru.stupnikov.application.orm_classes.Category;
 import ru.stupnikov.application.processor.DBmanager;
 import ru.stupnikov.application.processor.Serialzer;
 import ru.stupnikov.application.speculator.R;
@@ -40,10 +42,8 @@ public class TestActivity extends AppCompatActivity {
         addButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<Wallet> listWallet = Serialzer.readWallets(getApplicationContext());
-                Wallet wallet = listWallet.get(Integer.valueOf(numerEditText.getText().toString()));
-                testTextView.append("\n Записано: \n " + wallet.name );
-                wallet.addThisWalletToDB(getApplicationContext());
+                //writeWalletOfIndex();
+                writeCategory();
             }
         });
         readButton.setOnClickListener(new View.OnClickListener() {
@@ -70,6 +70,19 @@ public class TestActivity extends AppCompatActivity {
                 db.execSQL(numerEditText.getText().toString());
             }
         });
+    }
+
+    private void writeWalletOfIndex(){
+        ArrayList<Wallet> listWallet = Serialzer.readWallets(getApplicationContext());
+        Wallet wallet = listWallet.get(Integer.valueOf(numerEditText.getText().toString()));
+        testTextView.append("\n Записано: \n " + wallet.name);
+        wallet.addThisWalletToDB(getApplicationContext());
+    }
+
+    private void writeCategory(){
+        Category category = new Category(numerEditText.getText().toString());
+        category.save();
+        Toast.makeText(getApplicationContext(), "Записано!", Toast.LENGTH_SHORT).show();
     }
 
 }

@@ -21,6 +21,7 @@ public class Article implements Serializable {
       //  this.isProfit = isProfit;
     }
 
+
     public  boolean searh_subcategory(String subcategory){
         for (String sub : listSubCategory){
             if (sub.equals(subcategory))return  true;
