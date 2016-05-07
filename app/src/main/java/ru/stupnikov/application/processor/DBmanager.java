@@ -5,7 +5,6 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.provider.BaseColumns;
 
-import ru.stupnikov.application.db_data.Category;
 
 /**
  * Created by rodion on 15.04.16.
@@ -64,7 +63,7 @@ public class DBmanager extends SQLiteOpenHelper  implements BaseColumns{
 
             db.execSQL(CREATE_TABLE_WALLET);
 
-            db.execSQL(Category.CREATE_SCRIPT);
+
             db.execSQL("CREATE TABLE " + TABLE_SUBCATEGORY + "  (" +
                     "subcategory integer primary key autoincrement," +
                     "name text NOT NULL," +

@@ -1,27 +1,61 @@
 package ru.stupnikov.application.data;
 
 
+import com.activeandroid.Model;
+import com.activeandroid.annotation.Column;
+import com.activeandroid.annotation.Table;
+
 import java.io.Serializable;
 import java.util.Date;
+
+import ru.stupnikov.application.orm_classes.Category;
+import ru.stupnikov.application.orm_classes.Subcategory;
 
 /**
  * Created by rodion on 25.01.16.
  */
 
-public class Fixing implements Serializable {
+@Table(name ="Fixings")
+public class Fixing extends Model {
 
-    public Date date = new Date();
-    public boolean isProfit;
-    public double value = 0;
-    public String description = "";
-    public String category ="";
-    public String subcategory ="";
+    public static final String WALLET = "Wallet";
+    public static final String DATE = "Date";
+    public static final String VALUE = "Value";
+    public static final String DESCRIPTION = "Description";
+    public static final String CATEGORY = "Category";
+    public static final String SUBCATEGORY = "Subcategory";
 
-    public Fixing(Date date, boolean isProfit, double value, String description, String category, String subcategory){
-        this.date =date;
-        this.isProfit = isProfit;
-        this.value =value; this.description = description;
-        this.category =category;
-        this.subcategory =subcategory;
+    @Column(name = WALLET)
+    private Wallet wallet;
+
+    @Column(name = DATE)
+    public Date date;
+
+    @Column(name = VALUE)
+    public double value;
+
+    @Column(name = DESCRIPTION)
+    public String description;
+
+    @Column(name = CATEGORY)
+    public Category category;
+
+    @Column(name = SUBCATEGORY)
+    public Subcategory subcategory;
+
+    public Fixing() {
+    }
+
+    public Fixing(Wallet wallet, Date date, double value, String description, Category category, Subcategory subcategory) {
+        this.wallet = wallet;
+        this.date = date;
+        this.value = value;
+        this.description = description;
+        this.category = category;
+        this.subcategory = subcategory;
+    }
+
+    public Wallet getWallet() {
+        return wallet;
     }
 }

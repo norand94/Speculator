@@ -31,13 +31,14 @@ public class EditWalletActivity extends AppCompatActivity {
 
     private Button mAddPouchButton;
 
-    ArrayList<Wallet> listWallets;
-    ArrayList<String>listConvertableValuta = new ArrayList<String>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        initInterface();
+    }
 
+    private void initInterface(){
         setContentView(R.layout.edit_wallet_activity);
         mEditName = (EditText)findViewById(R.id.editNamePouch);
         mEditSum = (EditText)findViewById(R.id.editValuta);
@@ -46,30 +47,24 @@ public class EditWalletActivity extends AppCompatActivity {
         mListConvertableValuta = (TextView)findViewById(R.id.textConvertableValuta);
         mListWallets = (TextView)findViewById(R.id.textPouchs);
 
-        listWallets = new ArrayList<Wallet>();
-
-        if(loadWallets()) updateListWallets();
         mSpinnerValuta.setSelection(2);
+    }
 
+    public void loadWallets(){
 
-     /*
-        ArrayAdapter<CharSequence> adapter = ArrayAdapter.createFromResource(this, R.array.valuta, R.layout.edit_wallet_activity);
-        adapter.setDropDownViewResource(R.layout.support_simple_spinner_dropdown_item);
-        mSpinner.setAdapter(adapter);
-*/
     }
 
 
-
     public void addDeleteButton_Click(View view) {
-    String conValuta = mSpinnerConvertableValuta.getSelectedItem().toString();
+
+    /*    String conValuta = mSpinnerConvertableValuta.getSelectedItem().toString();
     if(listConvertableValuta.indexOf(conValuta) != -1){
         listConvertableValuta.remove(conValuta);
         updateListConvertableValuta();
     } else {
         listConvertableValuta.add(conValuta);
         updateListConvertableValuta();
-    }
+        }*/
 
     }
 
@@ -80,30 +75,26 @@ public class EditWalletActivity extends AppCompatActivity {
     }
 
     private void updateListConvertableValuta(){
-        mListConvertableValuta.setText("");
+  /*      mListConvertableValuta.setText("");
         for (String str : listConvertableValuta){
             mListConvertableValuta.append(str + ",  ");
-        }
+        }*/
     }
-    private void updateListWallets(){
-
-        mListWallets.setText("");
+    private void updateListWallets() {
+   /*     mListWallets.setText("");
         for (Wallet p: listWallets){
             mListWallets.append("" + p.name + " -  " + p.value + " " + p.valuta + "\n");
             for (String str : p.listConvertableValuta){
                 mListWallets.append(str + ", ");
             }
             mListWallets.append("\n");
-        }
-
-
+        }*/
 
     }
+
     public void addPouchButton_Click(View view) {
 
-
-       // if(FieldsNotEmpty()) {
-            listWallets.add(new Wallet(mEditName.getText().toString(),
+       /*     listWallets.add(new Wallet(mEditName.getText().toString(),
                     mSpinnerValuta.getSelectedItem().toString(),
                     Double.valueOf(mEditSum.getText().toString()),
                     0,
@@ -114,9 +105,7 @@ public class EditWalletActivity extends AppCompatActivity {
             if (saveWallet()) {
                 updateListWallets();
 
-            }
-      //  } else  longMessage("Поля обязательно должны быть заполнены для добавления кошелька!");
-
+            }*/
     }
 
     private void shortMessage(String text){
@@ -135,32 +124,9 @@ public class EditWalletActivity extends AppCompatActivity {
         mListConvertableValuta.setText("");
     }
 
-    private boolean loadWallets(){
-
-        listWallets =  Serialzer.readWallets(getApplicationContext());
-        if(listWallets ==null){
-            shortMessage("При чтении произошла ошибка!");
-            //Serialzer.createFileWallets(getApplicationContext());
-            return false;
-        } else {
-            shortMessage("Успешно считано");
-            return true;
-        }
-    }
-
-    private boolean saveWallet(){
-
-        if(Serialzer.writeWallets(getApplicationContext(), listWallets)){
-            shortMessage("Успешно записно");
-            return true;
-        } else {
-            shortMessage("При записи произошла ошибка");
-            return false;
-        }
-    }
 
     public void deletePouchButton_Click(View view) {
-        if(mEditName.getText().toString().equals("")){
+    /*    if(mEditName.getText().toString().equals("")){
             mEditName.setHint("Введите здесь название кошелька, который вы желаете удалить");
             shortMessage("Введите в поле название кошелька, который вы желаете удалить");
         } else {
@@ -175,5 +141,6 @@ public class EditWalletActivity extends AppCompatActivity {
                 clearAll();
             }
         }
+    }*/
     }
 }

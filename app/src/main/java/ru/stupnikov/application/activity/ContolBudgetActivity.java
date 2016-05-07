@@ -153,7 +153,7 @@ public class ContolBudgetActivity extends AppCompatActivity {
     private void addFixing (String subCategory){
 
 
-            Fixing fixing = new Fixing(
+          /*  Fixing fixing = new Fixing(
                     new Date(mEditDate.getYear(), mEditDate.getMonth() + 1, mEditDate.getDayOfMonth()),
                     mButtonSwitch.getText().toString().equals("+"),
                     Double.valueOf(mEditFixing.getText().toString()),
@@ -164,13 +164,12 @@ public class ContolBudgetActivity extends AppCompatActivity {
             if (mButtonSwitch.getText().toString().equals("-"))
                 selectedWallet.value -= fixing.value;
             else selectedWallet.value += fixing.value;
-            selectedWallet.listFixings.add(fixing);
+            selectedWallet.listFixings.add(fixing);*/
     }
 
     private void addFixing (){
 
-
-        Fixing fixing = new Fixing(
+       /* Fixing fixing = new Fixing(
                 new Date(mEditDate.getYear(), mEditDate.getMonth() + 1, mEditDate.getDayOfMonth()),
                 mButtonSwitch.getText().toString().equals("+"),
                 Double.valueOf(mEditFixing.getText().toString()),
@@ -181,7 +180,7 @@ public class ContolBudgetActivity extends AppCompatActivity {
         if (mButtonSwitch.getText().toString().equals("-"))
             selectedWallet.value -= fixing.value;
         else selectedWallet.value += fixing.value;
-        selectedWallet.listFixings.add(fixing);
+        selectedWallet.listFixings.add(fixing);*/
     }
 
 
@@ -248,7 +247,7 @@ public class ContolBudgetActivity extends AppCompatActivity {
     }
 
     private void updateListViewFixing(){
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
+        /*ArrayAdapter<String> adapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
         StringBuilder SB;
         try {
             for (Fixing f : selectedWallet.listFixings) {
@@ -266,7 +265,7 @@ public class ContolBudgetActivity extends AppCompatActivity {
             e.printStackTrace();
             adapter.add("Не удалось загрузить фиксации для кошелька");
             mListVievFixings.setAdapter(adapter);
-        }
+        }*/
     }
 
     public static String printDate(Date date){
