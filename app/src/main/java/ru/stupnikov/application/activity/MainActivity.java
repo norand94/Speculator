@@ -72,12 +72,14 @@ public class MainActivity extends AppCompatActivity {
         mDateText1 = (TextView)findViewById(R.id.dateTextView1);
         mDateText2 = (TextView)findViewById(R.id.dateTextView2);
 
-        mDateText.setText( new Date().toString());
+        mDateText.setText(new Date().toString());
 
         listValutaCon = new ArrayList<ValutaContainer>();
         listValutaCon.add(new ValutaContainer("RUB", R.drawable.dollar_icon, 1, 1));
 
         listValuta = new ArrayList<Valuta>();
+
+        // TODO: Возможно, следует поменять, сделать загрузку из базы?
         listValuta.add(new Valuta("RUB", 1));
     }
 
@@ -95,6 +97,17 @@ public class MainActivity extends AppCompatActivity {
     protected void onStart(){
         super.onStart();
         loadWallets();
+    }
+
+    private void downloadValuta(){
+
+        if (isNetworkConnected()) {
+            shortMessage("Идет соединение...");
+            AsyncParse AD = new AsyncParse();
+            AD.execute();
+        } else {
+            shortMessage("Нет сети");
+        }
     }
 
     @Override
@@ -155,21 +168,7 @@ public class MainActivity extends AppCompatActivity {
         startActivity(new Intent(MainActivity.this, StatisticBudgetActivity.class));
     }
 
-    private void downloadValuta(){
 
-
-
-        if (isNetworkConnected()) {
-            shortMessage("Идет соединение...");
-
-            AsyncParse AD = new AsyncParse();
-            AD.execute();
-
-
-        } else {
-            shortMessage("Нет сети");
-        }
-    }
 
 
     private void loadWallets(){

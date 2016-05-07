@@ -22,7 +22,6 @@ import java.util.Calendar;
 import java.util.Date;
 
 import ru.stupnikov.application.data.Article;
-import ru.stupnikov.application.data.Fixing;
 import ru.stupnikov.application.processor.Serialzer;
 import ru.stupnikov.application.data.Wallet;
 import ru.stupnikov.application.processor.Settings;

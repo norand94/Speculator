@@ -9,8 +9,11 @@ import android.content.SharedPreferences;
  */
 public class Settings {
     public static final String FILE_GENERAL_SETTINGS = "file_general_settings";
+
+    //Параметры
     public static final String DEFAULT_WALLET = "default_wallet";
     public static final String DEFAULT_ACTIVITY = "default_activity";
+    public static final String FIRST_START = "first_start";
 
 /*    private SharedPreferences.Editor editor;
     private SharedPreferences SP;*/
@@ -63,6 +66,23 @@ public class Settings {
         } catch (NullPointerException e){
             e.printStackTrace();
             return -1;
+        }
+    }
+
+    public static void saveParametr (Context context, String parametr, boolean value) {
+        SharedPreferences.Editor editor = getEditor(context);
+        editor.putBoolean(parametr, value);
+        editor.apply();
+    }
+
+    public static boolean loadParametrBoolean(Context context, String parametr){
+        try {
+            SharedPreferences SP = getSharedPreferences(context);
+            if(SP.contains(parametr)) return SP.getBoolean(parametr, true);
+            else return true;
+        } catch (NullPointerException e) {
+            e.printStackTrace();
+            return  true;
         }
     }
 }

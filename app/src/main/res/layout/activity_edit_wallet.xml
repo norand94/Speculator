@@ -129,7 +129,14 @@
             android:id="@+id/textConvertableValuta"/>
     </ScrollView>
 
-    <ScrollView
+    <ListView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:id="@+id/walletsListView"
+        android:layout_below="@+id/addPouchButton"
+        android:layout_above="@+id/amendPouchButton"/>
+
+   <!-- <ScrollView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:id="@+id/scrollPouchs"
@@ -147,21 +154,15 @@
         android:id="@+id/textPouchs"/>
 
 
-     <!--   <ListView
+     &lt;!&ndash;   <ListView
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_below="@+id/addPouchButton"
             android:id="@+id/listPouchs"
-            />-->
+            />&ndash;&gt;
 
 
-    </ScrollView>
-    <!--
-   <ListView
-       android:layout_width="wrap_content"
-       android:layout_height="wrap_content"
-       android:layout_below="@+id/addPouchButton"
-       android:entries="@array/array_valuta"/>
-      -->
+    </ScrollView>-->
+
 
 </RelativeLayout>

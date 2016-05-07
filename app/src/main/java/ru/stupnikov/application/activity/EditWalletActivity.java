@@ -3,17 +3,18 @@ package ru.stupnikov.application.activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
+import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.Spinner;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import java.util.ArrayList;
+import java.util.List;
 
-import ru.stupnikov.application.data.Fixing;
-import ru.stupnikov.application.data.Wallet;
-import ru.stupnikov.application.processor.Serialzer;
+import ru.stupnikov.application.adapter.WalletAdapter;
+import ru.stupnikov.application.orm_classes.Wallet;
 import ru.stupnikov.application.speculator.R;
 
 /**
@@ -27,7 +28,7 @@ public class EditWalletActivity extends AppCompatActivity {
     private Spinner mSpinnerConvertableValuta;
     private TextView mListConvertableValuta;
 
-    private TextView mListWallets;
+    private ListView mListWallets;
 
     private Button mAddPouchButton;
 
@@ -39,19 +40,20 @@ public class EditWalletActivity extends AppCompatActivity {
     }
 
     private void initInterface(){
-        setContentView(R.layout.edit_wallet_activity);
+        setContentView(R.layout.activity_edit_wallet);
         mEditName = (EditText)findViewById(R.id.editNamePouch);
         mEditSum = (EditText)findViewById(R.id.editValuta);
         mSpinnerValuta = (Spinner)findViewById(R.id.spinnerValuta);
         mSpinnerConvertableValuta = (Spinner)findViewById(R.id.spinnerConvertableValuta);
         mListConvertableValuta = (TextView)findViewById(R.id.textConvertableValuta);
-        mListWallets = (TextView)findViewById(R.id.textPouchs);
+        mListWallets = (ListView)findViewById(R.id.walletsListView);
 
         mSpinnerValuta.setSelection(2);
     }
 
     public void loadWallets(){
-
+        List<Wallet> walletList = Wallet.getListWallets();
+        mListWallets.setAdapter(new WalletAdapter(walletList, this));
     }
 
 
