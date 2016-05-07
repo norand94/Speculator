@@ -13,10 +13,10 @@ public class LinkWalletAndValuta extends Model {
     public static final String VALUTA = "Valuta";
 
     @Column(name = WALLET)
-    private Wallet wallet;
+    public Wallet wallet;
 
     @Column(name = VALUTA)
-    private Valuta valuta;
+    public Valuta valuta;
 
     public LinkWalletAndValuta(Wallet wallet, Valuta valuta) {
         this.wallet = wallet;

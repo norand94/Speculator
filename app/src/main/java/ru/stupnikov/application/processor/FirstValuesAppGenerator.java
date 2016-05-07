@@ -25,9 +25,14 @@ public class FirstValuesAppGenerator {
         USD.save();
     }
 
-    private static void createDedaultWallet (){
+    public static void generateAll(){
+        generateArticles();
+        generateDedaultWallet();
+    }
+
+    private static void generateDedaultWallet (){
         generateValuta();
-        Wallet defaultWallet = new Wallet("Наличные", new Valuta("RUB", 1), 0);
+        Wallet defaultWallet = new Wallet("Наличные", RUB, 0);
         defaultWallet.value = 0;
 
         new LinkWalletAndValuta(defaultWallet, EUR).save();
@@ -37,7 +42,7 @@ public class FirstValuesAppGenerator {
     }
 
 
-    public static void generateArticles (Context context){
+    private static void generateArticles (){
 
         Category Profit = new Category("Доходы");
         new Subcategory("Зарплата", Profit).save();

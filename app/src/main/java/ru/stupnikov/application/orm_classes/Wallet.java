@@ -5,6 +5,7 @@ import com.activeandroid.annotation.Column;
 import com.activeandroid.annotation.Table;
 import com.activeandroid.query.Select;
 
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -43,6 +44,19 @@ public class Wallet extends Model{
 
     public List<Fixing> getListFixing(){
         return getMany(Fixing.class, Fixing.WALLET );
+    }
+
+    public List<Valuta> getListConvertableValuta(){
+        try {
+            List<LinkWalletAndValuta> listLink = getMany(LinkWalletAndValuta.class, LinkWalletAndValuta.WALLET);
+            List<Valuta> valutaList = new ArrayList<Valuta>();
+            for (LinkWalletAndValuta link : listLink) valutaList.add(link.getValuta());
+
+            return valutaList;
+        } catch (Exception e){
+            e.printStackTrace();
+            return null;
+        }
     }
 
 

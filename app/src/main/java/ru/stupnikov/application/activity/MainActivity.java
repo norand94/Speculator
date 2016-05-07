@@ -25,16 +25,17 @@ import org.jsoup.select.Elements;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import ru.stupnikov.application.adapter.ValutaAdapter;
 import ru.stupnikov.application.adapter.ValutaContainer;
-import ru.stupnikov.application.data.Valuta;
-import ru.stupnikov.application.data.Wallet;
-import ru.stupnikov.application.processor.DefaultGenerator;
-import ru.stupnikov.application.processor.Serialzer;
+import ru.stupnikov.application.orm_classes.Valuta;
+import ru.stupnikov.application.orm_classes.Wallet;
 import ru.stupnikov.application.processor.Converter;
+import ru.stupnikov.application.processor.FirstValuesAppGenerator;
+import ru.stupnikov.application.processor.Serialzer;
 import ru.stupnikov.application.processor.Settings;
 import ru.stupnikov.application.speculator.R;
 
@@ -49,7 +50,7 @@ public class MainActivity extends AppCompatActivity {
     private TextView mDateText1;
     private TextView mDateText2;
 
-    ArrayList<Valuta> listValuta;
+    List<ru.stupnikov.application.orm_classes.Valuta> listValuta;
     ArrayList<ValutaContainer> listValutaCon;
 
 
@@ -59,7 +60,6 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        ActiveAndroid.initialize(this);
         initInterface();
         downloadValuta();
         loadWallets();
@@ -86,6 +86,7 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void preCreateMethod(){
+        ActiveAndroid.initialize(this);
         String [] arrayActivity = getResources().getStringArray(R.array.array_activityes);
         String load = Settings.loadParametrString(getApplicationContext(), Settings.DEFAULT_ACTIVITY);
         if(load != null)
@@ -172,52 +173,41 @@ public class MainActivity extends AppCompatActivity {
 
 
     private void loadWallets(){
-        ArrayList<Wallet> listWallets;
-        listWallets = Serialzer.readWallets(getApplicationContext());
-        if (listWallets == null){
-            listWallets = DefaultGenerator.getDefaultWallets(getApplicationContext());
-            if(DefaultGenerator.generateAllDefaulParams(getApplicationContext()) &&
-                    Serialzer.createFileFixings(getApplicationContext()))
-                Toast.makeText(this,"Первый запуск. Установлены настройки по умолчанию ", Toast.LENGTH_LONG).show();
-        }
-        updateWalletListView(listWallets);
 
+        List<Wallet> walletList = Wallet.getListWallets();
+        if (walletList.size() == 0){
+            FirstValuesAppGenerator.generateAll();
+            walletList = Wallet.getListWallets();
+            shortMessage("Первый запуск. Установлены настройки по умолчанию");
+        }
+        updateWalletListView(walletList);
     }
 
 
     private void  updateValutaListView(){
-
         mListViewValuta.setAdapter(new ValutaAdapter(this, listValutaCon));
-
-      /*  ArrayAdapter<String> adapterListValuta = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
-        for (Valuta v: listValuta){
-            adapterListValuta.add(v.name + "  " + v.valueRUB);
-        }
-        mListViewValuta.setAdapter(adapterListValuta);*/
     }
 
-    private  void updateWalletListView(ArrayList<Wallet> listWallets){
+    private  void updateWalletListView(List<Wallet> listWallets){
 
         ArrayAdapter<String> adapterListWallet = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1);
         StringBuilder SB = new StringBuilder();
-        if (listWallets != null) {
-            for (Wallet p : listWallets) {
-                SB.append("\n" + p.name + "   " + p.value + " " + p.valuta + "\n");
-                for (String str : p.listConvertableValuta) {
 
+        for (Wallet w : listWallets)
+            if(w.valuta != null) {
+                SB.append("\n" + w.name + "  " + w.value + " " + w.valuta.name + "\n");
 
-                    double result = Converter.convertToValuta(listValuta, p.valuta, p.value, str);
-                    if(result!=-1) SB.append(str + " -  " + round(result,3) + "\n");
-                    else  SB.append(str + "\n");
-
-                }
-                //  SB.append("\n");
+                // TODO: не работает getListConvertableValuta
+                List<Valuta> walletListValuta = w.getListConvertableValuta();
+                if (walletListValuta != null)
+                    for (Valuta v : walletListValuta) {
+                        double result = Converter.convertToValuta(w.valuta, w.value, v);
+                        SB.append(v.name + " - " + round(result, 3) + "\n");
+                }   else shortMessage("Ошибка считывания конвертируемых валют");
                 adapterListWallet.add(SB.toString());
                 SB = new StringBuilder();
+
             }
-
-        } else shortMessage("\n Произошла ошибка во время чтения");
-
         mListViewWallets.setAdapter(adapterListWallet);
     }
 
@@ -236,18 +226,15 @@ public class MainActivity extends AppCompatActivity {
 
         @Override
         protected Void doInBackground(Void... params) {
-            Document doc = null;//Здесь хранится будет разобранный html документ
+            Document doc = null;
             try {
                 doc = Jsoup.connect("http://www.cbr.ru/").get();
 
             } catch (IOException e) {
-                //Если не получилось считать
                 e.printStackTrace();
             }
 
             if (doc != null) {
-
-                // listValutaCon = new ArrayList<ValutaContainer>();
 
                 listValutaCon.add(new ValutaContainer(
                         "USD", R.drawable.dollar_icon,
@@ -306,7 +293,7 @@ public class MainActivity extends AppCompatActivity {
             return -1;
         }
 
-        // Переработать!!!
+        //TODO:  Переработать!!!
         private String searchString (Elements element, Pattern pattern, int num) {
             StringBuilder SB = new StringBuilder();
             Matcher matcher = pattern.matcher(element.html());
