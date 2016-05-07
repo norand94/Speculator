@@ -1,7 +1,7 @@
 <resources>
 
     <!-- Base application theme. -->
-    <style name="AppTheme" parent="Theme.AppCompat.Light.DarkActionBar">
+    <style name="AppTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your theme here.
         Для colorPrimaryDark и для colorPrimary необходимы 6ти значные звета, иначе выдаст ошибку-->
         <item name="colorPrimaryDark">#f76f00</item>

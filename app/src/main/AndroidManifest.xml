@@ -19,6 +19,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity android:name="ru.stupnikov.application.activity.GeneralActivity">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+
+        </activity>
         <activity android:name="ru.stupnikov.application.activity.EditWalletActivity" android:label="@string/pouch_settings"></activity>
 
         <activity android:name="ru.stupnikov.application.activity.ContolBudgetActivity" android:label="@string/controlBudget"></activity>

@@ -1,6 +1,5 @@
 package ru.stupnikov.application.activity;
 
-import android.database.sqlite.SQLiteException;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.view.View;
@@ -8,8 +7,6 @@ import android.widget.AdapterView;
 import android.widget.EditText;
 import android.widget.ListView;
 import android.widget.Toast;
-
-import com.activeandroid.query.Select;
 
 import java.util.List;
 
@@ -34,7 +31,7 @@ public class EditArticleActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.edit_article_activity);
+        setContentView(R.layout.activity_edit_article);
         mEditCategory =(EditText)findViewById(R.id.editCategory);
         mEditSubCategory = (EditText)findViewById(R.id.editSubCategory);
         mArticleListView = (ListView)findViewById(R.id.articleListView);
