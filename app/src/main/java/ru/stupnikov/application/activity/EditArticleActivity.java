@@ -108,28 +108,46 @@ public class EditArticleActivity extends AppCompatActivity {
         else {
             saveSubcategory(selectedCategory);
         }
+
+        loadArticles();
     }
 
     private void saveSubcategory(Category selectedCategory){
-        Subcategory subcategory = new Subcategory(mEditSubCategory.getText().toString(), selectedCategory.getId());
+        Subcategory subcategory = new Subcategory(mEditSubCategory.getText().toString(), selectedCategory);
         subcategory.save();
         shortMessage("Подкатегория успешно записана");
     }
 
-    private void addCategory() {
 
-        Category category = new Category(mEditCategory.getText().toString());
-        category.save();
+
+    private void addCategory() {
+        Category category = Category.findCategoryByName(mEditCategory.getText().toString());
+
+        if (category ==null) {
+            category = new Category(mEditCategory.getText().toString());
+            category.save();
+        }
+        else Toast.makeText(this, "Такая категория уже существует", Toast.LENGTH_SHORT).show();
 
         shortMessage("Категория успешно записана");
+        loadArticles();
     }
 
 
     public void deleteArticleButton_Click(View view) {
+        Category category = Category.findCategoryByName(mEditCategory.getText().toString());
+        if (category == null) shortMessage("Нет такой категории!");
+        else deleteCategory(category);
+    }
 
-/*    listArticles.remove(Article.searhArticle(listArticles, mEditCategory.getText().toString()));
-        saveArticles();
-        updateArticlesViev();*/
-
+    public void deleteCategory(Category category){
+        List<Subcategory> subcategoryList = category.getListSubcategories();
+        if (subcategoryList == null) category.delete();
+        else  {
+            for (Subcategory subcategory : subcategoryList)
+                subcategory.delete();
+            category.delete();
+        }
+        loadArticles();
     }
 }

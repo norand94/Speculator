@@ -33,6 +33,7 @@ public class ArticleAdapter extends BaseAdapter {
     }
 
     @Override
+
     public Object getItem(int position) {
         return listCategory.get(position);
     }
@@ -51,7 +52,9 @@ public class ArticleAdapter extends BaseAdapter {
 
         Category category = listCategory.get(position);
         categoryView.setText(category.getName());
-        List<Subcategory> subcategoryList =  category.getListSubcategories();
+        List<Subcategory> subcategoryList = category.getListSubcategories();
+        //  List<Subcategory> subcategoryList = category.getListSubcategory_new();
+       // List<Subcategory> subcategoryList = category.getListSubcategories();
 
         if (subcategoryList != null)
         for (Subcategory subcategory : subcategoryList) subcategoryView.append(subcategory.getName() + "\n");

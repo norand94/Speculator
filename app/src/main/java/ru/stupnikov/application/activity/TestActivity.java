@@ -48,30 +48,19 @@ public class TestActivity extends AppCompatActivity {
             }
         });
 
-       /* readButton.setOnClickListener(new View.OnClickListener() {
+        readButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                ArrayList<Wallet> listWallet = new ArrayList<Wallet>();
-                testTextView.append("\n\nСчитанные кошельки:");
-                listWallet = Wallet.readWalletDB(getApplicationContext());
-                for (Wallet w: listWallet){
-                    testTextView.append("\n\n" +
-                            w.name + "\n" +
-                            w.valuta + "\n" +
-                            w.value
-                    );
+
                 }
-            }
         });
 
         sqlrequestButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                DBmanager dBmanager = new DBmanager(getApplicationContext());
-                SQLiteDatabase db = dBmanager.getWritableDatabase();
-                db.execSQL(numerEditText.getText().toString());
+
             }
-        });*/
+        });
     }
 
     private void writeWalletOfIndex(){
@@ -82,12 +71,16 @@ public class TestActivity extends AppCompatActivity {
     }
 
     private void writeCategory(){
-        Category category = new Category(numerEditText.getText().toString());
+     /*   Category category = new Category(numerEditText.getText().toString());
         category.save();
-        Toast.makeText(getApplicationContext(), "Записано!", Toast.LENGTH_SHORT).show();
+        Toast.makeText(getApplicationContext(), "Записано!", Toast.LENGTH_SHORT).show();*/
+        Category category = Category.findCategoryByName(numerEditText.getText().toString());
+        if (category == null) Toast.makeText(this, "Fail!", Toast.LENGTH_SHORT).show();
+        else testTextView.setText(category.getName());
+
     }
 
-    class WriteBD extends AsyncTask<Void, Void, Void> {
+  /*  class WriteBD extends AsyncTask<Void, Void, Void> {
 
         @Override
         protected Void doInBackground(Void... params) {
@@ -104,6 +97,6 @@ public class TestActivity extends AppCompatActivity {
             super.onPostExecute(aVoid);
             Toast.makeText(getApplicationContext(), "Записано!", Toast.LENGTH_SHORT).show();
         }
-    }
+    }*/
 
 }

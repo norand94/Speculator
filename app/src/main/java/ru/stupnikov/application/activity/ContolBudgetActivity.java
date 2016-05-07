@@ -55,7 +55,7 @@ public class ContolBudgetActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.control_budget_activity);
+        setContentView(R.layout.activity_control_budget);
 
         mBalanceText = (TextView) findViewById(R.id.BalanceView);
         mEditFixing = (EditText) findViewById(R.id.editSum);
