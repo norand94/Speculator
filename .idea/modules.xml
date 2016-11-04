@@ -2,8 +2,8 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/Speculator.iml" filepath="$PROJECT_DIR$/Speculator.iml" />
       <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/speculator.iml" filepath="$PROJECT_DIR$/speculator.iml" />
     </modules>
   </component>
 </project>
